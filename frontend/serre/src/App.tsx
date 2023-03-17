@@ -1,32 +1,25 @@
 import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import './App.css'
+import Connexion from './composants/connexion'
+import Dashboard from './composants/dashboard'
+import Historique from './composants/historique'
+import Navbarre from './composants/navbarre'
+import Parametre from './composants/parametre'
+import Updatepassword from './composants/update_password'
 
 function App() {
   const [count, setCount] = useState(0)
 
   return (
+    //Ceci c'est uniquement pour mieux commprendre le fonctionnement des coposants c'est à effacer apres 
     <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+     <Connexion></Connexion>
+     <Dashboard></Dashboard>
+     <Historique></Historique>
+     <Navbarre></Navbarre>
+     <Parametre></Parametre>
+     <Updatepassword></Updatepassword>
     </div>
   )
 }

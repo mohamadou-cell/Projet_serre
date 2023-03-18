@@ -9,10 +9,27 @@ const Historique = () => {
       .then((res) => res.json())
       .then((res) => {
         setUsers(res);
-        console.log(res);
+        res;
       });
   }, []);
 
+  const Data = () => {
+  
+    
+    return (
+      <tbody>
+        {users?.map((user: any) => (
+          <tr>
+            <td className="td_">{user.Date}</td>
+            <td className="td_">{user.temp}</td>
+            <td className="td_">{user.humi_sol}</td>
+            <td className="td_">{user.humi_serre}</td>
+            <td className="td_">{user.luminosite}</td>
+          </tr>
+        ))}
+      </tbody>
+    );
+  };
 
   return (
     <div className="box">
@@ -23,23 +40,13 @@ const Historique = () => {
       <div className="table table_">
         <table border={1}>
           <thead className="backblue">
-            <td>Date</td>
-            <td>Temperature en °C</td>
-            <td>Humidité sol en %</td>
-            <td>Humidité serre en %</td>
-            <td>luminosité en lux</td>
+            <td className="td_">Date</td>
+            <td className="td_">Temperature en °C</td>
+            <td className="td_">Humidité sol en %</td>
+            <td className="td_">Humidité serre en %</td>
+            <td className="td_">luminosité en lux</td>
           </thead>
-          <tbody>
-            {users?.map((user: any) => (
-              <tr>
-                <td>{user.Date}</td>
-                <td>{user.temp}</td>
-                <td>{user.humi_sol}</td>
-                <td>{user.humi_serre}</td>
-                <td>{user.luminosite}</td>
-              </tr>
-            ))}
-          </tbody>
+          <Data></Data>
         </table>
       </div>
       <nav aria-label="Page navigation example">

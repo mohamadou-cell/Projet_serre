@@ -15,6 +15,9 @@
 tr, td, h4{
     font-size: 1.5rem;
 }
+.td_{
+border-right: 1px solid black;
+}
 .h4-container{
     width: 100%;
     display: flex;

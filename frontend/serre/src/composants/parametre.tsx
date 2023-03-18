@@ -3,15 +3,19 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Card from 'react-bootstrap/Card';
+import Navbarre from "./navbarre";
+import './styles/parametre.css'
 
 function parametre() {
   return (
-    <body className='mt-5 d-flex justify-content-center align-items-center'>
-        
-    
-    
-    <Card body className='d-flex justify-content-center w-25 shadow mr-3 mb-5 bg-body' id='card'>
-      <Form>
+    <div>
+      <div>
+        <Navbarre></Navbarre>
+      </div>
+    <div id='body'>
+    <Card body id='card' className='w-25'>
+      <h4 className='titre'>PARAMETRES D'ARROSAGE</h4>
+      <Form className="mt-5">
       <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>Type de plante</Form.Label>
         <Form.Select>
@@ -30,13 +34,15 @@ function parametre() {
         <Form.Label>Durée de l'arrosage</Form.Label>
         <Form.Control type="text" placeholder="par secondes" />
       </Form.Group>
-
-      <Button variant="primary" type="submit">
+      
+      <Button variant="primary" type="submit" className="mt-3" id='btn'>
         Appliquer
       </Button>
+      <a href="" className='lien'>Personnaliser</a>
     </Form>
     </Card>
-    </body>
+    </div>
+    </div>
   )
 }
 

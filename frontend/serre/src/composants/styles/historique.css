@@ -4,16 +4,21 @@
 }
 .box{
     border: 0.5px solid rgb(127, 124, 124);
-    box-shadow:  10Px 10px rgba(114, 114, 114, 0.484);
+    box-shadow:  20px 20px rgba(131, 127, 127, 0.33);
     border-radius: 12px;
-    padding-bottom: 40px;
+    padding-bottom: 50px;
     padding-left: 50px;
     padding-right: 50px;
     width: fit-content;
 }
-
+thead td, .h4_{
+    font-weight: bold;
+}
 tr, td, h4{
     font-size: 1.5rem;
+}
+td{
+    padding: 10px;
 }
 .td_{
 border-right: 1px solid black;
@@ -28,11 +33,23 @@ h4{
 
     background-color: #35B6FF;
     color: white;
-    padding: 7px 60px;
+    padding: 7px 80px;
     border-radius: 0px 0px 12px 12px;
 }
 
 .pagination_{
     width: auto;
     float: right;
+}
+.pagelinkupdate{
+    background-color: #D9D9D9;
+    border: 1px solid black;
+    padding: 5px 12px;
+    color: black;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 1.5rem;
+}.pagelinkupdate:hover, .pagelinkupdate:focus, .pagelinkupdate:active{
+    background-color: #35B6FF;
+    color: black;
 }

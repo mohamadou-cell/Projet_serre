@@ -25,14 +25,14 @@ function parametre() {
           </Form.Select>
       </Form.Group>
 
-      <Form.Group className="mb-3" controlId="formBasicPassword">
+      <Form.Group className="mb-3" controlId="formBasicNumber">
         <Form.Label>Nombre d'arrosage</Form.Label>
-        <Form.Control type="text" placeholder="par jour" />
+        <Form.Control type="number" placeholder="par jour" />
       </Form.Group>
 
-      <Form.Group className="mb-3" controlId="formBasicPassword">
+      <Form.Group className="mb-3" controlId="formBasicNumber">
         <Form.Label>Durée de l'arrosage</Form.Label>
-        <Form.Control type="text" placeholder="par secondes" />
+        <Form.Control type="number" placeholder="par secondes" />
       </Form.Group>
       
       <Button variant="primary" type="submit" className="mt-3" id='btn'>

@@ -1,5 +1,8 @@
+import Navbarre from "./navbarre";
 import { useEffect, useState } from "react";
 import "./styles/historique.css";
+
+
 
 const Historique = () => {
   const [users, setUsers] = useState<any>(null);
@@ -37,7 +40,10 @@ const Historique = () => {
   };
 
   return (
-    <div className="box">
+    <><Navbarre></Navbarre>
+   
+    <div className="container box">
+     
       <div className="h4-container">
         <h4 className="h4_">Historique</h4>
       </div>
@@ -57,28 +63,28 @@ const Historique = () => {
       <nav aria-label="Page navigation example">
         <ul className="pagination pagination_ ">
           <li className="page-item ">
-            <a className=" pagelinkupdate" href="#" aria-label="Previous" onClick={() => {setStart(0); setEnd(7)}}>
+            <a className=" pagelinkupdate" href="#" aria-label="Previous" onClick={() => { setStart(0); setEnd(7); } }>
               <span aria-hidden="true">&laquo;</span>
             </a>
           </li>
           <li className="page-item">
-            <a className=" pagelinkupdate" href="#" onClick={() => {setStart(0); setEnd(7)}}>
+            <a className=" pagelinkupdate" href="#" onClick={() => { setStart(0); setEnd(7); } }>
               1
             </a>
           </li>
           <li className="page-item">
-            <a className=" pagelinkupdate" href="#" onClick={() => {setStart(7); setEnd(14)}}>
+            <a className=" pagelinkupdate" href="#" onClick={() => { setStart(7); setEnd(14); } }>
               2
             </a>
           </li>
           <li className="page-item">
-            <a className=" pagelinkupdate" href="#" onClick={() => {setStart(7); setEnd(14)}} aria-label="Next">
+            <a className=" pagelinkupdate" href="#" onClick={() => { setStart(7); setEnd(14); } } aria-label="Next">
               <span aria-hidden="true">&raquo;</span>
             </a>
           </li>
         </ul>
       </nav>
-    </div>
+    </div></>
   );
 };
 

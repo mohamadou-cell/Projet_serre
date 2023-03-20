@@ -14,12 +14,9 @@ function App() {
   return (
     //Ceci c'est uniquement pour mieux commprendre le fonctionnement des coposants c'est à effacer apres 
     <div className="App">
-     <Connexion></Connexion>
+     
      <Dashboard></Dashboard>
-     <Historique></Historique>
-     <Navbarre></Navbarre>
-     <Parametre></Parametre>
-     <Updatepassword></Updatepassword>
+     
     </div>
   )
 }

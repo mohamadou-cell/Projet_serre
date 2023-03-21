@@ -12,11 +12,9 @@ function App() {
   const [count, setCount] = useState(0);
 
   return (
-    //Ceci c'est uniquement pour mieux commprendre le fonctionnement des coposants c'est à effacer apres
-    <div className="App">
-   
-      <Dashboard></Dashboard>
-    
+    <div className="App"> 
+     <Parametre></Parametre>
+     
     </div>
   );
 }

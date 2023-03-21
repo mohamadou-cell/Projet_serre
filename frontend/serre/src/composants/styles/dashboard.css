@@ -13,11 +13,7 @@ div.card.card_{
     padding: 0;
     
 }
-.card-title{
- 
-    width: 100%;
- 
-    margin-bottom: 10px;
+.titl{
     background-color: #35B6FF;
     color: white;
    
@@ -38,10 +34,7 @@ div.card.card_{
         border-radius: 0px 0px 12px 12px;
         
     }
-  h4.card-title{
-    width: 40%;
-    
-  }
+ 
   .h4{
     width: inherit;
     display: flex;
@@ -51,6 +44,7 @@ div.card.card_{
     width: 20%;
     height: 15%;
     margin-top: 20px;
+    width: auto;
   }
   p.real-time{
     margin-right: 0;
@@ -65,13 +59,79 @@ div.card.card_{
    margin-top: 30px;
   }
   .img-humid{
-    width:379px;
+    width:100%;
    
    
   }
-  .controle-box{
-    width: 30%;
+
+  .container_{
+    margin-top: 5%;
+  }
+ .imga{
+    width: 50px;
     height: 50px;
+ }
+ .icon{
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+ }
+ .titlee{
+    display: flex;
+    justify-content: center;
+ }
+ .titl{
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+ }
+ .action{
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    
+ }
+ .act{
+    width: 30%;
     border: 1px solid black;
-  }
-  
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+ }
+ .parat{
+    border: 1px solid black;
+    border-radius: 10px;
+ }
+.imga_{
+   width: 120px;
+   height:120px;
+}
+#toit1, #toit2,#toit3, #arrosage, #ventilateur{
+    width: 50px;
+    height: 30px;
+}
+.parat{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    min-width: 80px;
+}
+
+.arrosage{
+    position: absolute;
+    top:0px;
+    display: none;
+}
+.arro{
+    position: absolute;
+    top:0px;
+   
+}
+.toit-container{
+    position: relative;
+    bottom:60px;
+    right: 50px;
+
+}

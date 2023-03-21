@@ -7,6 +7,8 @@ import "./styles/historique.css";
 const Historique = () => {
   const [users, setUsers] = useState<any>(null);
   const [start, setStart] = useState<number>(0);
+  const [active1, setActive1] = useState<boolean>(true)
+  const [active2, setActive2] = useState<boolean>(false)
   const [end, setEnd] = useState<number>(7);
 
 
@@ -21,6 +23,9 @@ const Historique = () => {
       });
   }, [start, end]);
 
+
+
+
   const Data = () => {
   
     
@@ -28,6 +33,7 @@ const Historique = () => {
       <tbody>
         {users?.map((user: any) => (
           <tr>
+            
             <td className="td_">{user.Date}</td>
             <td className="td_">{user.temp}</td>
             <td className="td_">{user.humi_sol}</td>
@@ -63,22 +69,22 @@ const Historique = () => {
       <nav aria-label="Page navigation example">
         <ul className="pagination pagination_ ">
           <li className="page-item ">
-            <a className=" pagelinkupdate" href="#" aria-label="Previous" onClick={() => { setStart(0); setEnd(7); } }>
+            <a className=" pagenav" href="#" aria-label="Previous" onClick={() => { setStart(0); setEnd(7); setActive1(true); setActive2(false);  } }>
               <span aria-hidden="true">&laquo;</span>
             </a>
           </li>
           <li className="page-item">
-            <a className=" pagelinkupdate" href="#" onClick={() => { setStart(0); setEnd(7); } }>
+            <a className={`pagelinkupdate ${active1 ? "bg-focus": ""}`} id="un" href="#" onClick={() => { setStart(0); setEnd(7); setActive1(true); setActive2(false);} }>
               1
             </a>
           </li>
           <li className="page-item">
-            <a className=" pagelinkupdate" href="#" onClick={() => { setStart(7); setEnd(14); } }>
+            <a className={`pagelinkupdate ${active2 ? "bg-focus": ""}`} href="#" onClick={() => { setStart(7); setEnd(14); setActive1(false); setActive2(true); } }>
               2
             </a>
           </li>
           <li className="page-item">
-            <a className=" pagelinkupdate" href="#" onClick={() => { setStart(7); setEnd(14); } } aria-label="Next">
+            <a className=" pagenav" href="#" onClick={() => {  setStart(7); setEnd(14); setActive1(false); setActive2(true); } } aria-label="Next">
               <span aria-hidden="true">&raquo;</span>
             </a>
           </li>

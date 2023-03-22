@@ -49,6 +49,7 @@
 
 .items-sous-liste:hover {
     background: #35B6FF;
+    color: white;
 }
 .a{
     text-decoration: none;

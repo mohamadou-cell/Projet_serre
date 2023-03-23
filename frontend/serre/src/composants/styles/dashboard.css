@@ -16,6 +16,7 @@ div.card.card_{
 .titl{
     background-color: #35B6FF;
     color: white;
+    border-radius: 5px 5px 0px 0px;
    
     }
     h5{
@@ -150,5 +151,8 @@ div.card.card_{
   .lesBtn{
     width: 55px;
     height: 55px;
+  }
+  #radius{
+    border-radius:5px;
   }
   

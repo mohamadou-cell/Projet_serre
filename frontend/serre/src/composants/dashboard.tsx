@@ -214,8 +214,8 @@ const fermeture_180 = () => {
                         <p>ARROSEUR</p>
                         
                      
-                     <img id="voir" className= {`imga_ ${cacher ? "cacher" : ""}`}src={arro} alt="" />
-                      <img className={`imga_ ${!cacher ? "cacher" : ""}`} src={arrosage} alt="" />
+                     <img className= {`imga_ ${cacher ? "cacher" : ""}`}src={arro} alt="" />
+                      <img   className={`imga_ ${!cacher ? "cacher" : ""}`} src={arrosage} alt="" />
                      </div>
                      
                   
@@ -242,7 +242,7 @@ const fermeture_180 = () => {
                     <div className="toit">
                     <p>ARROSEUR</p>
                     <div className="toit">
-                      <img id="voir" className={`imga_ ${cacher_ ? "cacher" : ""}`} src={vent} alt="" />
+                      <img  className={`imga_ ${cacher_ ? "cacher" : ""}`} src={vent} alt="" />
                       <img className={`imga_ ${!cacher_ ? "cacher" : ""}`} src={ventilateur} alt="" />
                     </div>
                     </div>

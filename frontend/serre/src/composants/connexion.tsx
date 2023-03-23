@@ -70,7 +70,7 @@ const Connexion = () => {
                                 <Form.Group className=""
                                     controlId="formBasicEmail">
                                     <Form.Label>Email<span id="etoile">*</span></Form.Label>
-                                    <Form.Control className="saisie" type="email"
+                                    <Form.Control className="saisie" type="text"
                                         placeholder="veillez saisir votre email"
                                         {...register("email", {
                                             required: true,

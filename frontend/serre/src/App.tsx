@@ -13,8 +13,8 @@ function App() {
 
   return (
     <div className="App"> 
-     <Parametre></Parametre>
-     
+    
+    <Updatepassword></Updatepassword>     
     </div>
   );
 }

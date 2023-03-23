@@ -37,7 +37,6 @@ function navbarre() {
                 <li className="items-sous-liste"><a className='a' href={`/dashboard`}>DASHBOARD</a></li>
                 <li className='items-sous-liste'><a className='a' href={`/historique`}>HISTORIQUE</a></li>
                 <li className='items-sous-liste'><a className='a' href={`/parametre`}>PARAMETRES</a></li>
-                <li className='items-sous-liste'><a className='a' href={`/form`}>FORM</a></li>
               </ul>
             </li>
           </div>

@@ -50,8 +50,11 @@ div.card.card_{
     margin-right: 0;
     font-weight: bold;
     font-size: 35px;
-   
 
+  }
+  .humid{
+    display: flex;
+    justify-content: center;
   }
   .cont-temp{
    display: flex;
@@ -68,8 +71,8 @@ div.card.card_{
     margin-top: 5%;
   }
  .imga{
-    width: 50px;
-    height: 50px;
+    width: 60px;
+    height: 60px;
  }
  .icon{
     display: flex;
@@ -89,19 +92,21 @@ div.card.card_{
     display: flex;
     justify-content: center;
     gap: 10px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    
     
  }
  .act{
     width: 30%;
-    border: 1px solid black;
+    border: 2px solid #c0c0c0;
     border-radius: 10px;
     display: flex;
     justify-content: center;
+    
  }
- .parat{
-    border: 1px solid black;
-    border-radius: 10px;
- }
+ 
+ 
 .imga_{
    width: 120px;
    height:120px;
@@ -135,3 +140,14 @@ div.card.card_{
     right: 50px;
 
 }
+.cacher{
+    display: none;
+  }
+  .cacher{
+    display: none;
+  }
+  .lesBtn{
+    width: 55px;
+    height: 55px;
+  }
+  

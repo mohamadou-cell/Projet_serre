@@ -9,10 +9,19 @@ import arrosage from "../assets/arrosage.gif";
 import ventilateur from "../assets/ventilateur.gif";
 import arro from "../assets/arro.png";
 import vent from "../assets/vent.png";
+import on_arrosage from "../assets/on-button.png";
+import off_arrosage from "../assets/off-button.png";
 import { useEffect, useState } from "react";
 import Navbarre from "./navbarre";
 const Dashboard = () => {
   const [donnees, setDonnee] = useState<any>(null);
+  const [cacher, setCacher] = useState<any>(null);
+  const [cacher_, setCacher_] = useState<any>(null);
+  const [_45, set_45] = useState<any>(false);
+  const [_90, set_90] = useState<any>(false);
+  const [_180, set_180] = useState<any>(false);
+  let etatBtn = false;
+  let etatBtn_ = false;
   useEffect(() => {
     fetch("http://localhost:5173/real-time.json")
       .then((res) => res.json())
@@ -21,6 +30,59 @@ const Dashboard = () => {
         console.log(res);
       });
   }, []);
+  const on_Arrosage = () => {
+    setCacher(false);
+  };
+  const off_Arrosage = () => {
+    setCacher(true);
+  };
+  const on_Ventilateur = () => {
+    setCacher_(false);
+  };
+  const off_Ventilateur = () => {
+    setCacher_(true);
+  };
+    //Les fonctions du toit l'ouverture consiste à mettre une condition
+  // true sur le bonton clicker et grisser les autre en meme temps
+  const ouverture_45 = () => {
+    set_45(true);
+    set_90(false);
+    set_180(false);
+  };
+  
+  const ouverture_90 = () => {
+    set_45(false);
+    set_90(true);
+    set_180(false);
+  };
+  const ouverture_180 = () => {
+    set_45(false);
+    set_90(false);
+    set_180(true);
+  };
+//fermeture
+const fermeture_45 = () => {
+  set_45(false);
+};
+const fermeture_90 = () => {
+  set_90(false);
+};
+const fermeture_180 = () => {
+  set_180(false);
+};
+  /* const switcher = () => {
+    
+
+    etatBtn == false ? (setCacher(true), etatBtn = true) : (setCacher(false), etatBtn = false);
+    let voir = document.getElementById("voir");
+    console.log(etatBtn, voir);
+  };
+  const switcher_ = () => {
+    
+    etatBtn_ == false ? (setCacher_(true), etatBtn_ = true) : (setCacher_(false), etatBtn_ = false);
+    let voir = document.getElementById("voir");
+    console.log(etatBtn, voir);
+  }; */
   return (
     <>
       <Navbarre></Navbarre>
@@ -82,8 +144,8 @@ const Dashboard = () => {
               <div className="cont-temp"></div>
               <div className=" ">
                 {donnees?.map((donnee: any) => (
-                  <p className="real-time">
-                    {" "}
+                  <p className="real-time humid">
+                    
                     HUMIDITE : {donnee.humid_serre} %{" "}
                   </p>
                 ))}
@@ -105,17 +167,44 @@ const Dashboard = () => {
                     </div>
                   </div>
                   <div className="parat">
-                    <Form>
+                    {/* <Form>
                       <Form.Check type="switch" id="toit1" />
-                    </Form>{" "}
+                    </Form>{" "} */}
+                    <div className="angle_1">
+                      <img 
+                        className={`lesBtn ${!_45 ? "cacher" : ""}`}
+                        src={on_arrosage}
+                        alt=""
+                        onClick={() => {fermeture_45()}}
+                      />
+                      <img onClick={() => {ouverture_45()}} className={`lesBtn ${_45 ? "cacher" : ""}`} src={off_arrosage} alt="" />
+                    </div>
                     90°
-                    <Form>
+                    {/* <Form>
                       <Form.Check type="switch" id="toit2" />
-                    </Form>{" "}
+                    </Form>{" "} */}
+                    <div className="angle_1">
+                      <img
+                       onClick={() => {fermeture_90()}}
+                        className={`lesBtn ${!_90 ? "cacher" : ""}`}
+                        src={on_arrosage}
+                        alt=""
+                      />
+                      <img onClick={() => {ouverture_90()}} className={`lesBtn ${_90 ? "cacher" : ""}`} src={off_arrosage} alt="" />
+                    </div>
                     45°
-                    <Form>
+                    {/* <Form>
                       <Form.Check type="switch" id="toit3" />
-                    </Form>
+                    </Form> */}
+                      <div className="angle_1">
+                    <img
+                        onClick={() => {fermeture_180()}}
+                        className={`lesBtn ${!_180 ? "cacher" : ""}`}
+                        src={on_arrosage}
+                        alt=""
+                      />
+                      <img onClick={() => {ouverture_180()}} className={`lesBtn ${_180 ? "cacher" : ""}`} src={off_arrosage} alt="" />
+                    </div>
                     180°
                   </div>
                 </div>
@@ -123,31 +212,53 @@ const Dashboard = () => {
                   <div className="parat">
                     <div className="toit">
                         <p>ARROSEUR</p>
-                     <div className="toit-container">
-                     <img className="imga_ arro" src={arro} alt="" />
-                      <img className="imga_ arrosage"  src={arrosage} alt="" />
+                        
+                     
+                     <img id="voir" className= {`imga_ ${cacher ? "cacher" : ""}`}src={arro} alt="" />
+                      <img className={`imga_ ${!cacher ? "cacher" : ""}`} src={arrosage} alt="" />
                      </div>
+                     
                   
-                    </div>
+                    
                   </div>
                   <div className="parat">
-                    <Form>
-                      <Form.Check type="switch" id="arrosage" />
-                    </Form>
+                   {/*  { <Form>
+                      <Form.Check type="switch" onClick={() => {
+                          switcher();
+                        }}
+                      id="arrosage" />
+                    </Form> } */}
+                     <img    className={`lesBtn ${!cacher ? "cacher" : ""}`} onClick={() => {
+                          on_Arrosage();
+                        }} src={on_arrosage} alt=""  />
+                        
+                        <img className={`lesBtn ${cacher ? "cacher" : ""}`} onClick={() => {
+                          off_Arrosage();
+                        }} src={off_arrosage} alt="" />
                   </div>
                 </div>
                 <div className="act">
                   <div className="parat">
                     <div className="toit">
                     <p>ARROSEUR</p>
-                      <img className="imga_" src={vent} alt="" />
-                      <img className="imga_" src={ventilateur} alt="" />
+                    <div className="toit">
+                      <img id="voir" className={`imga_ ${cacher_ ? "cacher" : ""}`} src={vent} alt="" />
+                      <img className={`imga_ ${!cacher_ ? "cacher" : ""}`} src={ventilateur} alt="" />
+                    </div>
                     </div>
                   </div>
                   <div className="parat">
-                    <Form>
-                      <Form.Check type="switch" id="ventilateur" />
-                    </Form>
+                    {/* <Form>
+                      <Form.Check type="switch" onClick={() => {
+                          switcher_();}} id="ventilateur" />
+                    </Form> */}
+                    <img    className={`lesBtn ${!cacher_ ? "cacher" : ""}`} onClick={() => {
+                          on_Ventilateur();
+                        }} src={on_arrosage} alt=""  />
+                        
+                        <img className={`lesBtn ${cacher_ ? "cacher" : ""}`} onClick={() => {
+                          off_Ventilateur();
+                        }} src={off_arrosage} alt="" />
                   </div>
                 </div>
               </div>

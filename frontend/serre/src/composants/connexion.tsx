@@ -67,7 +67,7 @@ const Connexion = () => {
                     <div id="corps" className="d-flex gap-5">
                         <div id="from">
                             <Form onSubmit={handleSubmit(onSubmit)} className="" >
-                                <Form.Group className="mb-3"
+                                <Form.Group className=""
                                     controlId="formBasicEmail">
                                     <Form.Label>Email<span id="etoile">*</span></Form.Label>
                                     <Form.Control className="saisie" type="email"
@@ -84,7 +84,7 @@ const Connexion = () => {
                                     </div>
                                 </Form.Group>
 
-                                <br />
+                                
                                 <Form.Group className="mb-3" controlId="formBasicPassword">
                                 
                                     <div className="input-text">

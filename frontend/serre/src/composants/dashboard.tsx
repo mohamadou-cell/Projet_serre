@@ -4,11 +4,11 @@ import temp from "../assets/high-temperature.png";
 import sun from "../assets/sun.png";
 import humid from "../assets/humidity.png";
 import humidity from "../assets/humid_sol.png";
-import toit from "../assets/toit.png";
-import arrosage from "../assets/arrosage.gif";
-import ventilateur from "../assets/ventilateur.gif";
-import arro from "../assets/arro.png";
-import vent from "../assets/vent.png";
+//import toit from "../assets/toit.png";
+//import arrosage from "../assets/arrosage.gif";
+//import ventilateur from "../assets/ventilateur.gif";
+//import arro from "../assets/arro.png";
+//import vent from "../assets/vent.png";
 import { useEffect, useState } from "react";
 import Navbarre from "./navbarre";
 const Dashboard = () => {
@@ -101,7 +101,7 @@ const Dashboard = () => {
                   <div className="parat">
                     <div className="toit">
                         <p >TOIT</p>
-                      <img className="imga_" src={toit} alt="" />
+                      <img className="imga_" src="+" alt="" />
                     </div>
                   </div>
                   <div className="parat">
@@ -124,8 +124,8 @@ const Dashboard = () => {
                     <div className="toit">
                         <p>ARROSEUR</p>
                      <div className="toit-container">
-                     <img className="imga_ arro" src={arro} alt="" />
-                      <img className="imga_ arrosage"  src={arrosage} alt="" />
+                     <img className="imga_ arro" src="" alt="" />
+                      <img className="imga_ arrosage"  src="" alt="" />
                      </div>
                   
                     </div>
@@ -140,8 +140,8 @@ const Dashboard = () => {
                   <div className="parat">
                     <div className="toit">
                     <p>ARROSEUR</p>
-                      <img className="imga_" src={vent} alt="" />
-                      <img className="imga_" src={ventilateur} alt="" />
+                      <img className="imga_" src="" alt="" />
+                      <img className="imga_" src="" alt="" />
                     </div>
                   </div>
                   <div className="parat">

@@ -17,7 +17,7 @@ function parametre() {
       <h4 className='titre'>PARAMETRES D'ARROSAGE</h4>
       <Form className="mt-5">
       <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>Type de plante</Form.Label>
+        <Form.Label>Type de plantes</Form.Label>
         <Form.Select>
             <option></option>
             <option>Laitue</option>

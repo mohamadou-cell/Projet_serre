@@ -150,4 +150,7 @@ div.card.card_{
     width: 55px;
     height: 55px;
   }
+  #radius{
+    border-radius:5px;
+  }
   

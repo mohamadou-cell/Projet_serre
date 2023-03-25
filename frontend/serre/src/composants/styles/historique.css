@@ -9,12 +9,14 @@
     padding-bottom: 80px;
     padding-left: 200px;
     padding-right: 50px;
-    width: 70%;
+    min-width: 70%;
+    min-height: 70vh;
     margin-top: 100px;
 }
 div.table.table_{
     width: fit-content;
     margin: auto;
+    min-width: 100vh;
 }
 thead td, .h4_{
     font-weight: bold;
@@ -75,4 +77,13 @@ h4{
 .created{
     background-color: #35B6FF;
     color: black;
+}
+.example{
+    position: absolute;
+    bottom: 130px;
+    right: 245px;
+}
+#date{
+    margin-bottom: 10px;
+    height: 30px;
 }

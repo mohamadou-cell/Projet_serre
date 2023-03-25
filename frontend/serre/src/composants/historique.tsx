@@ -7,20 +7,30 @@ const Historique = () => {
   const [start, setStart] = useState<number>(0);
   const [active1, setActive1] = useState<boolean>(true);
   const [active2, setActive2] = useState<boolean>(false);
+  const [rechercher, setRecherche] = useState<String>("");
   const [end, setEnd] = useState<number>(7);
+  const [test, setTest] = useState<any>();
+
 
   useEffect(() => {
     fetch("http://localhost:5173/donnee.json")
       .then((res) => res.json())
       .then((res) => {
         setUsers(
-          res.filter((_: any, index: number) => {
-            return index >= start && index < end;
+          res.filter((_a: any, index: number) => {
+            if (rechercher == "") {
+              console.log(JSON.stringify(_a)); 
+              return index >= start && index < end;
+            } else {
+              return _a.Date == rechercher;
+            }
           })
         );
       });
-  }, [start, end]);
+  }, [start, end, rechercher]);
 
+
+  
   const Data = () => {
     return (
       <tbody>
@@ -36,6 +46,13 @@ const Historique = () => {
       </tbody>
     );
   };
+  const search = () => {
+    const valeur = document.getElementById("date").value;
+    setRecherche(valeur);
+    const jour = new Date().getDate();
+    const mois = new Date().getMonth() + 1;
+    const annee = new Date().getFullYear();
+  };
 
   return (
     <>
@@ -47,9 +64,15 @@ const Historique = () => {
         </div>
 
         <div className="table table_">
+          <input
+            onChange={() => search()}
+            type="date"
+            name="date"
+            id="date"
+          />
           <table border={1}>
             <thead className="backblue">
-              <td className="td_">Date</td>
+              <td className="td_"> Date </td>
               <td className="td_">Temperature en °C</td>
               <td className="td_">Humidité sol en %</td>
               <td className="td_">Humidité serre en %</td>
@@ -58,7 +81,7 @@ const Historique = () => {
             <Data></Data>
           </table>
         </div>
-        <nav aria-label="Page navigation example">
+        <nav aria-label="Page navigation example" className="example">
           <ul className="pagination pagination_ ">
             <li className="page-item ">
               <a
@@ -85,7 +108,6 @@ const Historique = () => {
                   setEnd(7);
                   setActive1(true);
                   setActive2(false);
-                  console.log(document.getElementById('un'));
                 }}
               >
                 1
@@ -100,7 +122,6 @@ const Historique = () => {
                   setEnd(14);
                   setActive1(false);
                   setActive2(true);
-                  console.log(document.getElementById('un'));
                 }}
               >
                 2

@@ -242,7 +242,7 @@ const fermeture_180 = () => {
                     <div className="toit">
                     <p>VENTILATEUR</p>
                     <div className="toit">
-                      <img id="voir" className={`imga_ ${cacher_ ? "cacher" : ""}`} src={vent} alt="" />
+                      <img  className={`imga_ ${cacher_ ? "cacher" : ""}`} src={vent} alt="" />
                       <img className={`imga_ ${!cacher_ ? "cacher" : ""}`} src={ventilateur} alt="" />
                     </div>
                     </div>

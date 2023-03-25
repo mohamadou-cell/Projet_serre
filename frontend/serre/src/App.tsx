@@ -14,7 +14,7 @@ function App() {
   return (
     <div className="App"> 
     
-    <Updatepassword></Updatepassword>     
+    <Connexion></Connexion>   
     </div>
   );
 }

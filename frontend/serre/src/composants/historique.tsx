@@ -9,8 +9,6 @@ const Historique = () => {
   const [active2, setActive2] = useState<boolean>(false);
   const [rechercher, setRecherche] = useState<String>("");
   const [end, setEnd] = useState<number>(7);
-  const [test, setTest] = useState<any>();
-
 
   useEffect(() => {
     fetch("http://localhost:5173/donnee.json")
@@ -19,9 +17,11 @@ const Historique = () => {
         setUsers(
           res.filter((_a: any, index: number) => {
             if (rechercher == "") {
-              console.log(JSON.stringify(_a)); 
+              console.log(_a);
               return index >= start && index < end;
             } else {
+              let d = new Date().getFullYear();
+              console.log(d);
               return _a.Date == rechercher;
             }
           })
@@ -29,8 +29,6 @@ const Historique = () => {
       });
   }, [start, end, rechercher]);
 
-
-  
   const Data = () => {
     return (
       <tbody>
@@ -63,87 +61,86 @@ const Historique = () => {
           <h4 className="h4_">Historique</h4>
         </div>
 
-        <div className="table table_">
-          <input
-            onChange={() => search()}
-            type="date"
-            name="date"
-            id="date"
-          />
+        <div className="table_">
+        <div className="table">
+          <input onChange={() => search()} type="date" name="date" id="date" />
           <table border={1}>
             <thead className="backblue">
-              <td className="td_"> Date </td>
-              <td className="td_">Temperature en °C</td>
-              <td className="td_">Humidité sol en %</td>
-              <td className="td_">Humidité serre en %</td>
-              <td className="td_">luminosité en lux</td>
+              <td className="td_ th_"> Date </td>
+              <td className="td_ th_" >Temperature en °C</td>
+              <td className="td_ th_">Humidité sol en %</td>
+              <td className="td_ th_">Humidité serre en %</td>
+              <td className="td_ th_">luminosité en lux</td>
             </thead>
             <Data></Data>
           </table>
+          <div className="box-pagination">
+            <nav aria-label="Page navigation example">
+              <ul className="pagination pagination_ ">
+                <li className="page-item ">
+                  <a
+                    className=" pagenav"
+                    href="#"
+                    aria-label="Previous"
+                    onClick={() => {
+                      setStart(0);
+                      setEnd(7);
+                      setActive1(true);
+                      setActive2(false);
+                    }}
+                  >
+                    <span aria-hidden="true">&laquo;</span>
+                  </a>
+                </li>
+                <li className="page-item">
+                  <a
+                    className={`pagelinkupdate ${active1 ? "bg-focus" : ""}`}
+                    id="un"
+                    href="#"
+                    onClick={() => {
+                      setStart(0);
+                      setEnd(7);
+                      setActive1(true);
+                      setActive2(false);
+                    }}
+                  >
+                    1
+                  </a>
+                </li>
+                <li className="page-item">
+                  <a
+                    className={`pagelinkupdate ${active2 ? "bg-focus" : ""}`}
+                    href="#"
+                    onClick={() => {
+                      setStart(7);
+                      setEnd(14);
+                      setActive1(false);
+                      setActive2(true);
+                    }}
+                  >
+                    2
+                  </a>
+                </li>
+                <li className="page-item">
+                  <a
+                    className=" pagenav"
+                    href="#"
+                    onClick={() => {
+                      setStart(7);
+                      setEnd(14);
+                      setActive1(false);
+                      setActive2(true);
+                    }}
+                    aria-label="Next"
+                  >
+                    <span aria-hidden="true">&raquo;</span>
+                  </a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+          </div>
         </div>
-        <nav aria-label="Page navigation example" className="example">
-          <ul className="pagination pagination_ ">
-            <li className="page-item ">
-              <a
-                className=" pagenav"
-                href="#"
-                aria-label="Previous"
-                onClick={() => {
-                  setStart(0);
-                  setEnd(7);
-                  setActive1(true);
-                  setActive2(false);
-                }}
-              >
-                <span aria-hidden="true">&laquo;</span>
-              </a>
-            </li>
-            <li className="page-item">
-              <a
-                className={`pagelinkupdate ${active1 ? "bg-focus" : ""}`}
-                id="un"
-                href="#"
-                onClick={() => {
-                  setStart(0);
-                  setEnd(7);
-                  setActive1(true);
-                  setActive2(false);
-                }}
-              >
-                1
-              </a>
-            </li>
-            <li className="page-item">
-              <a
-                className={`pagelinkupdate ${active2 ? "bg-focus" : ""}`}
-                href="#"
-                onClick={() => {
-                  setStart(7);
-                  setEnd(14);
-                  setActive1(false);
-                  setActive2(true);
-                }}
-              >
-                2
-              </a>
-            </li>
-            <li className="page-item">
-              <a
-                className=" pagenav"
-                href="#"
-                onClick={() => {
-                  setStart(7);
-                  setEnd(14);
-                  setActive1(false);
-                  setActive2(true);
-                }}
-                aria-label="Next"
-              >
-                <span aria-hidden="true">&raquo;</span>
-              </a>
-            </li>
-          </ul>
-        </nav>
       </div>
     </>
   );

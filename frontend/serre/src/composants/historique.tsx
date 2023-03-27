@@ -17,11 +17,8 @@ const Historique = () => {
         setUsers(
           res.filter((_a: any, index: number) => {
             if (rechercher == "") {
-              console.log(_a);
               return index >= start && index < end;
             } else {
-              let d = new Date().getFullYear();
-              console.log(d);
               return _a.Date == rechercher;
             }
           })
@@ -44,8 +41,10 @@ const Historique = () => {
       </tbody>
     );
   };
-  const search = () => {
-    const valeur = document.getElementById("date").value;
+  const search = (chercher:any) => {
+    const valeur = chercher;
+  
+  
     setRecherche(valeur);
     const jour = new Date().getDate();
     const mois = new Date().getMonth() + 1;
@@ -63,7 +62,7 @@ const Historique = () => {
 
         <div className="table_">
         <div className="table">
-          <input onChange={() => search()} type="date" name="date" id="date" />
+          <input onChange={(e) => search(e.target.value)} type="date" name="date" id="date" />
           <table border={1}>
             <thead className="backblue">
               <td className="td_ th_"> Date </td>

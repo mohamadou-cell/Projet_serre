@@ -13,8 +13,8 @@ function App() {
 
   return (
     <div className="App"> 
-    {/* <Connexion></Connexion> */}
-    <Updatepassword></Updatepassword>     
+    
+    <Connexion></Connexion>   
     </div>
   );
 }

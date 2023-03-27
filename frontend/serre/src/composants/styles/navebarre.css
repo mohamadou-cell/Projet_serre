@@ -36,6 +36,7 @@
 }
 .info{
     font-size: 20px;
+    font-weight: bold;
 }
 .items-sous-liste {
     list-style: none;
@@ -49,6 +50,7 @@
 
 .items-sous-liste:hover {
     background: #35B6FF;
+    color: white;
 }
 .a{
     text-decoration: none;
@@ -60,5 +62,7 @@
     color: white;
     font-weight: bold;
 }
-
+.sous{
+    z-index: 1000;
+}
 

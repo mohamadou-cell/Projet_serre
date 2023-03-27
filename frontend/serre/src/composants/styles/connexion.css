@@ -1,4 +1,3 @@
-
 #body1{
     width: 100%;
     height: 100vh;
@@ -9,7 +8,7 @@
     background-image: url('../../assets/serre.jpg');
     background-repeat: no-repeat;
     background-size: 100% 100vh;
-   
+
 
 
 }
@@ -21,7 +20,7 @@
 #body3{
     background-color: #ffffffbf;
     width: auto;
-   
+
 }
 
 .haut{
@@ -31,11 +30,11 @@
     border-radius: 10px;
     display: flex;
     justify-content: center;
-   
+
 }
 
 #corps{
-   
+
     display: flex;
     justify-content: center;
     height: 50vh;
@@ -52,8 +51,8 @@
 }
 .mdp{
     color: rgb(45, 45, 47);
-    
-   
+
+
 }
 .saisie, #btn{
     width: 200px;
@@ -88,13 +87,13 @@
     color: rgb(225, 14, 14);
 }
 #txt{
-    
+
     height: 50px;
 }
 .input-text{
     position: relative;
     margin-top: 30px}
-                            
+
   .input-text 
  .bi-eye-slash{
     position: absolute;
@@ -108,5 +107,3 @@
  right: 10px;
  top: 47px;
  font-size:15px; cursor:pointer}
-                            
-                                                           

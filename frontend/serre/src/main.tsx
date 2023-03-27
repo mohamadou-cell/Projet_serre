@@ -5,6 +5,7 @@ import Parametre from './composants/parametre';
 import Connexion from './composants/connexion';
 import Dashboard from './composants/dashboard';
 import Historique from './composants/historique';
+import Personnaliser from './composants/personnaliser';
 import './index.css'
 import ReactDOM from "react-dom/client";
 import {
@@ -36,6 +37,10 @@ const router = createBrowserRouter([
   {
     path: "modifmdp/",
     element: <Updatepassword />,
+  },
+  {
+    path: "personnaliser/",
+    element: <Personnaliser />,
   },
 ]);
 

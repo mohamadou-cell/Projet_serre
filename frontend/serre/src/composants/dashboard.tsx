@@ -163,7 +163,7 @@ const fermeture_180 = () => {
                   <div className="parat">
                     <div className="toit">
                         <p >TOIT</p>
-                      <img className="imga_" src="+" alt="" />
+                      <img className="imga_" src={toit} alt="" />
                     </div>
                   </div>
                   <div className="parat">

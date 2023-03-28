@@ -1,7 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-    @Schema({
-        timestamps: true,
-      })
+    @Schema()
       export class Climat {
         @Prop()
         temperature: string;
@@ -14,6 +12,9 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
       
         @Prop()
         luminosite: string;
+
+        @Prop()
+        date: string;
       }
       export const ClimatSchema = SchemaFactory.createForClass(Climat);
      

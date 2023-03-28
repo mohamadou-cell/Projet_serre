@@ -39,13 +39,13 @@ export class AuthService {
     const user = await this.userModel.findOne({ email });
 
     if (!user) {
-      throw new UnauthorizedException("Cet email n'existe pas");
+      throw new UnauthorizedException({message:"Cet email n'existe pas"});
     }
 
     const isPasswordMatched = await bcrypt.compare(password, user.password);
 
     if (!isPasswordMatched) {
-      throw new UnauthorizedException('Mot de passe invalide');
+      throw new UnauthorizedException({message:'Mot de passe invalide'});
     }
 
     const token = this.jwtService.sign({ id: user._id });

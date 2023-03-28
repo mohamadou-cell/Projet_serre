@@ -14,7 +14,7 @@ function App() {
   return (
     <div className="App"> 
     
-    <Dashboard></Dashboard>  
+    <Connexion></Connexion>   
     </div>
   );
 }

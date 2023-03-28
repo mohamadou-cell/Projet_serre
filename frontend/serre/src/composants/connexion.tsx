@@ -15,7 +15,7 @@ const Connexion = () => {
         register,
         formState: { errors },
         handleSubmit,
-    } = useForm();
+    } = useForm({mode:"onChange"});
     const onSubmit = (data: any) => console.log(data);
 
     const[inputtext,setinputtext]=useState({
@@ -42,8 +42,6 @@ const Connexion = () => {
         
         }
 
-    
-
     const Eye = () => {
         if (password == "password") {
             setpassword("text");
@@ -61,7 +59,7 @@ const Connexion = () => {
         <div id="body1">
             <div id="body2">
                 <div id="body3">
-                    <h3 className="haut">Veuillez saisir vos information d'authentification <br />
+                    <h3 className="haut"><br /><br />Veuillez saisir vos information d'authentification <br />
                         ou bien vous connecter avec la carte RFID.</h3>
                     <br /><br />
                     <div id="corps" className="d-flex gap-5">

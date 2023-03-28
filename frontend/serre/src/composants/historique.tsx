@@ -14,23 +14,27 @@ const Historique = () => {
 
 
   useEffect(() => {
-    fetch("http://localhost:5173/donnee.json")
+    fetch('http://localhost:3000/climat', { method: 'GET' })
       .then((res) => res.json())
       .then((res) => {
+        console.log(res);
         //masquer ou afficher la pagination
-          if (res.length > 7) {
-              setCacher2(false);
-               } 
+        if (res.length > 7) {
+          setCacher2(false);
+        }
         setUsers(
-     
+
           res.filter((_a: any, index: number) => {
-           
-             
-               
+
+
+
             if (rechercher == "") {
               return index >= start && index < end;
             } else {
+              console.log(_a.Date);
               return _a.Date == rechercher;
+             
+              
             }
           })
         );
@@ -57,20 +61,24 @@ const Historique = () => {
       <tbody>
         {users?.map((user: any) => (
           <tr>
-            <td className="td_">{user.Date}</td>
-            <td className="td_">{user.temp}</td>
-            <td className="td_">{user.humi_sol}</td>
-            <td className="td_">{user.humi_serre}</td>
+            <td className="td_">{user.createdAt[0] + user.createdAt[1] + user.createdAt[2]
+              + user.createdAt[3] + user.createdAt[4] + user.createdAt[5] + user.createdAt[6]
+              + user.createdAt[7] + user.createdAt[8] + user.createdAt[9]
+
+            }</td>
+            <td className="td_">{user.temperature}</td>
+            <td className="td_">{user.humid_sol}</td>
+            <td className="td_">{user.humid_serre}</td>
             <td className="td_">{user.luminosite}</td>
           </tr>
         ))}
       </tbody>
     );
   };
-  const search = (chercher:any) => {
+  const search = (chercher: any) => {
     const valeur = chercher;
-  
-  
+
+
     setRecherche(valeur);
     const jour = new Date().getDate();
     const mois = new Date().getMonth() + 1;
@@ -87,85 +95,85 @@ const Historique = () => {
         </div>
 
         <div className="table_">
-        <div className="table">
-          <input onChange={(e) => search(e.target.value)} type="date" name="date" id="date" />
-          <table border={1}>
-            <thead className="backblue">
-              <td className="td_ th_"> Date </td>
-              <td className="td_ th_" >Temperature en °C</td>
-              <td className="td_ th_">Humidité sol en %</td>
-              <td className="td_ th_">Humidité serre en %</td>
-              <td className="td_ th_">luminosité en lux</td>
-            </thead>
-            <Data></Data>
-          </table>
-          <div className="box-pagination">
-            <nav aria-label="Page navigation example">
-              <ul className="pagination pagination_ ">
-                <li className="page-item ">
-                  <a
-                    className=" pagenav"
-                    href="#"
-                    aria-label="Previous"
-                    onClick={() => {
-                      /* setStart(0);
-                      setEnd(7);
-                      setActive1(true);
-                      setActive2(false); */
-                      fleche();
-                    }}
-                  >
-                    <span aria-hidden="true">&laquo;</span>
-                  </a>
-                </li>
-                <li className="page-item">
-                  <a
-                    className={`pagelinkupdate ${active1 ? "bg-focus" : ""} `}
-                    id="un"
-                    href="#"
-                    onClick={() => {
-                      setStart(0);
-                      setEnd(7);
-                      setActive1(true);
-                      setActive2(false);
-                    }}
-                  >
-                    1
-                  </a>
-                </li>
-                <li className="page-item">
-                  <a
-                    className={`pagelinkupdate ${active2 ? "bg-focus" : ""} ${cacher2 ? "cacher" : ""}`}
-                    href="#"
-                    onClick={() => {
-                      setStart(7);
-                      setEnd(14);
-                      setActive1(false);
-                      setActive2(true);
-                    }}
-                  >
-                    2
-                  </a>
-                </li>
-                <li className="page-item">
-                  <a
-                    className=" pagenav"
-                    href="#"
-                    onClick={() => {
-                    /*   setStart(7);
-                      setEnd(14);
-                      setActive1(false);
-                      setActive2(true); */
-                      fleche();
-                    }}
-                    aria-label="Next"
-                  >
-                    <span aria-hidden="true">&raquo;</span>
-                  </a>
-                </li>
-              </ul>
-            </nav>
-          </div>
+          <div className="table">
+            <input onChange={(e) => search(e.target.value)} type="date" name="date" id="date" />
+            <table border={1}>
+              <thead className="backblue">
+                <td className="td_ th_"> Date </td>
+                <td className="td_ th_" >Temperature en °C</td>
+                <td className="td_ th_">Humidité sol en %</td>
+                <td className="td_ th_">Humidité serre en %</td>
+                <td className="td_ th_">luminosité en lux</td>
+              </thead>
+              <Data></Data>
+            </table>
+            <div className="box-pagination">
+              <nav aria-label="Page navigation example">
+                <ul className="pagination pagination_ ">
+                  <li className="page-item ">
+                    <a
+                      className=" pagenav"
+                      href="#"
+                      aria-label="Previous"
+                      onClick={() => {
+                        /* setStart(0);
+                        setEnd(7);
+                        setActive1(true);
+                        setActive2(false); */
+                        fleche();
+                      }}
+                    >
+                      <span aria-hidden="true">&laquo;</span>
+                    </a>
+                  </li>
+                  <li className="page-item">
+                    <a
+                      className={`pagelinkupdate ${active1 ? "bg-focus" : ""} `}
+                      id="un"
+                      href="#"
+                      onClick={() => {
+                        setStart(0);
+                        setEnd(7);
+                        setActive1(true);
+                        setActive2(false);
+                      }}
+                    >
+                      1
+                    </a>
+                  </li>
+                  <li className="page-item">
+                    <a
+                      className={`pagelinkupdate ${active2 ? "bg-focus" : ""} ${cacher2 ? "cacher" : ""}`}
+                      href="#"
+                      onClick={() => {
+                        setStart(7);
+                        setEnd(14);
+                        setActive1(false);
+                        setActive2(true);
+                      }}
+                    >
+                      2
+                    </a>
+                  </li>
+                  <li className="page-item">
+                    <a
+                      className=" pagenav"
+                      href="#"
+                      onClick={() => {
+                        /*   setStart(7);
+                          setEnd(14);
+                          setActive1(false);
+                          setActive2(true); */
+                        fleche();
+                      }}
+                      aria-label="Next"
+                    >
+                      <span aria-hidden="true">&raquo;</span>
+                    </a>
+                  </li>
+                </ul>
+              </nav>
+            </div>
           </div>
         </div>
       </div>

@@ -5,17 +5,28 @@ import "./styles/historique.css";
 const Historique = () => {
   const [users, setUsers] = useState<any>(null);
   const [start, setStart] = useState<number>(0);
+  const [end, setEnd] = useState<number>(7);
   const [active1, setActive1] = useState<boolean>(true);
   const [active2, setActive2] = useState<boolean>(false);
   const [rechercher, setRecherche] = useState<String>("");
-  const [end, setEnd] = useState<number>(7);
+  const [cacher2, setCacher2] = useState<boolean>(true);
+
+
 
   useEffect(() => {
     fetch("http://localhost:5173/donnee.json")
       .then((res) => res.json())
       .then((res) => {
+        //masquer ou afficher la pagination
+          if (res.length > 7) {
+              setCacher2(false);
+               } 
         setUsers(
+     
           res.filter((_a: any, index: number) => {
+           
+             
+               
             if (rechercher == "") {
               return index >= start && index < end;
             } else {
@@ -24,7 +35,22 @@ const Historique = () => {
           })
         );
       });
-  }, [start, end, rechercher]);
+  }, [start, end, rechercher, cacher2]);
+
+  const fleche = () => {
+    if (active1 == true) {
+      setActive1(false);
+      setActive2(true)
+      setStart(7);
+      setEnd(14);
+    }
+    if (active2 == true) {
+      setActive1(true);
+      setActive2(false);
+      setStart(0);
+      setEnd(7);
+    }
+  }
 
   const Data = () => {
     return (
@@ -82,10 +108,11 @@ const Historique = () => {
                     href="#"
                     aria-label="Previous"
                     onClick={() => {
-                      setStart(0);
+                      /* setStart(0);
                       setEnd(7);
                       setActive1(true);
-                      setActive2(false);
+                      setActive2(false); */
+                      fleche();
                     }}
                   >
                     <span aria-hidden="true">&laquo;</span>
@@ -93,7 +120,7 @@ const Historique = () => {
                 </li>
                 <li className="page-item">
                   <a
-                    className={`pagelinkupdate ${active1 ? "bg-focus" : ""}`}
+                    className={`pagelinkupdate ${active1 ? "bg-focus" : ""} `}
                     id="un"
                     href="#"
                     onClick={() => {
@@ -108,7 +135,7 @@ const Historique = () => {
                 </li>
                 <li className="page-item">
                   <a
-                    className={`pagelinkupdate ${active2 ? "bg-focus" : ""}`}
+                    className={`pagelinkupdate ${active2 ? "bg-focus" : ""} ${cacher2 ? "cacher" : ""}`}
                     href="#"
                     onClick={() => {
                       setStart(7);
@@ -125,10 +152,11 @@ const Historique = () => {
                     className=" pagenav"
                     href="#"
                     onClick={() => {
-                      setStart(7);
+                    /*   setStart(7);
                       setEnd(14);
                       setActive1(false);
-                      setActive2(true);
+                      setActive2(true); */
+                      fleche();
                     }}
                     aria-label="Next"
                   >

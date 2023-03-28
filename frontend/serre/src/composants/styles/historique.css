@@ -102,6 +102,10 @@ div.table{
     padding-left:20px;
     min-width: 20vh;
 }
+.cacher2, .cacher3, .cacher4{
+    display: none;
+}
+
 
 @media only screen and (max-width: 1400px) {
     .box-pagination {

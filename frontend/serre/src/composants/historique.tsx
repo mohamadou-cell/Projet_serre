@@ -11,10 +11,8 @@ const Historique = () => {
   const [rechercher, setRecherche] = useState<String>("");
   const [cacher2, setCacher2] = useState<boolean>(true);
 
-
-
   useEffect(() => {
-    fetch('http://localhost:3000/climat', { method: 'GET' })
+    fetch("http://localhost:3000/climat", { method: "GET" })
       .then((res) => res.json())
       .then((res) => {
         console.log(res);
@@ -23,18 +21,12 @@ const Historique = () => {
           setCacher2(false);
         }
         setUsers(
-
           res.filter((_a: any, index: number) => {
-
-
-
             if (rechercher == "") {
               return index >= start && index < end;
             } else {
-              console.log(_a.Date);
-              return _a.Date == rechercher;
-             
-              
+              console.log(_a.date);
+              return _a.date == rechercher;
             }
           })
         );
@@ -44,7 +36,7 @@ const Historique = () => {
   const fleche = () => {
     if (active1 == true) {
       setActive1(false);
-      setActive2(true)
+      setActive2(true);
       setStart(7);
       setEnd(14);
     }
@@ -54,18 +46,14 @@ const Historique = () => {
       setStart(0);
       setEnd(7);
     }
-  }
+  };
 
   const Data = () => {
     return (
       <tbody>
         {users?.map((user: any) => (
           <tr>
-            <td className="td_">{user.createdAt[0] + user.createdAt[1] + user.createdAt[2]
-              + user.createdAt[3] + user.createdAt[4] + user.createdAt[5] + user.createdAt[6]
-              + user.createdAt[7] + user.createdAt[8] + user.createdAt[9]
-
-            }</td>
+            <td className="td_">{user.date}</td>
             <td className="td_">{user.temperature}</td>
             <td className="td_">{user.humid_sol}</td>
             <td className="td_">{user.humid_serre}</td>
@@ -77,7 +65,6 @@ const Historique = () => {
   };
   const search = (chercher: any) => {
     const valeur = chercher;
-
 
     setRecherche(valeur);
     const jour = new Date().getDate();
@@ -96,11 +83,16 @@ const Historique = () => {
 
         <div className="table_">
           <div className="table">
-            <input onChange={(e) => search(e.target.value)} type="date" name="date" id="date" />
+            <input
+              onChange={(e) => search(e.target.value)}
+              type="date"
+              name="date"
+              id="date"
+            />
             <table border={1}>
               <thead className="backblue">
                 <td className="td_ th_"> Date </td>
-                <td className="td_ th_" >Temperature en °C</td>
+                <td className="td_ th_">Temperature en °C</td>
                 <td className="td_ th_">Humidité sol en %</td>
                 <td className="td_ th_">Humidité serre en %</td>
                 <td className="td_ th_">luminosité en lux</td>
@@ -143,7 +135,9 @@ const Historique = () => {
                   </li>
                   <li className="page-item">
                     <a
-                      className={`pagelinkupdate ${active2 ? "bg-focus" : ""} ${cacher2 ? "cacher" : ""}`}
+                      className={`pagelinkupdate ${active2 ? "bg-focus" : ""} ${
+                        cacher2 ? "cacher" : ""
+                      }`}
                       href="#"
                       onClick={() => {
                         setStart(7);

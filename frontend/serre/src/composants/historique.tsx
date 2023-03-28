@@ -47,8 +47,8 @@ const Historique = () => {
     if (active2 == true) {
       setActive1(true);
       setActive2(false);
-      setStart(14);
-      setEnd(21);
+      setStart(0);
+      setEnd(7);
     }
   }
 

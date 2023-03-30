@@ -13,15 +13,13 @@ const Historique = () => {
   const jour = new Date().getDate();
   const mois = new Date().getMonth() + 1;
   const annee = new Date().getFullYear();
-  const max = `${annee}-0${mois}-${jour}`
-
-  
-
+  const max = `${annee}-0${mois}-${jour}`;
 
   useEffect(() => {
-    fetch("http://localhost:5173/donnee.json")
+    fetch("http://localhost:3000/climat", { method: "GET" })
       .then((res) => res.json())
       .then((res) => {
+        console.log(res);
         //masquer ou afficher la pagination
         if (res.length > 7) {
           setCacher2(false);
@@ -33,7 +31,8 @@ const Historique = () => {
             if (rechercher == "") {
               return index >= start && index < end;
             } else {
-              return _a.Date == rechercher;
+              console.log(_a.date);
+              return _a.date == rechercher;
             }
           })
         );
@@ -60,10 +59,10 @@ const Historique = () => {
       <tbody>
         {users?.map((user: any) => (
           <tr>
-            <td className="td_">{user.Date}</td>
-            <td className="td_">{user.temp}</td>
-            <td className="td_">{user.humi_sol}</td>
-            <td className="td_">{user.humi_serre}</td>
+            <td className="td_">{user.date}</td>
+            <td className="td_">{user.temperature}</td>
+            <td className="td_">{user.humid_sol}</td>
+            <td className="td_">{user.humid_serre}</td>
             <td className="td_">{user.luminosite}</td>
           </tr>
         ))}
@@ -74,7 +73,6 @@ const Historique = () => {
     const valeur = chercher;
 
     setRecherche(valeur);
-    
   };
 
   return (
@@ -95,6 +93,7 @@ const Historique = () => {
               id="date"
               max={max}
             />
+
             <table border={1}>
               <thead className="backblue">
                 <td className="td_ th_"> Date </td>

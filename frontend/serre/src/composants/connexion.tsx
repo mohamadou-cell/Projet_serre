@@ -1,13 +1,70 @@
 import { Card, Form } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./styles/connexion.css";
 import eyeon from "../assets/eyes-on.png";
 import eyesoff from "../assets/eyes-off.png";
 import { useForm } from "react-hook-form";
-// import { React } from "react";
+import socketIOClient from "socket.io-client";
+const ENDPOINT = "http://localhost:8000";
 
+// import { React } from "react";
+import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
+Route;
 const Connexion = () => {
+  const [update, setUpdate] = useState<boolean>();
+  const [mat, setMat] = useState<Object>();
+  const [sms_erreur, setSms_erreur] = useState<boolean>(true);
+
+  const navigate = useNavigate();
+  /*   useEffect(() => {
+    fetch("http://localhost:8000/get_matricule", { method: "GET" })
+      .then((res) => res.json())
+      .then((res) => {
+        setMat({ matricule1: res.matricule });
+        console.log(res);
+
+         setInterval(() => {
+          update ? setUpdate(false) : setUpdate(true);
+        }, 3000); 
+      });
+  }, [update]); */
+
+  useEffect(() => {
+    const socket = socketIOClient(ENDPOINT);
+    socket.on("data", (data) => {
+      console.log(data);
+      setMat({ matricule1: data });
+    });
+  }, [mat]);
+
+  useEffect(() => {
+    fetch("http://localhost:8000/envoyer", {
+      method: "POST",
+      body: JSON.stringify(mat),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        //console.log(mat);
+        console.log(res.message);
+        if (res.message == "succes") {
+            setSms_erreur(true)
+            navigate("/Dashboard");
+            localStorage.setItem("email", res.data.email);
+            localStorage.setItem("prenom", res.data.prenom);
+            localStorage.setItem("nom", res.data.nom);
+            localStorage.setItem("token", res.data.token);
+        }
+        if (res.message != "succes" && mat != undefined) {
+          setSms_erreur(false);
+        }
+      }),
+      [mat];
+  });
+
   const {
     register,
     formState: { errors },
@@ -61,7 +118,14 @@ const Connexion = () => {
             ou bien vous connecter avec la carte RFID.
           </h3>
           <br />
-          <br />
+          <div
+            className={`alert alert-danger text-center ${
+              sms_erreur ? "cacher" : ""
+            }`}
+          >
+            accés refuser
+          </div>
+
           <div id="corps" className="d-flex gap-5">
             <div id="from">
               <Form onSubmit={handleSubmit(onSubmit)} className="">

@@ -13,6 +13,8 @@ import on_arrosage from "../assets/on-button.png";
 import off_arrosage from "../assets/off-button.png";
 import { useEffect, useState } from "react";
 import Navbarre from "./navbarre";
+import socketIOClient from "socket.io-client";
+//const ENDPOINT = "http://localhost:8000";
 const Dashboard = () => {
   const [donnees, setDonnee] = useState<any>(null);
   const [cacher, setCacher] = useState<any>(null);
@@ -20,8 +22,19 @@ const Dashboard = () => {
   const [_45, set_45] = useState<any>(false);
   const [_90, set_90] = useState<any>(false);
   const [_180, set_180] = useState<any>(false);
+
   let etatBtn = false;
   let etatBtn_ = false;
+
+/* 
+  useEffect(() => {
+    const socket = socketIOClient(ENDPOINT);
+    socket.on("data", (data) => {
+      console.log(data);
+    
+  
+    });
+  }, []); */
   useEffect(() => {
     fetch("http://localhost:5173/real-time.json")
       .then((res) => res.json())

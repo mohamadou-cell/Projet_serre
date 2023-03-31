@@ -26,7 +26,11 @@ const Connexion = () => {
     const socket = socketIOClient(ENDPOINT);
     socket.on("data", (data) => {
       console.log(data);
-      setMat({ matricule1: data, matricule2: data });
+      if (data.includes("@")){
+        console.log(data)
+        setMat({ matricule1: data, matricule2: data });
+      }
+    
     });
   }, [mat]);
 

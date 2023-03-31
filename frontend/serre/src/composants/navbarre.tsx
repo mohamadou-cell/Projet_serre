@@ -16,15 +16,15 @@ function navbarre() {
         //console.log(res);
       });
   }, []);
-  useEffect(() => {
-    setId(localStorage.getItem('id'))
+/*   useEffect(() => {
+    setId(localStorage.getItem('id')?.toString())
     fetch(`http://localhost:3000/auth/${id}`)
       .then((res) => res.json())
       .then((res) => {
         removeInfos(res);
         console.log(res);
       });
-  }, [id]);
+  }, [id]); */
 
   const logOut = () => {
     localStorage.clear();
@@ -77,7 +77,6 @@ function navbarre() {
                 <li className="items-sous-liste"><a className='a' href={`/dashboard`}>DASHBOARD</a></li>
                 <li className='items-sous-liste'><a className='a' href={`/historique`}>HISTORIQUE</a></li>
                 <li className='items-sous-liste'><a className='a' href={`/parametre`}>PARAMETRES</a></li>
-                <li className='items-sous-liste'><a className='a' href={`/inscription`}>INSCRIPTION</a></li>
               </ul>
             </li>
           </div>

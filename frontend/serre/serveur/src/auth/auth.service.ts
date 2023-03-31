@@ -17,14 +17,15 @@ export class AuthService {
   ) {}
 
   async signUp(signUpDto: SignUpDto) {
-    const { prenom, nom, matricule, email, password } = signUpDto;
+    const { prenom, nom, matricule1, matricule2, email, password } = signUpDto;
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const user = await this.userModel.create({
       prenom,
       nom,
-      matricule,
+      matricule1,
+      matricule2,
       email,
       password: hashedPassword,
     });
@@ -33,7 +34,7 @@ export class AuthService {
   }
 
 
-  async login(loginDto: LoginDto): Promise<{ token: string }> {
+  async login(loginDto: LoginDto): Promise<{ token: string, id: string }> {
     const { email, password } = loginDto;
 
     const user = await this.userModel.findOne({ email });
@@ -48,9 +49,11 @@ export class AuthService {
       throw new UnauthorizedException({message:'Mot de passe invalide'});
     }
 
+    const id = user._id ;
+
     const token = this.jwtService.sign({ id: user._id });
 
-    return { token };
+    return { token, id };
   }
 
   async findAll(): Promise<User[]> {

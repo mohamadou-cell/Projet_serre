@@ -12,7 +12,10 @@ export class User extends Document {
   nom: string;
 
   @Prop()
-  matricule: string;
+  matricule1: string;
+
+  @Prop()
+  matricule2: string;
 
   @Prop({ unique: [true, 'Email existe déjà'] })
   email: string;

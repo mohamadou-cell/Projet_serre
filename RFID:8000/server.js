@@ -67,10 +67,10 @@ app.post("/envoyer", async (req, res, next) => {
     if (!acces2) {
       let token;
 
-      //Creating jwt token
+      //Creation jwt token
       token = jwt.sign(
         { userId: acces1.id, matricule1: acces1.matricule1 },
-        // process.env.JWT_SECRET,
+     
         cle,
         { expiresIn: "1h" }
       );
@@ -91,10 +91,9 @@ app.post("/envoyer", async (req, res, next) => {
     if (!acces1) {
       let token;
 
-      //Creating jwt token
       token = jwt.sign(
         { userId: acces2.id, matricule1: acces2.matricule1 },
-        // process.env.JWT_SECRET,
+       
         cle,
         { expiresIn: "1h" }
       );

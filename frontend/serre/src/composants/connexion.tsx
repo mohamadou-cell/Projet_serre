@@ -12,29 +12,16 @@ const ENDPOINT = "http://localhost:8000";
 import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
 Route;
 const Connexion = () => {
-  const [update, setUpdate] = useState<boolean>();
   const [mat, setMat] = useState<Object>();
   const [sms_erreur, setSms_erreur] = useState<boolean>(true);
 
   const navigate = useNavigate();
-  /*   useEffect(() => {
-    fetch("http://localhost:8000/get_matricule", { method: "GET" })
-      .then((res) => res.json())
-      .then((res) => {
-        setMat({ matricule1: res.matricule });
-        console.log(res);
-
-         setInterval(() => {
-          update ? setUpdate(false) : setUpdate(true);
-        }, 3000); 
-      });
-  }, [update]); */
 
   useEffect(() => {
     const socket = socketIOClient(ENDPOINT);
     socket.on("data", (data) => {
       console.log(data);
-      setMat({ matricule1: data });
+      setMat({ matricule1: data, matricule2: data });
     });
   }, [mat]);
 
@@ -51,12 +38,12 @@ const Connexion = () => {
         //console.log(mat);
         console.log(res.message);
         if (res.message == "succes") {
-            setSms_erreur(true)
-            navigate("/Dashboard");
-            localStorage.setItem("email", res.data.email);
-            localStorage.setItem("prenom", res.data.prenom);
-            localStorage.setItem("nom", res.data.nom);
-            localStorage.setItem("token", res.data.token);
+          setSms_erreur(true);
+          navigate("/Dashboard");
+          localStorage.setItem("email", res.data.email);
+          localStorage.setItem("prenom", res.data.prenom);
+          localStorage.setItem("nom", res.data.nom);
+          localStorage.setItem("token", res.data.token);
         }
         if (res.message != "succes" && mat != undefined) {
           setSms_erreur(false);
@@ -83,17 +70,6 @@ const Connexion = () => {
   const [eye, seteye] = useState(true);
   const [password, setpassword] = useState("password");
   const [type, settype] = useState(false);
-
-  const inputEvent = (event: any) => {
-    const name = event.target.name;
-    const value = event.target.value;
-    setinputtext((lastValue) => {
-      return {
-        ...lastValue,
-        [name]: value,
-      };
-    });
-  };
 
   const Eye = () => {
     if (password == "password") {

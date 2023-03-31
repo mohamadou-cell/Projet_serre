@@ -34,7 +34,7 @@ const Connexion = () => {
   }, [mat]);
 
   useEffect(() => {
-    fetch("http://localhost:8000/envoyer", {
+    fetch("http://localhost:3000/auth/logincarte", {
       method: "POST",
       body: JSON.stringify(mat),
       headers: {
@@ -44,8 +44,8 @@ const Connexion = () => {
       .then((res) => res.json())
       .then((res) => {
         //console.log(mat);
-        console.log(res.message);
-        if (res.message == "succes") {
+        console.log(mat);
+        if (res.token) {
           setSms_erreur(true);
           usenavigate("/dashboard");
           localStorage.setItem("email", res.data.email);
@@ -53,7 +53,7 @@ const Connexion = () => {
           localStorage.setItem("nom", res.data.nom);
           localStorage.setItem("token", res.data.token);
         }
-        if (res.message != "succes" && mat != undefined) {
+        if (res.message == "accès refusé" && mat != undefined) {
           setSms_erreur(false);
         }
       }),

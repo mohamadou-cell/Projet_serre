@@ -4,6 +4,7 @@ import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
 import { SignUpDto } from './dto/signup.dto';
 import { User } from './schemas/user.schema';
+import { LogincarteDto } from './dto/loginCarte.dts';
 
 @Controller('auth')
 export class AuthController {
@@ -17,6 +18,11 @@ export class AuthController {
   @Post('/login')
   login(@Body() loginDto: LoginDto): Promise<{ token: string, id: string }> {
     return this.authService.login(loginDto);
+  }
+
+  @Post('/logincarte')
+  logincarte(@Body() logincarteDto: LogincarteDto): Promise<{ token: string, id: string }> {
+    return this.authService.logincarte(logincarteDto);
   }
 
   //@UseGuards(JwtAuthGuard)

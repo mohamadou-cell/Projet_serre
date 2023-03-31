@@ -6,7 +6,6 @@ import Connexion from './composants/connexion';
 import Dashboard from './composants/dashboard';
 import Historique from './composants/historique';
 import Personnaliser from './composants/personnaliser';
-import Inscription from './composants/inscription';
 import './index.css'
 import ReactDOM from "react-dom/client";
 import {
@@ -42,10 +41,6 @@ const router = createBrowserRouter([
   {
     path: "personnaliser/",
     element: <Personnaliser />,
-  },
-  {
-    path: "inscription/",
-    element: <Inscription />,
   },
 ]);
 

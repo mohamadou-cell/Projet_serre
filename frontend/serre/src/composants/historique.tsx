@@ -10,6 +10,10 @@ const Historique = () => {
   const [active2, setActive2] = useState<boolean>(false);
   const [rechercher, setRecherche] = useState<String>("");
   const [cacher2, setCacher2] = useState<boolean>(true);
+  const jour = new Date().getDate();
+  const mois = new Date().getMonth() + 1;
+  const annee = new Date().getFullYear();
+  const max = `${annee}-0${mois}-${jour}`;
 
   useEffect(() => {
     fetch("http://localhost:3000/climat", { method: "GET" })
@@ -19,6 +23,8 @@ const Historique = () => {
         //masquer ou afficher la pagination
         if (res.length > 7) {
           setCacher2(false);
+        } else {
+          setCacher2(true);
         }
         setUsers(
           res.filter((_a: any, index: number) => {
@@ -67,9 +73,6 @@ const Historique = () => {
     const valeur = chercher;
 
     setRecherche(valeur);
-    const jour = new Date().getDate();
-    const mois = new Date().getMonth() + 1;
-    const annee = new Date().getFullYear();
   };
 
   return (
@@ -88,7 +91,9 @@ const Historique = () => {
               type="date"
               name="date"
               id="date"
+              max={max}
             />
+
             <table border={1}>
               <thead className="backblue">
                 <td className="td_ th_"> Date </td>
@@ -104,14 +109,10 @@ const Historique = () => {
                 <ul className="pagination pagination_ ">
                   <li className="page-item ">
                     <a
-                      className=" pagenav"
+                      className={`pagenav ${cacher2 ? "cacher" : ""}`}
                       href="#"
                       aria-label="Previous"
                       onClick={() => {
-                        /* setStart(0);
-                        setEnd(7);
-                        setActive1(true);
-                        setActive2(false); */
                         fleche();
                       }}
                     >
@@ -120,7 +121,9 @@ const Historique = () => {
                   </li>
                   <li className="page-item">
                     <a
-                      className={`pagelinkupdate ${active1 ? "bg-focus" : ""} `}
+                      className={`pagelinkupdate ${
+                        active1 ? "bg-focus" : ""
+                      }  `}
                       id="un"
                       href="#"
                       onClick={() => {
@@ -151,13 +154,9 @@ const Historique = () => {
                   </li>
                   <li className="page-item">
                     <a
-                      className=" pagenav"
+                      className={`pagenav ${cacher2 ? "cacher" : ""}`}
                       href="#"
                       onClick={() => {
-                        /*   setStart(7);
-                          setEnd(14);
-                          setActive1(false);
-                          setActive2(true); */
                         fleche();
                       }}
                       aria-label="Next"

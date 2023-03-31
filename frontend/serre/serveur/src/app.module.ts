@@ -5,6 +5,8 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { ClimatModule } from './climat/climat.module';
+import { ParametreModule } from './parametre/parametre.module';
+
 
 @Module({
   imports: [
@@ -15,6 +17,7 @@ import { ClimatModule } from './climat/climat.module';
     MongooseModule.forRoot(process.env.DB_URI),
     AuthModule,
     ClimatModule,
+    ParametreModule,
   ],
   controllers: [AppController],
   providers: [AppService],

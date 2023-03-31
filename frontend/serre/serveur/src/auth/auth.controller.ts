@@ -15,11 +15,11 @@ export class AuthController {
   }
 
   @Post('/login')
-  login(@Body() loginDto: LoginDto): Promise<{ token: string }> {
+  login(@Body() loginDto: LoginDto): Promise<{ token: string, id: string }> {
     return this.authService.login(loginDto);
   }
 
-  @UseGuards(JwtAuthGuard)
+  //@UseGuards(JwtAuthGuard)
   @Get('/getAll')
   async getAllBooks(): Promise<User[]> {
     return this.authService.findAll();

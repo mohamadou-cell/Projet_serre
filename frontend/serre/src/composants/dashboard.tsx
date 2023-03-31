@@ -14,15 +14,16 @@ import off_arrosage from "../assets/off-button.png";
 import { useEffect, useState } from "react";
 import Navbarre from "./navbarre";
 import socketIOClient from "socket.io-client";
-//const ENDPOINT = "http://localhost:8000";
+const connexion = "http://localhost:3000/";
 const Dashboard = () => {
+  
   const [donnees, setDonnee] = useState<any>(null);
+  const [data, setData] = useState<any>(null);
   const [cacher, setCacher] = useState<any>(null);
   const [cacher_, setCacher_] = useState<any>(null);
   const [_45, set_45] = useState<any>(false);
   const [_90, set_90] = useState<any>(false);
   const [_180, set_180] = useState<any>(false);
-
   let etatBtn = false;
   let etatBtn_ = false;
 
@@ -35,6 +36,13 @@ const Dashboard = () => {
   
     });
   }, []); */
+  useEffect(() => {
+    const socket = socketIOClient(connexion);
+    socket.on("data", (data) => {
+      console.log(data);
+       setData(data); 
+    });
+  }, [data]);
   useEffect(() => {
     fetch("http://localhost:5173/real-time.json")
       .then((res) => res.json())

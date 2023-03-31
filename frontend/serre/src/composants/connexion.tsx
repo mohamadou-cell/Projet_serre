@@ -26,11 +26,10 @@ const Connexion = () => {
     const socket = socketIOClient(ENDPOINT);
     socket.on("data", (data) => {
       console.log(data);
-      if (data.includes("@")){
-        console.log(data)
+      if (data.includes("@")) {
+        console.log(data);
         setMat({ matricule1: data, matricule2: data });
       }
-    
     });
   }, [mat]);
 
@@ -89,7 +88,7 @@ const Connexion = () => {
           if (data.token) {
             localStorage.setItem("token", data.token);
             localStorage.setItem("id", data.id);
-          
+
             usenavigate("/dashboard");
           } else {
             setErrorBack(data.message);
@@ -148,26 +147,26 @@ const Connexion = () => {
             Veuillez saisir vos information d'authentification <br />
             ou bien vous connecter avec la carte RFID.
           </h3>
-          <br />
-  
+          {/*  <br /> */}
+
           <div id="corps" className="d-flex gap-5">
             <div id="from">
               <Form onSubmit={onSubmit} className="">
                 <div className="d-flex gap-2">
-                <div
-                  className={`alert alert-danger text-center ${
-                    !etat ? "cacher" : ""
-                  }`}
-                >
-                  {errorBack}
-                </div>
-                <div
-                  className={`alert alert-danger text-center ${
-                    sms_erreur ? "cacher" : ""
-                  }`}
-                >
-                  accés refuser
-                </div>
+                  <div
+                    className={`alert alert-danger text-center ${
+                      !etat ? "cacher" : ""
+                    }`}
+                  >
+                    {errorBack}
+                  </div>
+                  <div
+                    className={`alert alert-danger text-center ${
+                      sms_erreur ? "cacher" : ""
+                    }`}
+                  >
+                    accés refuser
+                  </div>
                 </div>
                 <Form.Group className="" controlId="formBasicEmail">
                   <Form.Label>

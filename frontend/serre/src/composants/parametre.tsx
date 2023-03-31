@@ -63,7 +63,7 @@ function parametre() {
 
       <Form.Group className="mb-3" controlId="formBasicNumber">
         <Form.Label>Durée de l'arrosage</Form.Label>
-        <Form.Control value={duree} type="number" placeholder="par secondes" />
+        <Form.Control value={duree} type="text" placeholder="par secondes" />
       </Form.Group>
       
       <Button variant="primary" type="submit" className="mt-3" id='btn'>

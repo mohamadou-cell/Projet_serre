@@ -11,10 +11,14 @@ export class SignUpDto {
 
   @IsNotEmpty()
   @IsString()
-  readonly matricule: string;
+  readonly matricule1: string;
 
   @IsNotEmpty()
-  @IsEmail({}, { message: 'Svp entrer un bon email' })
+  @IsString()
+  readonly matricule2: string;
+
+  @IsNotEmpty()
+  @IsEmail({}, { message: 'Entrer un email correct' })
   readonly email: string;
 
   @IsNotEmpty()

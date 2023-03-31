@@ -1,18 +1,30 @@
+import { getItem } from "localforage";
 import { useEffect, useState } from "react";
 import Dropdown from 'react-bootstrap/Dropdown';
 import { Link, useNavigate } from "react-router-dom";
+
 import './styles/navebarre.css'
 function navbarre() {
   const [infos, setInfos] = useState<any>(null)
   const usenavigate = useNavigate();
+  const [id, setId] = useState<any>();
   useEffect(() => {
     fetch("http://localhost:5173/user.json")
       .then((res) => res.json())
       .then((res) => {
-        setInfos(res);
-        console.log(res);
+        removeInfos(res);
+        //console.log(res);
       });
   }, []);
+/*   useEffect(() => {
+    setId(localStorage.getItem('id')?.toString())
+    fetch(`http://localhost:3000/auth/${id}`)
+      .then((res) => res.json())
+      .then((res) => {
+        removeInfos(res);
+        console.log(res);
+      });
+  }, [id]); */
 
   const logOut = () => {
     localStorage.clear();
@@ -26,12 +38,16 @@ function navbarre() {
           <img  src="../public/user4.jpg" className='img' alt="" /> 
           <div className='drop'> 
             <div className='d-flex gap-2'>
-              {infos?.map((info:any)=>(
+           {/*    {infos?.map((info:any)=>(
                 <p className='info'>{info.prenom}</p>
+                <p className='info'>{prenom}</p>
               ))}
               {infos?.map((info:any)=>(
                 <p className='info'>{info.nom}</p>
-              ))}
+                <p className='info'>{nom}</p>
+              ))} */}
+                  <p className='info'>{localStorage.getItem('prenom')}</p>
+                  <p className='info'>{localStorage.getItem('nom')}</p>
               </div>
               <div className="dropdown d-flex justify-content-center">
                 <li className='items'>
@@ -61,7 +77,6 @@ function navbarre() {
                 <li className="items-sous-liste"><a className='a' href={`/dashboard`}>DASHBOARD</a></li>
                 <li className='items-sous-liste'><a className='a' href={`/historique`}>HISTORIQUE</a></li>
                 <li className='items-sous-liste'><a className='a' href={`/parametre`}>PARAMETRES</a></li>
-                <li className='items-sous-liste'><a className='a' href={`/inscription`}>INSCRIPTION</a></li>
               </ul>
             </li>
           </div>
@@ -71,3 +86,7 @@ function navbarre() {
 }
 
 export default navbarre
+function removeInfos(res: any) {
+  throw new Error("Function not implemented.");
+}
+

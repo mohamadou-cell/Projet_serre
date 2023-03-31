@@ -42,6 +42,7 @@ const router = createBrowserRouter([
     path: "personnaliser/",
     element: <Personnaliser />,
   },
+  { path:'*', element: <Connexion />,}
 ]);
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(

@@ -1,99 +1,134 @@
 import { Card, Form } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./styles/connexion.css";
-import { Link, useNavigate } from "react-router-dom";
+import eyeon from "../assets/eyes-on.png";
+import eyesoff from "../assets/eyes-off.png";
 import { useForm } from "react-hook-form";
+import socketIOClient from "socket.io-client";
+const ENDPOINT = "http://localhost:8000";
 
+// import { React } from "react";
+import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
+Route;
 const Connexion = () => {
-  /* const {
-        register,
-        formState: { errors },
-        handleSubmit,
-    } = useForm({mode:"onChange"}); */
-  const usenavigate = useNavigate();
+  const [mat, setMat] = useState<Object>();
+  const [sms_erreur, setSms_erreur] = useState<boolean>(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorEmail, setErrorEmail] = useState<string | null>(null);
   const [errorPassword, setErrorPassword] = useState<string | null>(null);
-  const [errorBack, setErrorBack] = useState("")
+  const [errorBack, setErrorBack] = useState("");
+  const [etat, setEtat] = useState<boolean>(false);
+  const usenavigate = useNavigate();
+
+  useEffect(() => {
+    const socket = socketIOClient(ENDPOINT);
+    socket.on("data", (data) => {
+      console.log(data);
+      setMat({ matricule1: data, matricule2: data });
+    });
+  }, [mat]);
+
+  useEffect(() => {
+    fetch("http://localhost:8000/envoyer", {
+      method: "POST",
+      body: JSON.stringify(mat),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        //console.log(mat);
+        console.log(res.message);
+        if (res.message == "succes") {
+          setSms_erreur(true);
+          usenavigate("/dashboard");
+          localStorage.setItem("email", res.data.email);
+          localStorage.setItem("prenom", res.data.prenom);
+          localStorage.setItem("nom", res.data.nom);
+          localStorage.setItem("token", res.data.token);
+        }
+        if (res.message != "succes" && mat != undefined) {
+          setSms_erreur(false);
+        }
+      }),
+      [mat];
+  });
 
   const onSubmit = (e: any) => {
     e.preventDefault();
-        if(email === '' || password === ''){
-            setErrorEmail('Ce champ est requis')
-            setErrorPassword('Ce champ est requis')
-        }
-        else if(!email.includes('@gmail.com')){
-            setErrorEmail('Email incorrect')
-        }
-        else if(password.length < 6){
-            setErrorPassword('au moins 6 caractères')
-        }
-        else{
-            fetch("http://localhost:3000/auth/login", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Accept: "application/json",
-              "Access-Control-Allow-Origin": "*",
-            },
-            body: JSON.stringify({
-              email,
-              password,
-            }),
-          })
-            .then((res) => res.json())
-            .then((data) => {
-              console.log(data);
-              if (data.token) {
-                localStorage.setItem("token", data.token);
-                localStorage.setItem("id", data.id);
-                usenavigate("/dashboard");
-              }
-              else{
-                setErrorBack(data.message)
-              }
-            });
-        }  
+    if (email === "" || password === "") {
+      setErrorEmail("Ce champ est requis");
+      setErrorPassword("Ce champ est requis");
+    } else if (!email.includes("@gmail.com")) {
+      setErrorEmail("Email incorrect");
+    } else if (password.length < 6) {
+      setErrorPassword("au moins 6 caractères");
+    } else {
+      fetch("http://localhost:3000/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          "Access-Control-Allow-Origin": "*",
+        },
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          if (data.token) {
+            localStorage.setItem("token", data.token);
+            localStorage.setItem("id", data.id);
+          
+            usenavigate("/dashboard");
+          } else {
+            setErrorBack(data.message);
+            setEtat(true);
+          }
+        });
+    }
   };
 
   const checkEmail = (email: string) => {
-            setEmail(email)
-            if (email === '') {
-                setErrorEmail('Ce champ est requis')
-            }
-            else if (!email.includes('@gmail.com')) {
-                setErrorEmail('Email incorrect')
-            } else {
-                setErrorEmail(null);
-            }
-        }
-        const checkPassword = (password: string) => {
-            setPassword(password)
-            if (password === '') {
-                setErrorPassword('Ce champ est requis')
-            } 
-            else if (password.length < 6) {
-                setErrorPassword('au moins 6 caractères')
-            }
-            else {
-                setErrorPassword(null);
-            }
-        }
+    setEmail(email);
+    if (email === "") {
+      setErrorEmail("Ce champ est requis");
+    } else if (!email.includes("@gmail.com")) {
+      setErrorEmail("Email incorrect");
+    } else {
+      setErrorEmail(null);
+    }
+  };
+  const checkPassword = (password: string) => {
+    setPassword(password);
+    if (password === "") {
+      setErrorPassword("Ce champ est requis");
+    } else if (password.length < 6) {
+      setErrorPassword("au moins 6 caractères");
+    } else {
+      setErrorPassword(null);
+    }
+  };
+
   const [warnpassword, setwarnpassword] = useState(false);
 
   const [eye, seteye] = useState(true);
-  const [password1, setpassword] = useState("password");
+  const [password1, setpassword1] = useState("password");
   const [type, settype] = useState(false);
 
   const Eye = () => {
     if (password1 == "password") {
-      setpassword("text");
+      setpassword1("text");
       seteye(false);
       settype(true);
     } else {
-      setpassword("password");
+      setpassword1("password");
       seteye(true);
       settype(false);
     }
@@ -110,11 +145,26 @@ const Connexion = () => {
             ou bien vous connecter avec la carte RFID.
           </h3>
           <br />
-          <br />
+  
           <div id="corps" className="d-flex gap-5">
             <div id="from">
               <Form onSubmit={onSubmit} className="">
-                <div className="d-flex justify-content-center text-danger">{errorBack}</div>
+                <div className="d-flex gap-2">
+                <div
+                  className={`alert alert-danger text-center ${
+                    !etat ? "cacher" : ""
+                  }`}
+                >
+                  {errorBack}
+                </div>
+                <div
+                  className={`alert alert-danger text-center ${
+                    sms_erreur ? "cacher" : ""
+                  }`}
+                >
+                  accés refuser
+                </div>
+                </div>
                 <Form.Group className="" controlId="formBasicEmail">
                   <Form.Label>
                     Email<span id="etoile">*</span>

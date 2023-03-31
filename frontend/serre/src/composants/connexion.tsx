@@ -18,7 +18,8 @@ const Connexion = () => {
   const [password, setPassword] = useState("");
   const [errorEmail, setErrorEmail] = useState<string | null>(null);
   const [errorPassword, setErrorPassword] = useState<string | null>(null);
-  const [errorBack, setErrorBack] = useState("")
+  const [errorBack, setErrorBack] = useState("");
+  const [etat, setEtat] = useState<boolean>(false);
   const usenavigate = useNavigate();
 
   useEffect(() => {
@@ -56,75 +57,64 @@ const Connexion = () => {
       [mat];
   });
 
-
-
-
   const onSubmit = (e: any) => {
     e.preventDefault();
-        if(email === '' || password === ''){
-            setErrorEmail('Ce champ est requis')
-            setErrorPassword('Ce champ est requis')
-        }
-        else if(!email.includes('@gmail.com')){
-            setErrorEmail('Email incorrect')
-        }
-        else if(password.length < 6){
-            setErrorPassword('au moins 6 caractères')
-        }
-        else{
-            fetch("http://localhost:3000/auth/login", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Accept: "application/json",
-              "Access-Control-Allow-Origin": "*",
-            },
-            body: JSON.stringify({
-              email,
-              password,
-            }),
-          })
-            .then((res) => res.json())
-            .then((data) => {
-              console.log(data);
-              if (data.token) {
-                localStorage.setItem("token", data.token);
-                localStorage.setItem("id", data.id);
-                usenavigate("/dashboard");
-              }
-              else{
-                setErrorBack(data.message)
-              }
-            });
-        }  
+    if (email === "" || password === "") {
+      setErrorEmail("Ce champ est requis");
+      setErrorPassword("Ce champ est requis");
+    } else if (!email.includes("@gmail.com")) {
+      setErrorEmail("Email incorrect");
+    } else if (password.length < 6) {
+      setErrorPassword("au moins 6 caractères");
+    } else {
+      fetch("http://localhost:3000/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          "Access-Control-Allow-Origin": "*",
+        },
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          if (data.token) {
+            localStorage.setItem("token", data.token);
+            localStorage.setItem("id", data.id);
+          
+            usenavigate("/dashboard");
+          } else {
+            setErrorBack(data.message);
+            setEtat(true);
+          }
+        });
+    }
   };
 
   const checkEmail = (email: string) => {
-            setEmail(email)
-            if (email === '') {
-                setErrorEmail('Ce champ est requis')
-            }
-            else if (!email.includes('@gmail.com')) {
-                setErrorEmail('Email incorrect')
-            } else {
-                setErrorEmail(null);
-            }
-        }
-        const checkPassword = (password: string) => {
-            setPassword(password)
-            if (password === '') {
-                setErrorPassword('Ce champ est requis')
-            } 
-            else if (password.length < 6) {
-                setErrorPassword('au moins 6 caractères')
-            }
-            else {
-                setErrorPassword(null);
-            }
-        }
- 
-
-
+    setEmail(email);
+    if (email === "") {
+      setErrorEmail("Ce champ est requis");
+    } else if (!email.includes("@gmail.com")) {
+      setErrorEmail("Email incorrect");
+    } else {
+      setErrorEmail(null);
+    }
+  };
+  const checkPassword = (password: string) => {
+    setPassword(password);
+    if (password === "") {
+      setErrorPassword("Ce champ est requis");
+    } else if (password.length < 6) {
+      setErrorPassword("au moins 6 caractères");
+    } else {
+      setErrorPassword(null);
+    }
+  };
 
   const [warnpassword, setwarnpassword] = useState(false);
 
@@ -155,11 +145,26 @@ const Connexion = () => {
             ou bien vous connecter avec la carte RFID.
           </h3>
           <br />
-          <br />
+  
           <div id="corps" className="d-flex gap-5">
             <div id="from">
               <Form onSubmit={onSubmit} className="">
-                <div className="d-flex justify-content-center text-danger">{errorBack}</div>
+                <div className="d-flex gap-2">
+                <div
+                  className={`alert alert-danger text-center ${
+                    !etat ? "cacher" : ""
+                  }`}
+                >
+                  {errorBack}
+                </div>
+                <div
+                  className={`alert alert-danger text-center ${
+                    sms_erreur ? "cacher" : ""
+                  }`}
+                >
+                  accés refuser
+                </div>
+                </div>
                 <Form.Group className="" controlId="formBasicEmail">
                   <Form.Label>
                     Email<span id="etoile">*</span>
@@ -215,7 +220,7 @@ const Connexion = () => {
                 <br />
                 <input id="btn" type="submit" />
               </Form>
-              </div>
+            </div>
             <div id="carte" className="d-flex gap-1">
               <div id="reseau">
                 <svg

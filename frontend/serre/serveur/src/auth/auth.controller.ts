@@ -19,7 +19,7 @@ export class AuthController {
     return this.authService.login(loginDto);
   }
 
-  @UseGuards(JwtAuthGuard)
+  //@UseGuards(JwtAuthGuard)
   @Get('/getAll')
   async getAllBooks(): Promise<User[]> {
     return this.authService.findAll();

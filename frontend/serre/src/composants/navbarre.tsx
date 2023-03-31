@@ -2,18 +2,29 @@ import { getItem } from "localforage";
 import { useEffect, useState } from "react";
 import Dropdown from 'react-bootstrap/Dropdown';
 import { Link, useNavigate } from "react-router-dom";
+
 import './styles/navebarre.css'
 function navbarre() {
   const [infos, setInfos] = useState<any>(null)
   const usenavigate = useNavigate();
+  const [id, setId] = useState<any>();
   useEffect(() => {
     fetch("http://localhost:5173/user.json")
       .then((res) => res.json())
       .then((res) => {
         removeInfos(res);
-        console.log(res);
+        //console.log(res);
       });
   }, []);
+  useEffect(() => {
+    setId(localStorage.getItem('id'))
+    fetch(`http://localhost:3000/auth/${id}`)
+      .then((res) => res.json())
+      .then((res) => {
+        removeInfos(res);
+        console.log(res);
+      });
+  }, [id]);
 
   const logOut = () => {
     localStorage.clear();

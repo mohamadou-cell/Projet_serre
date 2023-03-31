@@ -36,36 +36,24 @@ export class AuthService {
     return user;
   }
 
-<<<<<<< HEAD
-  async login(loginDto: LoginDto): Promise<{ token: string }> {
-=======
 
   async login(loginDto: LoginDto): Promise<{ token: string, id: string }> {
->>>>>>> 313465a9abfd52002e32770e09bd0ebeefb5ed8f
     const { email, password } = loginDto;
 
     const user = await this.userModel.findOne({ email });
 
     if (!user) {
-<<<<<<< HEAD
-      throw new UnauthorizedException({ message: "Cet email n'existe pas" });
-=======
       throw new UnauthorizedException({message:"Cet email n'existe pas"});
->>>>>>> 313465a9abfd52002e32770e09bd0ebeefb5ed8f
     }
 
     const isPasswordMatched = await bcrypt.compare(password, user.password);
 
     if (!isPasswordMatched) {
-<<<<<<< HEAD
-      throw new UnauthorizedException("Mot de passe invalide");
-=======
       throw new UnauthorizedException({message:'Mot de passe invalide'});
->>>>>>> 313465a9abfd52002e32770e09bd0ebeefb5ed8f
     }
 
     const id = user._id ;
-
+    
     const token = this.jwtService.sign({ id: user._id });
 
     return { token, id };

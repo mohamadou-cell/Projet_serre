@@ -13,6 +13,9 @@ import on_arrosage from "../assets/on-button.png";
 import off_arrosage from "../assets/off-button.png";
 import { useEffect, useState } from "react";
 import Navbarre from "./navbarre";
+import socketIOClient from "socket.io-client";
+const connection = "http://localhost:3000/";
+
 const Dashboard = () => {
   const [donnees, setDonnee] = useState<any>(null);
   const [cacher, setCacher] = useState<any>(null);
@@ -20,8 +23,16 @@ const Dashboard = () => {
   const [_45, set_45] = useState<any>(false);
   const [_90, set_90] = useState<any>(false);
   const [_180, set_180] = useState<any>(false);
+  const [mat, setMat] = useState<any>(false);
   let etatBtn = false;
   let etatBtn_ = false;
+  useEffect(() => {
+    const socket = socketIOClient(connection);
+    socket.on("data", (data) => {
+      console.log(data);
+      /* setMat({ matricule1: data, matricule2: data }); */
+    });
+  }, [mat]);
   useEffect(() => {
     fetch("http://localhost:5173/real-time.json")
       .then((res) => res.json())
@@ -215,7 +226,7 @@ const fermeture_180 = () => {
                         
                      
                      <img id="voir" className= {`imga_ ${cacher ? "cacher" : ""}`}src={arro} alt="" />
-                      <img className={`imga_ ${!cacher ? "cacher" : ""}`} src={arrosage} alt="" />
+                      <img id="radius" className  ={`imga_ ${!cacher ? "cacher" : ""}`} src={arrosage} alt="" />
                      </div>
                      
                   
@@ -240,9 +251,9 @@ const fermeture_180 = () => {
                 <div className="act">
                   <div className="parat">
                     <div className="toit">
-                    <p>ARROSEUR</p>
+                    <p>VENTILATEUR</p>
                     <div className="toit">
-                      <img id="voir" className={`imga_ ${cacher_ ? "cacher" : ""}`} src={vent} alt="" />
+                      <img  className={`imga_ ${cacher_ ? "cacher" : ""}`} src={vent} alt="" />
                       <img className={`imga_ ${!cacher_ ? "cacher" : ""}`} src={ventilateur} alt="" />
                     </div>
                     </div>

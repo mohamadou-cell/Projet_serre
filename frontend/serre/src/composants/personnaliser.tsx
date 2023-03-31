@@ -1,0 +1,134 @@
+import React, { useState } from 'react'
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Card from 'react-bootstrap/Card';
+import Navbarre from "./navbarre";
+import './styles/parametre.css'
+
+function Personnaliser() {
+    const [nombre_arrosage, setChoix] = useState<string>('')
+    const [un, setUn] = useState<boolean>(false);
+    const [deux, setDeux] = useState<boolean>(false);
+    const [trois, setTrois] = useState<boolean>(false);
+    const [heure_arrosage1, setHeure1] = useState("");
+    const [heure_arrosage2, setHeure2] = useState("");
+    const [heure_arrosage3, setHeure3] = useState("");
+    const [duree, setDuree] = useState("");
+    
+    const handleSubmit = (e:any) => {
+      
+        e.preventDefault();
+  
+        console.log(nombre_arrosage, heure_arrosage1, heure_arrosage2, heure_arrosage3, duree);
+        fetch("http://localhost:3000/parametre", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            "Access-Control-Allow-Origin": "*",
+          },
+          body: JSON.stringify({
+            nombre_arrosage, 
+            heure_arrosage1, 
+            heure_arrosage2, 
+            heure_arrosage3, 
+            duree
+          }),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            console.log(data);
+            window.location.reload();
+          });
+      
+    };
+
+  const choice = (nombre_arrosage:string) => {
+    setChoix(nombre_arrosage)
+    console.log(nombre_arrosage);
+    if(nombre_arrosage == '1'){
+      setUn(true);
+      setDeux(false);
+      setTrois(false)
+    }
+    else if(nombre_arrosage == '2'){
+      setUn(true);
+      setDeux(true);
+      setTrois(false)
+    }
+    else if(nombre_arrosage == '3'){
+      setUn(true);
+      setDeux(true);
+      setTrois(true)
+    }
+    else{
+      setUn(false);
+      setDeux(false);
+      setTrois(false)
+    }
+  }
+  return (
+    <div>
+    <div>
+      <Navbarre></Navbarre>
+    </div>
+  <div id='body'>
+  <Card body id='card' className='w-25'>
+    <h4 className='titre'>PARAMETRES D'ARROSAGE</h4>
+    <Form className="mt-5" onSubmit={handleSubmit}>
+    <Form.Group className="mb-3" controlId="formBasicEmail">
+      <Form.Label>Nombre d'arrosage</Form.Label>
+      <Form.Select onChange={(e) => choice(e.target.value)}>
+          <option></option>
+          <option>1</option>
+          <option>2</option>
+          <option>3</option>
+        </Form.Select>
+    </Form.Group>
+
+    <Form.Group className={`mb-3 ${ !un ? "activer":""}`} controlId="formBasicNumber">
+      <Form.Label>Heures d'arrosage</Form.Label>
+      <div className='heure'>
+      <select className={`space ${ !un ? "activer":""}`} onChange={(e) => setHeure1(e.target.value)}>
+          <option></option>
+          <option>7h</option>
+          <option>8h</option>
+          <option>9h</option>
+          <option>10h</option>
+        </select>
+        <select className={`space ${!deux ? "activer":""}`} onChange={(e) => setHeure2(e.target.value)}>
+          <option></option>
+          <option>11h</option>
+          <option>12h</option>
+          <option>13h</option>
+          <option>14h</option>
+        </select>
+        <select className={`space ${!trois ? "activer":""}`} onChange={(e) => setHeure3(e.target.value)}>
+          <option></option>
+          <option>15h</option>
+          <option>16h</option>
+          <option>17h</option>
+          <option>18h</option>
+          <option>19h</option>
+        </select>
+        </div>
+    </Form.Group>
+
+    <Form.Group className="mb-3" controlId="formBasicNumber">
+      <Form.Label>Durée de l'arrosage</Form.Label>
+      <Form.Control type="number" placeholder="par secondes" onChange={(e) => setDuree(e.target.value)} />
+    </Form.Group>
+    
+    <Button variant="primary" type="submit" className="mt-3" id='btn'>
+      Appliquer
+    </Button>
+    <a href={`/parametre`} className='lien'>Paramètres</a>
+  </Form>
+  </Card>
+  </div>
+  </div>
+  )
+}
+
+export default Personnaliser

@@ -14,8 +14,12 @@ Route;
 const Connexion = () => {
   const [mat, setMat] = useState<Object>();
   const [sms_erreur, setSms_erreur] = useState<boolean>(true);
-
-  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorEmail, setErrorEmail] = useState<string | null>(null);
+  const [errorPassword, setErrorPassword] = useState<string | null>(null);
+  const [errorBack, setErrorBack] = useState("")
+  const usenavigate = useNavigate();
 
   useEffect(() => {
     const socket = socketIOClient(ENDPOINT);
@@ -39,7 +43,7 @@ const Connexion = () => {
         console.log(res.message);
         if (res.message == "succes") {
           setSms_erreur(true);
-          navigate("/Dashboard");
+          usenavigate("/dashboard");
           localStorage.setItem("email", res.data.email);
           localStorage.setItem("prenom", res.data.prenom);
           localStorage.setItem("nom", res.data.nom);
@@ -52,32 +56,89 @@ const Connexion = () => {
       [mat];
   });
 
-  const {
-    register,
-    formState: { errors },
-    handleSubmit,
-  } = useForm({ mode: "onChange" });
-  const onSubmit = (data: any) => console.log(data);
 
-  const [inputtext, setinputtext] = useState({
-    email: "",
-    password: "",
-  });
 
-  const [warnemail, setwarnemail] = useState(false);
+
+  const onSubmit = (e: any) => {
+    e.preventDefault();
+        if(email === '' || password === ''){
+            setErrorEmail('Ce champ est requis')
+            setErrorPassword('Ce champ est requis')
+        }
+        else if(!email.includes('@gmail.com')){
+            setErrorEmail('Email incorrect')
+        }
+        else if(password.length < 6){
+            setErrorPassword('au moins 6 caractères')
+        }
+        else{
+            fetch("http://localhost:3000/auth/login", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+              "Access-Control-Allow-Origin": "*",
+            },
+            body: JSON.stringify({
+              email,
+              password,
+            }),
+          })
+            .then((res) => res.json())
+            .then((data) => {
+              console.log(data);
+              if (data.token) {
+                localStorage.setItem("token", data.token);
+                localStorage.setItem("id", data.id);
+                usenavigate("/dashboard");
+              }
+              else{
+                setErrorBack(data.message)
+              }
+            });
+        }  
+  };
+
+  const checkEmail = (email: string) => {
+            setEmail(email)
+            if (email === '') {
+                setErrorEmail('Ce champ est requis')
+            }
+            else if (!email.includes('@gmail.com')) {
+                setErrorEmail('Email incorrect')
+            } else {
+                setErrorEmail(null);
+            }
+        }
+        const checkPassword = (password: string) => {
+            setPassword(password)
+            if (password === '') {
+                setErrorPassword('Ce champ est requis')
+            } 
+            else if (password.length < 6) {
+                setErrorPassword('au moins 6 caractères')
+            }
+            else {
+                setErrorPassword(null);
+            }
+        }
+ 
+
+
+
   const [warnpassword, setwarnpassword] = useState(false);
 
   const [eye, seteye] = useState(true);
-  const [password, setpassword] = useState("password");
+  const [password1, setpassword1] = useState("password");
   const [type, settype] = useState(false);
 
   const Eye = () => {
-    if (password == "password") {
-      setpassword("text");
+    if (password1 == "password") {
+      setpassword1("text");
       seteye(false);
       settype(true);
     } else {
-      setpassword("password");
+      setpassword1("password");
       seteye(true);
       settype(false);
     }
@@ -94,17 +155,11 @@ const Connexion = () => {
             ou bien vous connecter avec la carte RFID.
           </h3>
           <br />
-          <div
-            className={`alert alert-danger text-center ${
-              sms_erreur ? "cacher" : ""
-            }`}
-          >
-            accés refuser
-          </div>
-
+          <br />
           <div id="corps" className="d-flex gap-5">
             <div id="from">
-              <Form onSubmit={handleSubmit(onSubmit)} className="">
+              <Form onSubmit={onSubmit} className="">
+                <div className="d-flex justify-content-center text-danger">{errorBack}</div>
                 <Form.Group className="" controlId="formBasicEmail">
                   <Form.Label>
                     Email<span id="etoile">*</span>
@@ -113,17 +168,16 @@ const Connexion = () => {
                     className="saisie"
                     type="text"
                     placeholder="veillez saisir votre email"
-                    {...register("email", {
-                      required: true,
-                      pattern:
-                        /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/i,
-                    })}
+                    onChange={(e) => checkEmail(e.target.value)}
+                    /*  {...register("email", {
+                                            required: true,
+                                            pattern: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/i,
+                                        })} */
                   />
                   <div id="msgerror">
-                    {errors.email?.type === "required" &&
-                      "Ce champs est requis"}
-                    {errors.email?.type === "pattern" &&
-                      "format email incorrect"}
+                    {errorEmail}
+                    {/* {errors.email?.type === "required" && "Ce champs est requis"}
+                                        {errors.email?.type === "pattern" && "format email incorrect"} */}
                   </div>
                 </Form.Group>
 
@@ -134,15 +188,16 @@ const Connexion = () => {
                     </Form.Label>
                     <Form.Control
                       id="txt"
-                      type={password}
+                      type={password1}
                       className={` ${warnpassword ? "warning" : ""} ${
                         type ? "type_password" : ""
                       }`}
                       placeholder="veillez saisir votre mot de passe"
-                      {...register("password", {
-                        required: true,
-                        minLength: 5,
-                      })}
+                      onChange={(e) => checkPassword(e.target.value)}
+                      /* {...register("password",{
+                                                required: true,
+                                                minLength: 5,
+                                            })} */
                     />
                     <i className="bi bi-eye"></i>
                     <i
@@ -152,23 +207,15 @@ const Connexion = () => {
                   </div>
 
                   <div id="msgerror">
-                    {errors.password?.type === "required" &&
-                      "Ce champs est requis"}
-                    {errors.password?.type === "minLength" &&
-                      "au moins de 5 caractères"}
+                    {errorPassword}
+                    {/* {errors.password?.type === "required" && "Ce champs est requis"}
+                                        {errors.password?.type === "minLength" && "au moins de 5 caractères"} */}
                   </div>
                 </Form.Group>
-
-                <Form.Group
-                  className="mb-3"
-                  controlId="formBasicCheckbox"
-                ></Form.Group>
-
                 <br />
-
                 <input id="btn" type="submit" />
               </Form>
-            </div>
+              </div>
             <div id="carte" className="d-flex gap-1">
               <div id="reseau">
                 <svg

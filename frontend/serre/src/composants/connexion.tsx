@@ -5,53 +5,79 @@ import './styles/connexion.css'
 import eyeon from '../assets/eyes-on.png'
 import eyesoff from '../assets/eyes-off.png'
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 // import { React } from "react";
 
 
 
-const Connexion = () => {
+function Connexion() {
 
     const {
-        register,
-        formState: { errors },
-        handleSubmit,
-    } = useForm({mode:"onChange"});
-    const onSubmit = (data: any) => console.log(data);
+        register, formState: { errors }, handleSubmit,
+    } = useForm({ mode: "onChange" })
+    // const onSubmit = (data: any) => console.log(data);
+    const onSubmit = (data: any) => {
+       return fetch('http://localhost:3000/auth/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        }).then(res => {
+            console.log(res);
+            
+            if (res.status === 201) {
+                return res.json()
+            } else {
+                return res.json().then(data => {
+                    setErrorMessage(data.message)
+                })
+            }
+        }).then(data => {
+            console.log(data);
+            
+            localStorage.setItem('token', data.access_token)
+            navigate('/dashboard')
+        })
+    }
 
-    const[inputtext,setinputtext]=useState({
-        email:"",
-        password:""
-        });
-        
-        const[warnemail,setwarnemail]=useState(false);
-        const[warnpassword,setwarnpassword]=useState(false);
-        
-        const[eye,seteye]=useState(true);
-        const[password,setpassword]=useState("password");
-        const[type,settype]=useState(false);
-        
-        const inputEvent=(event:any)=>{
-        const name=event.target.name;
-        const value=event.target.value;
-        setinputtext((lastValue)=>{
-        return{
-        ...lastValue,
-        [name]:value
-        }
-        });
-        
-        }
+    const [errorMessage, setErrorMessage] = useState('')
+    const navigate = useNavigate()
+
+    const [inputtext, setinputtext] = useState({
+        email: "",
+        password: ""
+    })
+
+    const [warnemail, setwarnemail] = useState(false)
+    const [warnpassword, setwarnpassword] = useState(false)
+
+    const [eye, seteye] = useState(true)
+    const [password, setpassword] = useState("password")
+    const [type, settype] = useState(false)
+
+    const inputEvent = (event: any) => {
+        const name = event.target.name
+        const value = event.target.value
+        setinputtext((lastValue) => {
+            return {
+                ...lastValue,
+                [name]: value
+            }
+        })
+
+    }
 
     const Eye = () => {
         if (password == "password") {
-            setpassword("text");
-            seteye(false);
-            settype(true);
+            setpassword("text")
+            seteye(false)
+            settype(true)
         }
         else {
-            setpassword("password");
-            seteye(true);
-            settype(false);
+            setpassword("password")
+            seteye(true)
+            settype(false)
         }
     }
 
@@ -59,12 +85,13 @@ const Connexion = () => {
         <div id="body1">
             <div id="body2">
                 <div id="body3">
-                    <h3 className="haut"><br /><br />Veuillez saisir vos information d'authentification <br />
-                        ou bien vous connecter avec la carte RFID.</h3>
+                    <h3 className="haut"><br /><br />Veuillez saisir vos informations d'authentification<br />
+                        ou bien vous connectez avec la carte RFID.</h3>
                     <br /><br />
                     <div id="corps" className="d-flex gap-5">
                         <div id="from">
-                            <Form onSubmit={handleSubmit(onSubmit)} className="" >
+                            <Form onSubmit={handleSubmit(onSubmit)} className="">
+
                                 <Form.Group className=""
                                     controlId="formBasicEmail">
                                     <Form.Label>Email<span id="etoile">*</span></Form.Label>
@@ -73,37 +100,34 @@ const Connexion = () => {
                                         {...register("email", {
                                             required: true,
                                             pattern: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/i,
-
-                                        })}
-                                    />
+                                        })} />
                                     <div id='msgerror'>
                                         {errors.email?.type === "required" && "Ce champs est requis"}
                                         {errors.email?.type === "pattern" && "format email incorrect"}
                                     </div>
                                 </Form.Group>
 
-                                
+
                                 <Form.Group className="mb-3" controlId="formBasicPassword">
-                                
+
                                     <div className="input-text">
-                                    <Form.Label>Mot de passe<span id="etoile">*</span></Form.Label>
-                                        <Form.Control id="txt"  type={password} className={` ${warnpassword ? "warning" : "" } ${type ? "type_password" : "" }` }
+                                        <Form.Label>Mot de passe<span id="etoile">*</span></Form.Label>
+                                        <Form.Control id="txt" type={password} className={` ${warnpassword ? "warning" : ""} ${type ? "type_password" : ""}`}
                                             placeholder="veillez saisir votre mot de passe"
                                             {...register("password", {
                                                 required: true,
                                                 minLength: 5,
-                                            })}
-                                        />
+                                            })} />
                                         <i className="bi bi-eye"></i>
-                                        <i onClick={Eye} className={`bi ${eye ? "bi bi-eye-slash" : "bi-eye" }`}></i>                                 
+                                        <i onClick={Eye} className={`bi ${eye ? "bi bi-eye-slash" : "bi-eye"}`}></i>
                                     </div>
-                                    
+
                                     <div id='msgerror'>
                                         {errors.password?.type === "required" && "Ce champs est requis"}
                                         {errors.password?.type === "minLength" &&
                                             "au moins de 5 caractères"}
 
-                                        
+
                                     </div>
                                 </Form.Group>
 
@@ -112,10 +136,10 @@ const Connexion = () => {
 
                                 <br />
 
-                               
-                                   
-                                    <input id="btn" type="submit" />
-                                
+
+
+                                <input id="btn" type="submit" />
+
                             </Form>
                         </div>
                         <div id="carte" className="d-flex gap-1">
@@ -139,7 +163,7 @@ const Connexion = () => {
             </div>
 
         </div>
-    );
+    )
 }
 
 export default Connexion

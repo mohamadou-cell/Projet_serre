@@ -1,4 +1,4 @@
-import { ConsoleLogger } from "@nestjs/common";
+/* import { ConsoleLogger } from "@nestjs/common";
 import {
   ConnectedSocket,
   OnGatewayConnection,
@@ -144,3 +144,4 @@ export class ClimatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     client.leave();
   }
 }
+ */

@@ -38,7 +38,7 @@ const Dashboard = () => {
   }, []); */
   useEffect(() => {
     const socket = socketIOClient(connexion);
-    socket.on("data", (data) => {
+    socket.on("connection", (data) => {
       console.log(data);
        setData(data); 
     });

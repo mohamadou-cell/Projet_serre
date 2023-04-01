@@ -11,18 +11,18 @@ import { ClimatGateway } from './climat.gateway';
   providers: [ClimatService, ClimatGateway]
 })
 export class ClimatModule {} */
-import { Module } from '@nestjs/common';
-import { ClimatGateway } from './climat.gateway'; //a mettre apres API
-import { MongooseModule } from '@nestjs/mongoose';
-import { Climat, ClimatSchema } from './entities/climat.entity';
-import { ClimatService } from './climat.service';
-import { ClimatController } from './climat.controller';
+import { Module } from "@nestjs/common";
+//import { ClimatGateway } from './climat.gateway'; //a mettre apres API
+import { MongooseModule } from "@nestjs/mongoose";
+import { Climat, ClimatSchema } from "./entities/climat.entity";
+import { ClimatService } from "./climat.service";
+import { ClimatController } from "./climat.controller";
 
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: Climat.name, schema: ClimatSchema }]),
   ], //a mettre apres API decommenter
-  providers: [ClimatGateway,  ClimatService],
+  providers: [/* ClimatGateway, */ ClimatService],
   controllers: [ClimatController],
   exports: [ClimatService],
 })

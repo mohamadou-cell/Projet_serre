@@ -58,7 +58,7 @@ export class AuthService {
 
     return { token, id };
   }
-
+//mis à jour to be merged MHDLamine->DEV
   async logincarte(
     logincarteDto: LogincarteDto
   ): Promise<{ token: string; id: string }> {
@@ -85,13 +85,8 @@ export class AuthService {
     } else {
       throw new UnauthorizedException({ message: "accès refusé" })
     }
-
-    /*   const id = user._id ;
-
-  const token = this.jwtService.sign({ id: user._id });
-
-  return { token, id }; */
   }
+
 
   async findAll(): Promise<User[]> {
     const books = await this.userModel.find();
@@ -114,6 +109,7 @@ export class AuthService {
       runValidators: true,
     });
   }
+
 
   async deleteById(id: string): Promise<User> {
     return await this.userModel.findByIdAndDelete(id);

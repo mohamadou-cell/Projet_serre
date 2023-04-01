@@ -19,7 +19,7 @@ export class AuthController {
   login(@Body() loginDto: LoginDto): Promise<{ token: string, id: string }> {
     return this.authService.login(loginDto);
   }
-
+//mis à jour to be merged MHDLamine->DEV
   @Post('/logincarte')
   logincarte(@Body() logincarteDto: LogincarteDto): Promise<{ token: string, id: string }> {
     return this.authService.logincarte(logincarteDto);
@@ -38,6 +38,12 @@ export class AuthController {
   ): Promise<User> {
     return this.authService.findById(id);
   }
+
+/*   @Patch(':id')
+  update(@Param('id') id: string, @Body() updateClimatDto: UpdateClimatDto) {
+     return this.authService.updateById(id, updateClimatDto);
+  }
+ */
 
   @Delete(':id')
   async deleteBook(

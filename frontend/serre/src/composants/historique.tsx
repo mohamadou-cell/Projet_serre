@@ -13,10 +13,10 @@ const Historique = () => {
   const jour = new Date().getDate();
   const mois = new Date().getMonth() + 1;
   const annee = new Date().getFullYear();
-  const max = `${annee}-0${mois}-${jour}`;
+  const max = `${annee}-0${mois}-0${jour}`;
 
   useEffect(() => {
-    fetch("http://localhost:3000/climat", { method: "GET" })
+    fetch("http://localhost:5173/donnee.json", { method: "GET" })
       .then((res) => res.json())
       .then((res) => {
         console.log(res);
@@ -31,7 +31,8 @@ const Historique = () => {
             if (rechercher == "") {
               return index >= start && index < end;
             } else {
-              console.log(_a.date);
+              console.log(_a.date.lenght);
+              setCacher2(true); //mis à jour to be merged MHDLamine->DEV
               return _a.date == rechercher;
             }
           })
@@ -92,6 +93,7 @@ const Historique = () => {
               name="date"
               id="date"
               max={max}
+              min="2023-01-01"
             />
 
             <table border={1}>

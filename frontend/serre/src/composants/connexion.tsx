@@ -34,7 +34,7 @@ const Connexion = () => {
   }, [mat]);
 
   useEffect(() => {
-    fetch("http://localhost:3000/auth/logincarte", {
+    fetch("http://localhost:3000/auth/logincarte", { //mis à jour to be merged MHDLamine->DEV
       method: "POST",
       body: JSON.stringify(mat),
       headers: {
@@ -86,10 +86,18 @@ const Connexion = () => {
         .then((data) => {
           console.log(data);
           if (data.token) {
+            fetch(`http://localhost:3000/auth/${data.id}`)//mis à jour to be merged MHDLamine->DEV
+            .then((res) => res.json())
+            .then((res) => {
+              console.log(res.prenom);
+            
             localStorage.setItem("token", data.token);
             localStorage.setItem("id", data.id);
-
-            usenavigate("/dashboard");
+            localStorage.setItem("prenom", res.prenom);
+            localStorage.setItem("nom", res.nom);
+            localStorage.setItem("email", res.email);
+          });
+          usenavigate("/dashboard");
           } else {
             setErrorBack(data.message);
             setEtat(true);

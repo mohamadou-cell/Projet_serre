@@ -10,6 +10,7 @@ import * as bcrypt from "bcryptjs";
 import { JwtService } from "@nestjs/jwt";
 import { SignUpDto } from "./dto/signup.dto";
 import { LoginDto } from "./dto/login.dto";
+import { UpdateDto } from "./dto/update.dto";
 
 @Injectable()
 export class AuthService {
@@ -60,22 +61,28 @@ export class AuthService {
   }
 
   async findAll(): Promise<User[]> {
-    const books = await this.userModel.find();
-    return books;
+    const users = await this.userModel.find();
+    return users;
   }
 
   async findById(id: string): Promise<User> {
-    const book = await this.userModel.findById(id);
+    const user = await this.userModel.findById(id);
 
-    if (!book) {
-      throw new NotFoundException("Book not found.");
+    if (!user) {
+      throw new NotFoundException("Rien a été trouvé");
     }
 
-    return book;
+    return user;
   }
 
-  async updateById(id: string, user: User): Promise<User> {
-    return await this.userModel.findByIdAndUpdate(id, user, {
+  async update(id: string, signUpDto : SignUpDto ) {
+    
+   
+        const ancienPassword = await bcrypt.hash(signUpDto.password, 10);  
+    
+    
+    return await this.userModel.findByIdAndUpdate(id, signUpDto , {
+  
       new: true,
       runValidators: true,
     });

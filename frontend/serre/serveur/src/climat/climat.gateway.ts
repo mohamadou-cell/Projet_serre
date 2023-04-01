@@ -56,6 +56,8 @@ export class ClimatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     const humid_sol = 20;
     const humid_serre = 50;
     const luminosite= 300;
+
+    
     client.on('fanOn', (onData) => {
       //port.write(onData);
       this.fanOn = onData;
@@ -80,10 +82,11 @@ export class ClimatGateway implements OnGatewayConnection, OnGatewayDisconnect {
       });
       this.logger.log(this.fanOn);
       const climat = {
-        temperature: data.split('/')[0],
-        humid_serre: data.split('/')[1],
-        humid_sol:data.split('/')[2],
-        luminosite:data.split('/')[3],
+        temperature: data.slice(0, 2),
+        humid_serre: data.slice(3, 5),
+        luminosite: data.slice(6, 9),
+        humid_sol: data.slice(10, 13),
+        
       };
       client.emit('connection', climat);
       const fullDate = `${day}/${month}/${year}`;

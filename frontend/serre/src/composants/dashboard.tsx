@@ -28,19 +28,13 @@ const Dashboard = () => {
   let etatBtn_ = false;
   useEffect(() => {
     const socket = socketIOClient(connection);
-    socket.on("data", (data) => {
+    socket.on("connection", (data) => {
       console.log(data);
+      setDonnee(Array(data));
       /* setMat({ matricule1: data, matricule2: data }); */
     });
   }, [mat]);
-  useEffect(() => {
-    fetch("http://localhost:5173/real-time.json")
-      .then((res) => res.json())
-      .then((res) => {
-        setDonnee(res);
-        console.log(res);
-      });
-  }, []);
+  
   const on_Arrosage = () => {
     setCacher(false);
   };
@@ -49,9 +43,13 @@ const Dashboard = () => {
   };
   const on_Ventilateur = () => {
     setCacher_(false);
+    const socket = socketIOClient(connection);
+    socket.emit('fanOn', '1');
   };
   const off_Ventilateur = () => {
     setCacher_(true);
+    const socket = socketIOClient(connection);
+    socket.emit('fanOn', '0');
   };
     //Les fonctions du toit l'ouverture consiste à mettre une condition
   // true sur le bonton clicker et grisser les autre en meme temps
@@ -109,7 +107,7 @@ const fermeture_180 = () => {
               </div>
               <div className="cont-temp">
                 {donnees?.map((donnee: any) => (
-                  <p className="real-time">{donnee.temp_serre} °C</p>
+                  <p className="real-time">{donnee.temperature} °C</p>
                 ))}
               </div>
             </div>
@@ -124,7 +122,7 @@ const fermeture_180 = () => {
               </div>
               <div className="cont-temp">
                 {donnees?.map((donnee: any) => (
-                  <p className="real-time">{donnee.lum} LUX</p>
+                  <p className="real-time">{donnee.luminosite} LUX</p>
                 ))}
               </div>
             </div>

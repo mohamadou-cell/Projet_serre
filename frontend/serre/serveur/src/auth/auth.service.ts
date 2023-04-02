@@ -12,6 +12,7 @@ import { SignUpDto } from "./dto/signup.dto";
 import { LoginDto } from "./dto/login.dto";
 import { LogincarteDto } from "./dto/loginCarte.dts";
 import { UpdateEmployeeDto } from "./dto/updateUser.dto";
+import { response } from "express";
 
 @Injectable()
 export class AuthService {
@@ -84,7 +85,8 @@ export class AuthService {
         return { token, id };
       }
     } else {
-      throw new UnauthorizedException({ message: "accès refusé" });
+      throw new UnauthorizedException(  { message: "accès refusé" });
+      
     }
   }
 
@@ -125,9 +127,9 @@ export class AuthService {
       user.password
     );
     if (!isPasswordCorrect) {
-      throw new UnauthorizedException({
-        message: "ancien mot de passe incorrect",
-      });
+       throw new UnauthorizedException({
+        message: "errorpwd",
+      }); 
     }
     if (isPasswordCorrect) {
       //console.log(updateEmployeeDto.newPassword)

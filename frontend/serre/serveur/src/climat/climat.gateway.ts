@@ -61,6 +61,8 @@ export class ClimatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     client.on('fanOn', (onData) => {
       //port.write(onData);
       this.fanOn = onData;
+      console.log(onData);
+      
       /*port.drain((err) => {
         console.log(err);
       });*/
@@ -77,6 +79,8 @@ export class ClimatGateway implements OnGatewayConnection, OnGatewayDisconnect {
       //port.write('cool');
       //console.log(data);
       port.write(this.fanOn);
+      console.log(this.fanOn);
+      
       port.drain((err) => {
         //console.log(err);
       });

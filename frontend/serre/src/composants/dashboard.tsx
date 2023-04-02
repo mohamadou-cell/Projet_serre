@@ -44,12 +44,12 @@ const Dashboard = () => {
   const on_Ventilateur = () => {
     setCacher_(false);
     const socket = socketIOClient(connection);
-    socket.emit('fanOn', '1');
+    socket.emit('fanOn', '0');
   };
   const off_Ventilateur = () => {
     setCacher_(true);
     const socket = socketIOClient(connection);
-    socket.emit('fanOn', '0');
+    socket.emit('fanOn', '1');
   };
     //Les fonctions du toit l'ouverture consiste à mettre une condition
   // true sur le bonton clicker et grisser les autre en meme temps

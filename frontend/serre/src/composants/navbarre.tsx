@@ -31,6 +31,7 @@ function navbarre() {
     usenavigate("/connection");
   };
 
+
   return (
     <div > 
       <nav className="navbar" id='navbar'>

@@ -14,6 +14,7 @@ import off_arrosage from "../assets/off-button.png";
 import { useEffect, useState } from "react";
 import Navbarre from "./navbarre";
 import socketIOClient from "socket.io-client";
+import { useNavigate } from "react-router-dom";
 const connexion = "http://localhost:3000/";
 const Dashboard = () => {
   
@@ -104,6 +105,11 @@ const fermeture_180 = () => {
     let voir = document.getElementById("voir");
     console.log(etatBtn, voir);
   }; */
+  const usenavigate = useNavigate();
+  if (localStorage.getItem("token") == undefined) {
+    usenavigate("/");
+  }
+  else{
   return (
     <>
       <Navbarre></Navbarre>
@@ -288,7 +294,7 @@ const fermeture_180 = () => {
         </div>
       </div>
     </>
-  );
+  )};
 };
 
 export default Dashboard;

@@ -7,6 +7,7 @@ import Navbarre from "./navbarre";
 import Sauge from '../assets/sauge.png';
 import Laitue from '../assets/laitue.png'
 import './styles/parametre.css'
+import { useNavigate } from 'react-router-dom';
 
 function parametre() {
   const [choix, setChoix] = useState<string>('');
@@ -37,7 +38,11 @@ function parametre() {
       setSauge(false)
     }
   }
-  
+  const usenavigate = useNavigate();
+  if (localStorage.getItem("token") == undefined) {
+    usenavigate("/");
+  }
+  else{
   return (
     <div>
       <div>
@@ -83,7 +88,7 @@ function parametre() {
     </div>
 
     </div>
-  )
+  )}
 }
 
 export default parametre

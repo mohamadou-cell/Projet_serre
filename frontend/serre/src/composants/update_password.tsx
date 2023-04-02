@@ -5,6 +5,7 @@ import "./styles/update_password.css";
 import eyeon from "../assets/eyes-on.png";
 import eyesoff from "../assets/eyes-off.png";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
 const Updatepassword = () => {
   const {
@@ -96,7 +97,11 @@ const Updatepassword = () => {
       settype3(false);
     }
   };
-
+  const usenavigate = useNavigate();
+  if (localStorage.getItem("token") == undefined) {
+    usenavigate("/");
+  }
+  else{
   return (
     <div id="global">
       <div id="body1">
@@ -252,7 +257,7 @@ const Updatepassword = () => {
         </div>
       </div>
     </div>
-  );
+  )};
 };
 
 export default Updatepassword;

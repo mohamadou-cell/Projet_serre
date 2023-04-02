@@ -1,6 +1,7 @@
 import Navbarre from "./navbarre";
 import { useEffect, useState } from "react";
 import "./styles/historique.css";
+import { useNavigate } from "react-router-dom";
 
 const Historique = () => {
   const [users, setUsers] = useState<any>(null);
@@ -10,6 +11,7 @@ const Historique = () => {
   const [active2, setActive2] = useState<boolean>(false);
   const [rechercher, setRecherche] = useState<String>("");
   const [cacher2, setCacher2] = useState<boolean>(true);
+  
   const jour = new Date().getDate();
   const mois = new Date().getMonth() + 1;
   const annee = new Date().getFullYear();
@@ -31,10 +33,17 @@ const Historique = () => {
             if (rechercher == "") {
               return index >= start && index < end;
             } else {
-              console.log(_a.date.lenght);
-              setCacher2(true); //mis à jour to be merged MHDLamine->DEV
+              if (rechercher != _a.date) {
+                console.log("rien");
+                
+              }
+          
+            if (rechercher == _a.date) {
+              console.log("trouver");
+              setCacher2(true); //mis à jour to be merged MHDLamine->DEV 
               return _a.date == rechercher;
             }
+          }
           })
         );
       });
@@ -58,6 +67,7 @@ const Historique = () => {
   const Data = () => {
     return (
       <tbody>
+       
         {users?.map((user: any) => (
           <tr>
             <td className="td_">{user.date}</td>
@@ -72,10 +82,13 @@ const Historique = () => {
   };
   const search = (chercher: any) => {
     const valeur = chercher;
-
     setRecherche(valeur);
   };
-
+  const usenavigate = useNavigate();
+  if (localStorage.getItem("token") == undefined) {
+    usenavigate("/");
+  }
+  else{
   return (
     <>
       <Navbarre></Navbarre>
@@ -174,6 +187,6 @@ const Historique = () => {
       </div>
     </>
   );
-};
+}};
 
 export default Historique;

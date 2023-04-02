@@ -11,6 +11,7 @@ import { JwtService } from "@nestjs/jwt";
 import { SignUpDto } from "./dto/signup.dto";
 import { LoginDto } from "./dto/login.dto";
 import { LogincarteDto } from "./dto/loginCarte.dts";
+import { UpdateEmployeeDto } from "./dto/updateUser.dto";
 
 @Injectable()
 export class AuthService {
@@ -58,7 +59,7 @@ export class AuthService {
 
     return { token, id };
   }
-//mis à jour to be merged MHDLamine->DEV
+  //mis à jour to be merged MHDLamine->DEV
   async logincarte(
     logincarteDto: LogincarteDto
   ): Promise<{ token: string; id: string }> {
@@ -83,10 +84,9 @@ export class AuthService {
         return { token, id };
       }
     } else {
-      throw new UnauthorizedException({ message: "accès refusé" })
+      throw new UnauthorizedException({ message: "accès refusé" });
     }
   }
-
 
   async findAll(): Promise<User[]> {
     const books = await this.userModel.find();
@@ -111,7 +111,30 @@ export class AuthService {
   }
 
 
+
+
   async deleteById(id: string): Promise<User> {
     return await this.userModel.findByIdAndDelete(id);
   }
+  //modification mot de passe service
+  async update(id: string, updateEmployeeDto: UpdateEmployeeDto): Promise <User> {
+    const user = await this.findById(id);
+    //Verifier si l'utilisateur a entré un mot de passe correct
+    const isPasswordCorrect = await bcrypt.compare(
+      updateEmployeeDto.password,
+      user.password
+    );
+    if (!isPasswordCorrect) {
+      throw new UnauthorizedException({
+        message: "ancien mot de passe incorrect",
+      });
+    }
+    if (isPasswordCorrect) {
+      //console.log(updateEmployeeDto.newPassword)
+      const hashedPassword = await bcrypt.hash(updateEmployeeDto.newPassword, 10);
+    return this.userModel.findByIdAndUpdate(id, {password : hashedPassword});
+    }
+    
+  }
+  
 }

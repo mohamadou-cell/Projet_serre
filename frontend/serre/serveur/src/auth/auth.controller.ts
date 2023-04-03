@@ -1,5 +1,5 @@
 import { JwtAuthGuard } from './auth.guard';
-import { Body, Controller, Get, Post, Delete, Param, Put, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, Delete, Param, Put, UseGuards, Patch } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
 import { SignUpDto } from './dto/signup.dto';
@@ -41,3 +41,6 @@ export class AuthController {
     return this.authService.deleteById(id);
   }
 }
+
+
+

@@ -93,6 +93,7 @@ export class ClimatGateway implements OnGatewayConnection, OnGatewayDisconnect {
         
       };
       client.emit('connection', climat);
+      client.emit('rfid', data);
       const fullDate = `${day}/${month}/${year}`;
       if (hours == 23 && minutes == 47 && seconds == 0) {
         const createdClimat = new this.climatModel({

@@ -2,9 +2,10 @@
 #include <MFRC522.h> // RFID
 #include "DHT.h"
 #include <IRremote.h>
+#include <Servo.h> 
 #define DHTPIN 2
-#define ventilateurPIN 13 // broche -> pour ventilateur
-#define buzzerPIN 5 // broche -> pour buzzer
+#define ventilateurPIN 5 // broche -> pour ventilateur
+#define buzzerPIN 6 // broche -> pour buzzer
 #define luminosite A0
 #define DHTTYPE DHT11
 
@@ -17,6 +18,7 @@ MFRC522 rfid(SS_PIN, RST_PIN);
 // Tableau contentent l'ID
 byte nuidPICC[4];
 DHT dht(DHTPIN, DHTTYPE);
+Servo monServo;
 int avoid;
 
 void setup() 
@@ -35,6 +37,7 @@ void setup()
   pinMode(luminosite, INPUT);
   pinMode(ventilateurPIN,OUTPUT);
   pinMode(buzzerPIN,OUTPUT);
+  monServo.attach(4);
 }
  
 void loop() 
@@ -49,13 +52,29 @@ void loop()
   Serial.println(avoid);
 
   unsigned char inChar = (unsigned char)Serial.read();
+  //Serial.println(inChar);
+  //monServo.write(0);
   if(inChar == '0'){
     digitalWrite(ventilateurPIN, LOW);
   }
   else if(inChar == '1'){
     digitalWrite(ventilateurPIN, HIGH);
   }
-  
+  else if(inChar == '2'){
+    //monServo.write(0);
+    monServo.write(45); 
+  }
+  else if(inChar == '3'){
+    //monServo.write(0);
+    monServo.write(90); 
+  }
+  else if(inChar == '4'){
+    //monServo.write(0);
+    monServo.write(180); 
+  }
+  else if(inChar == '5'){
+    monServo.write(0); 
+  }
   
   // Initialisé la boucle si aucun badge n'est présent 
   if ( !rfid.PICC_IsNewCardPresent())
@@ -77,6 +96,7 @@ void loop()
   {
     Serial.print(nuidPICC[i], HEX);
   }
+  Serial.print("@");
   Serial.println();
 
   // Re-Init RFID

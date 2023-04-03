@@ -6,7 +6,7 @@ import eyeon from "../assets/eyes-on.png";
 import eyesoff from "../assets/eyes-off.png";
 import { useForm } from "react-hook-form";
 import socketIOClient from "socket.io-client";
-const ENDPOINT = "http://localhost:8000";
+const ENDPOINT = "http://localhost:3000";
 
 // import { React } from "react";
 import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
@@ -24,9 +24,14 @@ const Connexion = () => {
 
   useEffect(() => {
     const socket = socketIOClient(ENDPOINT);
-    socket.on("data", (data) => {
-      console.log(data);
-      setMat({ matricule1: data, matricule2: data });
+    socket.on("rfid", (data) => {
+      if (data.includes("@")) {
+        console.log(data.split("@")[1]);
+        const code = data.split("@")[1];
+        setMat({ matricule1: code, matricule2: code });
+     }
+    
+     
     });
   }, [mat]);
 
@@ -90,7 +95,7 @@ const Connexion = () => {
             
             localStorage.setItem("token", data.token);
             localStorage.setItem("id", data.id);
-            localStorage.setItem("prenom", res.prenom);
+            localStorage.setItem("prenom", data.prenom);
             localStorage.setItem("nom", res.nom);
             localStorage.setItem("email", res.email);
           });

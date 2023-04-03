@@ -5,6 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Card from 'react-bootstrap/Card';
 import Navbarre from "./navbarre";
 import './styles/parametre.css'
+import { useNavigate } from 'react-router-dom';
 
 function Personnaliser() {
     const [nombre_arrosage, setChoix] = useState<string>('')
@@ -68,6 +69,11 @@ function Personnaliser() {
       setTrois(false)
     }
   }
+  const usenavigate = useNavigate();
+  if (localStorage.getItem("token") == undefined) {
+    usenavigate("/");
+  }
+  else{
   return (
     <div>
     <div>
@@ -129,6 +135,6 @@ function Personnaliser() {
   </div>
   </div>
   )
-}
+}}
 
 export default Personnaliser

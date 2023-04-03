@@ -10,13 +10,9 @@ import * as bcrypt from "bcryptjs";
 import { JwtService } from "@nestjs/jwt";
 import { SignUpDto } from "./dto/signup.dto";
 import { LoginDto } from "./dto/login.dto";
-<<<<<<< HEAD
-import { UpdateDto } from "./dto/update.dto";
-=======
 import { LogincarteDto } from "./dto/loginCarte.dts";
 import { UpdateEmployeeDto } from "./dto/updateUser.dto";
 import { response } from "express";
->>>>>>> 364dee2206c3acf7aeda7fae244207acc14ed944
 
 @Injectable()
 export class AuthService {
@@ -109,18 +105,7 @@ export class AuthService {
     return user;
   }
 
-  async update(id: string, signUpDto : SignUpDto ) {
-    
-   
-        const ancienPassword = await bcrypt.hash(signUpDto.password, 10);  
-    
-    
-    return await this.userModel.findByIdAndUpdate(id, signUpDto , {
-  
-      new: true,
-      runValidators: true,
-    });
-  }
+ 
 
 
 

@@ -45,18 +45,30 @@ io = require("socket.io")(server, {
   },
 });
 
-var Serialport = require("serialport");
+/* var Serialport = require("serialport");
 const { error } = require("console");
 var Readline = Serialport.parsers.Readline;
-var serialport = `require('serialport')`;
-var port2 = new Serialport("/dev/ttyUSB0", {
+var serialport = require('serialport');
+var port2 = new Serialport("/dev/ttyACM0", {
   baudRate: 9600,
-});
+}); 
 
-const parser = port2.pipe(new Readline({ delimiter: "\r\n" }));
+const parser = port2.pipe(new Readline({ delimiter: "\r\n" })); */
+
+const { SerialPort } = require('serialport');
+var { ReadlineParser } = require("@serialport/parser-readline")
+var port2 = new SerialPort({ path:'/dev/ttyUSB0',
+    baudRate: 9600,
+    dataBits: 8,
+    parity: 'none',
+    stopBits: 1,
+    flowControl: false
+}); 
+
+var parser = port2.pipe(new ReadlineParser({ delimiter: '\r\n' })); 
 
 app.post("/envoyer", async (req, res, next) => {
-  const cle = "MIIEowIBAAKCAQEA0pJxfpy9WqcVEI0FhRb6GqyILM4Fgwp/aC32IMIuGjigD"; 
+  const cle = "MIIEowIBAAKCAQEA0pJxfpy9WqcVEI0FhRb6GqyILM4Fgwp/aC32IMIuGjigD";
 
   let { matricule1, matricule2 } = req.body;
 
@@ -70,7 +82,7 @@ app.post("/envoyer", async (req, res, next) => {
       //Creation jwt token
       token = jwt.sign(
         { userId: acces1.id, matricule1: acces1.matricule1 },
-     
+
         cle,
         { expiresIn: "1h" }
       );
@@ -93,7 +105,7 @@ app.post("/envoyer", async (req, res, next) => {
 
       token = jwt.sign(
         { userId: acces2.id, matricule1: acces2.matricule1 },
-       
+
         cle,
         { expiresIn: "1h" }
       );
@@ -117,9 +129,15 @@ app.post("/envoyer", async (req, res, next) => {
 });
 
 parser.on("data", (data) => {
-  passer = data[0] + data[1] + data[2] + data[3] + data[4] + data[5] + data[6];
-  console.log(
-    data[0] + data[1] + data[2] + data[3] + data[4] + data[5] + data[6]
-  );
+  passer =
+    data[0] +
+    data[1] +
+    data[2] +
+    data[3] +
+    data[4] +
+    data[5] +
+    data[6] +
+    data[7];
+  console.log(data);
   io.emit("data", passer);
 });

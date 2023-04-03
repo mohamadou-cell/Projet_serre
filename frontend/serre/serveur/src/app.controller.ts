@@ -1,7 +1,6 @@
 import { Controller, Get } from '@nestjs/common';
 import { AppService } from './app.service';
-import { SerialPort } from 'serialport';
-import { ReadlineParser } from '@serialport/parser-readline';
+
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}

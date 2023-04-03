@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+/* import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { ClimatService } from './climat.service';
 import { CreateClimatDto } from './dto/create-climat.dto';
 import { UpdateClimatDto } from './dto/update-climat.dto';
@@ -30,5 +30,22 @@ export class ClimatController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.climatService.remove(id);
+  }
+} */
+import { Controller, Get } from '@nestjs/common';
+import { ClimatService } from './climat.service';
+
+@Controller('climat')
+export class ClimatController {
+  constructor(private readonly climatservice: ClimatService) {}
+
+  @Get()
+  getClimat() {
+    return this.climatservice.getTodayClimat();
+  }
+
+  @Get('histo')
+  getClimatHisto() {
+    return this.climatservice.getWeekClimat();
   }
 }

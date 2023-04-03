@@ -52,8 +52,9 @@ const Connexion = () => {
             console.log(res.prenom);
           
           localStorage.setItem("token", res.token);
-          localStorage.setItem("id", res.id);
           localStorage.setItem("prenom", res.prenom);
+          localStorage.setItem("id", res.id);
+        
           localStorage.setItem("nom", res.nom);
           localStorage.setItem("email", res.email);
           usenavigate("/dashboard"); 

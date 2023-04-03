@@ -1,4 +1,4 @@
-/* import { ConsoleLogger } from "@nestjs/common";
+import { ConsoleLogger } from "@nestjs/common";
 import {
   ConnectedSocket,
   OnGatewayConnection,
@@ -69,6 +69,7 @@ export class ClimatGateway implements OnGatewayConnection, OnGatewayDisconnect {
         luminosite: data.split("/")[3],
       };
       client.emit("connection", climat);
+      client.emit("rfid", data);
       const fullDate = `${day}/${month}/${year}`;
       if (hours == 8 && minutes == 0 && seconds == 0) {
         const createdClimat = new this.climatModel({
@@ -144,4 +145,3 @@ export class ClimatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     client.leave();
   }
 }
- */

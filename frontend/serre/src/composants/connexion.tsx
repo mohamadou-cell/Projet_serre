@@ -6,7 +6,7 @@ import eyeon from "../assets/eyes-on.png";
 import eyesoff from "../assets/eyes-off.png";
 import { useForm } from "react-hook-form";
 import socketIOClient from "socket.io-client";
-const ENDPOINT = "http://localhost:8000";
+const ENDPOINT = "http://localhost:3000";
 
 // import { React } from "react";
 import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
@@ -24,12 +24,12 @@ const Connexion = () => {
 
   useEffect(() => {
     const socket = socketIOClient(ENDPOINT);
-    socket.on("data", (data) => {
-      console.log(data);
+    socket.on("rfid", (data) => {
+      //console.log(data);
       if (data.includes("@")) {
-        console.log(data);
-        setMat({ matricule1: data, matricule2: data });
-      }
+        //console.log(data.split("@")[1]);
+        setMat({ matricule1: data.split("@")[1], matricule2: data.split("@")[1] });
+     }
     });
   }, [mat]);
 
@@ -44,14 +44,21 @@ const Connexion = () => {
       .then((res) => res.json())
       .then((res) => {
         //console.log(mat);
-        console.log(mat);
+        console.log(res.token);
         if (res.token) {
-          setSms_erreur(true);
-          usenavigate("/dashboard");
-          localStorage.setItem("email", res.data.email);
-          localStorage.setItem("prenom", res.data.prenom);
-          localStorage.setItem("nom", res.data.nom);
-          localStorage.setItem("token", res.data.token);
+          fetch(`http://localhost:3000/auth/${res.id}`)//mis à jour to be merged MHDLamine->DEV
+          .then((res) => res.json())
+          .then((res) => {
+            console.log(res.prenom);
+          
+          localStorage.setItem("token", res.token);
+          localStorage.setItem("id", res.id);
+          localStorage.setItem("prenom", res.prenom);
+          localStorage.setItem("nom", res.nom);
+          localStorage.setItem("email", res.email);
+          usenavigate("/dashboard"); 
+        });
+         
         }
         if (res.message == "accès refusé" && mat != undefined) {
           setSms_erreur(false);

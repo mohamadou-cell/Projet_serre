@@ -58,7 +58,8 @@ const Updatepassword = () => {
           }
           else{
             setErrorsms(true)
-            usenavigate('/Dashboard')
+            localStorage.clear();
+            usenavigate("/connection");
           }
         });
     }
@@ -152,7 +153,7 @@ const Updatepassword = () => {
                       errorsms ? "cacher" : ""
                     }`}
                   >
-                    encien mot de passe incorrect
+                    ancien mot de passe incorrect
                   </p>
                     <Form.Group className="mb-3" controlId="formBasicPassword">
                       <div className="input-text">

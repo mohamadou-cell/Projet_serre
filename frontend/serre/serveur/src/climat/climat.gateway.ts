@@ -23,9 +23,9 @@ const port = new SerialPort({
 });
 
 const parser = port.pipe(new ReadlineParser({ delimiter: '\r\n' }));
- parser.on('data', console.log); 
+ /* parser.on('data', console.log); 
 port.write('cool');
-parser.write('cool');
+parser.write('cool'); */
 /* parser.drain(() => {
   console.log('echec');
 }); */
@@ -94,28 +94,28 @@ export class ClimatGateway implements OnGatewayConnection, OnGatewayDisconnect {
       };
       client.emit('connection', climat);
       const fullDate = `${day}/${month}/${year}`;
-      if (hours == 8 && minutes == 0 && seconds == 0) {
+      if (hours == 23 && minutes == 47 && seconds == 0) {
         const createdClimat = new this.climatModel({
           '8h': {
             temperature: temperature,
-            humidity: humid_serre,
+            humid_serre: humid_serre,
             humid_sol:humid_sol,
             luminosite:luminosite
           },
           '12h': {
             temperature: '--',
-            humidity: '--',
+            humid_serre: '--',
             humid_sol: '--',
             luminosite:'--'
           },
           '19h': {
             temperature: '--',
-            humidity: '--',
+            humid_serre: '--',
             humid_sol:'--',
             luminosite:'--',
           },
           temperature: temperature,
-          humidity: humid_serre,
+          humid_serre: humid_serre,
           humid_sol:humid_sol,
           luminosite:luminosite,
           date: fullDate,
@@ -129,7 +129,7 @@ export class ClimatGateway implements OnGatewayConnection, OnGatewayDisconnect {
         this.climatModel
           .updateOne(
             { date: fullDate },
-            { '12h': { temperature: temperature, humidity: humid_serre, humid_sol:humid_sol, luminosite } },
+            { '12h': { temperature: temperature, humid_serre: humid_serre, humid_sol:humid_sol, luminosite:luminosite } },
           )
           .then((data) => {
             console.log(data);
@@ -140,7 +140,7 @@ export class ClimatGateway implements OnGatewayConnection, OnGatewayDisconnect {
         this.climatModel
           .updateOne(
             { date: fullDate },
-            { '19h': { temperature: temperature, humidity: humid_serre, humid_sol:humid_sol, luminosite } },
+            { '19h': { temperature: temperature, humid_serre: humid_serre, humid_sol:humid_sol, luminosite:luminosite } },
           )
           .then((data) => {
             console.log(data);

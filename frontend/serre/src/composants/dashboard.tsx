@@ -57,27 +57,39 @@ const Dashboard = () => {
     set_45(true);
     set_90(false);
     set_180(false);
+    const socket = socketIOClient(connection);
+    socket.emit('fanOn', '2');
   };
   
   const ouverture_90 = () => {
     set_45(false);
     set_90(true);
     set_180(false);
+    const socket = socketIOClient(connection);
+    socket.emit('fanOn', '3');
   };
   const ouverture_180 = () => {
     set_45(false);
     set_90(false);
     set_180(true);
+    const socket = socketIOClient(connection);
+    socket.emit('fanOn', '4');
   };
 //fermeture
 const fermeture_45 = () => {
   set_45(false);
+  const socket = socketIOClient(connection);
+    socket.emit('fanOn', '5');
 };
 const fermeture_90 = () => {
   set_90(false);
+  const socket = socketIOClient(connection);
+    socket.emit('fanOn', '5');
 };
 const fermeture_180 = () => {
   set_180(false);
+  const socket = socketIOClient(connection);
+    socket.emit('fanOn', '5');
 };
   /* const switcher = () => {
     
@@ -188,7 +200,7 @@ const fermeture_180 = () => {
                       />
                       <img onClick={() => {ouverture_45()}} className={`lesBtn ${_45 ? "cacher" : ""}`} src={off_arrosage} alt="" />
                     </div>
-                    90°
+                    45°
                     {/* <Form>
                       <Form.Check type="switch" id="toit2" />
                     </Form>{" "} */}
@@ -201,7 +213,7 @@ const fermeture_180 = () => {
                       />
                       <img onClick={() => {ouverture_90()}} className={`lesBtn ${_90 ? "cacher" : ""}`} src={off_arrosage} alt="" />
                     </div>
-                    45°
+                    90°
                     {/* <Form>
                       <Form.Check type="switch" id="toit3" />
                     </Form> */}

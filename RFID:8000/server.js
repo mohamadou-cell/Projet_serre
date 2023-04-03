@@ -45,15 +45,27 @@ io = require("socket.io")(server, {
   },
 });
 
-var Serialport = require("serialport");
+/* var Serialport = require("serialport");
 const { error } = require("console");
 var Readline = Serialport.parsers.Readline;
-var serialport = `require('serialport')`;
-var port2 = new Serialport("/dev/ttyUSB0", {
+var serialport = require('serialport');
+var port2 = new Serialport("/dev/ttyACM0", {
   baudRate: 9600,
-});
+}); 
 
-const parser = port2.pipe(new Readline({ delimiter: "\r\n" }));
+const parser = port2.pipe(new Readline({ delimiter: "\r\n" })); */
+
+const { SerialPort } = require('serialport');
+var { ReadlineParser } = require("@serialport/parser-readline")
+var port2 = new SerialPort({ path:'/dev/ttyUSB0',
+    baudRate: 9600,
+    dataBits: 8,
+    parity: 'none',
+    stopBits: 1,
+    flowControl: false
+}); 
+
+var parser = port2.pipe(new ReadlineParser({ delimiter: '\r\n' })); 
 
 app.post("/envoyer", async (req, res, next) => {
   const cle = "MIIEowIBAAKCAQEA0pJxfpy9WqcVEI0FhRb6GqyILM4Fgwp/aC32IMIuGjigD";

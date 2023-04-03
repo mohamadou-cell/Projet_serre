@@ -4,8 +4,12 @@ import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
 import { SignUpDto } from './dto/signup.dto';
 import { User } from './schemas/user.schema';
+<<<<<<< HEAD
+import { UpdateDto } from './dto/update.dto';
+=======
 import { LogincarteDto } from './dto/loginCarte.dts';
 import { UpdateEmployeeDto } from './dto/updateUser.dto';
+>>>>>>> 364dee2206c3acf7aeda7fae244207acc14ed944
 
 @Controller('auth')
 export class AuthController {
@@ -28,26 +32,32 @@ export class AuthController {
 
   //@UseGuards(JwtAuthGuard)
   @Get('/getAll')
-  async getAllBooks(): Promise<User[]> {
+  async getAllUsers(): Promise<User[]> {
     return this.authService.findAll();
   }
 
   @Get(':id')
-  async getBook(
+  async getUser(
     @Param('id')
     id: string,
   ): Promise<User> {
     return this.authService.findById(id);
   }
 
+<<<<<<< HEAD
+  @Patch(':id')
+  update(@Param('id') id: string, @Body() signUpDto: SignUpDto) {
+    return this.authService.update(id, signUpDto);
+=======
   //modification mot de passe controller
   @Put(':id')
   update(@Param('id') id: string, @Body() updateEmployeeDto: UpdateEmployeeDto) {
     return this.authService.update(id, updateEmployeeDto);
+>>>>>>> 364dee2206c3acf7aeda7fae244207acc14ed944
   }
 
   @Delete(':id')
-  async deleteBook(
+  async deleteUser(
     @Param('id')
     id: string,
   ): Promise<User> {

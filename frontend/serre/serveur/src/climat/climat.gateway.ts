@@ -21,10 +21,13 @@ const port = new SerialPort({
   stopBits: 1,
 });
 
-const parser = port.pipe(new ReadlineParser({ delimiter: "\r\n" }));
-parser.on("data", console.log);
-port.write("cool");
-parser.write("cool");
+const parser = port.pipe(new ReadlineParser({ delimiter: '\r\n' }));
+ /* parser.on('data', console.log); 
+port.write('cool');
+parser.write('cool'); */
+/* parser.drain(() => {
+  console.log('echec');
+}); */
 
 @WebSocketGateway({ cors: true })
 export class ClimatGateway implements OnGatewayConnection, OnGatewayDisconnect {
@@ -50,9 +53,17 @@ export class ClimatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     const temperature = 30;
     const humid_sol = 20;
     const humid_serre = 50;
-    const luminosite = 300;
-    client.on("fanOn", (onData) => {
+    const luminosite= 300;
+
+    
+    client.on('fanOn', (onData) => {
+      //port.write(onData);
       this.fanOn = onData;
+      console.log(onData);
+      
+      /*port.drain((err) => {
+        console.log(err);
+      });*/
     });
     client.on("fanOff", (offData) => {
       this.fanOn = offData;
@@ -60,41 +71,46 @@ export class ClimatGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
     parser.on("data", (data) => {
       port.write(this.fanOn);
-      port.drain((err) => {});
+      console.log(this.fanOn);
+      
+      port.drain((err) => {
+        //console.log(err);
+      });
       this.logger.log(this.fanOn);
       const climat = {
-        temperature: data.split("/")[0],
-        humid_serre: data.split("/")[1],
-        humid_sol: data.split("/")[2],
-        luminosite: data.split("/")[3],
+        temperature: data.slice(0, 2),
+        humid_serre: data.slice(3, 5),
+        luminosite: data.slice(6, 9),
+        humid_sol: data.slice(10, 13),
+        
       };
-      client.emit("connection", climat);
-      client.emit("rfid", data);
+      client.emit('connection', climat);
+      client.emit('rfid', data);
       const fullDate = `${day}/${month}/${year}`;
-      if (hours == 8 && minutes == 0 && seconds == 0) {
+      if (hours == 23 && minutes == 47 && seconds == 0) {
         const createdClimat = new this.climatModel({
           "8h": {
             temperature: temperature,
-            humidity: humid_serre,
-            humid_sol: humid_sol,
-            luminosite: luminosite,
+            humid_serre: humid_serre,
+            humid_sol:humid_sol,
+            luminosite:luminosite
           },
-          "12h": {
-            temperature: "--",
-            humidity: "--",
-            humid_sol: "--",
-            luminosite: "--",
+          '12h': {
+            temperature: '--',
+            humid_serre: '--',
+            humid_sol: '--',
+            luminosite:'--'
           },
-          "19h": {
-            temperature: "--",
-            humidity: "--",
-            humid_sol: "--",
-            luminosite: "--",
+          '19h': {
+            temperature: '--',
+            humid_serre: '--',
+            humid_sol:'--',
+            luminosite:'--',
           },
           temperature: temperature,
-          humidity: humid_serre,
-          humid_sol: humid_sol,
-          luminosite: luminosite,
+          humid_serre: humid_serre,
+          humid_sol:humid_sol,
+          luminosite:luminosite,
           date: fullDate,
           heure: `${hours}:${minutes}:${seconds}`,
           moyenne: { temperature, humid_serre, humid_sol, luminosite },
@@ -106,14 +122,7 @@ export class ClimatGateway implements OnGatewayConnection, OnGatewayDisconnect {
         this.climatModel
           .updateOne(
             { date: fullDate },
-            {
-              "12h": {
-                temperature: temperature,
-                humidity: humid_serre,
-                humid_sol: humid_sol,
-                luminosite,
-              },
-            }
+            { '12h': { temperature: temperature, humid_serre: humid_serre, humid_sol:humid_sol, luminosite:luminosite } },
           )
           .then((data) => {
             console.log(data);
@@ -124,14 +133,7 @@ export class ClimatGateway implements OnGatewayConnection, OnGatewayDisconnect {
         this.climatModel
           .updateOne(
             { date: fullDate },
-            {
-              "19h": {
-                temperature: temperature,
-                humidity: humid_serre,
-                humid_sol: humid_sol,
-                luminosite,
-              },
-            }
+            { '19h': { temperature: temperature, humid_serre: humid_serre, humid_sol:humid_sol, luminosite:luminosite } },
           )
           .then((data) => {
             console.log(data);

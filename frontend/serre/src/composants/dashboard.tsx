@@ -14,25 +14,36 @@ import off_arrosage from "../assets/off-button.png";
 import { useEffect, useState } from "react";
 import Navbarre from "./navbarre";
 import socketIOClient from "socket.io-client";
-const connection = "http://localhost:3000/";
-
+import { useNavigate } from "react-router-dom";
+const connexion = "http://localhost:3000/";
 const Dashboard = () => {
+  
   const [donnees, setDonnee] = useState<any>(null);
+  const [data, setData] = useState<any>(null);
   const [cacher, setCacher] = useState<any>(null);
   const [cacher_, setCacher_] = useState<any>(null);
   const [_45, set_45] = useState<any>(false);
   const [_90, set_90] = useState<any>(false);
   const [_180, set_180] = useState<any>(false);
-  const [mat, setMat] = useState<any>(false);
   let etatBtn = false;
   let etatBtn_ = false;
+
+/* 
   useEffect(() => {
-    const socket = socketIOClient(connection);
+    const socket = socketIOClient(ENDPOINT);
     socket.on("data", (data) => {
       console.log(data);
-      /* setMat({ matricule1: data, matricule2: data }); */
+    
+  
     });
-  }, [mat]);
+  }, []); */
+  useEffect(() => {
+    const socket = socketIOClient(connexion);
+    socket.on("connection", (data) => {
+      console.log(data);
+       setData(data); 
+    });
+  }, [data]);
   useEffect(() => {
     fetch("http://localhost:5173/real-time.json")
       .then((res) => res.json())
@@ -94,6 +105,11 @@ const fermeture_180 = () => {
     let voir = document.getElementById("voir");
     console.log(etatBtn, voir);
   }; */
+  const usenavigate = useNavigate();
+  if (localStorage.getItem("token") == undefined) {
+    usenavigate("/");
+  }
+  else{
   return (
     <>
       <Navbarre></Navbarre>
@@ -278,7 +294,7 @@ const fermeture_180 = () => {
         </div>
       </div>
     </>
-  );
+  )};
 };
 
 export default Dashboard;

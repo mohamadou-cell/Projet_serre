@@ -26,12 +26,15 @@ const Connexion = () => {
     const socket = socketIOClient(ENDPOINT);
     socket.on("data", (data) => {
       console.log(data);
-      setMat({ matricule1: data, matricule2: data });
+      if (data.includes("@")) {
+        console.log(data);
+        setMat({ matricule1: data, matricule2: data });
+      }
     });
   }, [mat]);
 
   useEffect(() => {
-    fetch("http://localhost:8000/envoyer", {
+    fetch("http://localhost:3000/auth/logincarte", { //mis à jour to be merged MHDLamine->DEV
       method: "POST",
       body: JSON.stringify(mat),
       headers: {
@@ -41,8 +44,8 @@ const Connexion = () => {
       .then((res) => res.json())
       .then((res) => {
         //console.log(mat);
-        console.log(res.message);
-        if (res.message == "succes") {
+        console.log(mat);
+        if (res.token) {
           setSms_erreur(true);
           usenavigate("/dashboard");
           localStorage.setItem("email", res.data.email);
@@ -50,7 +53,7 @@ const Connexion = () => {
           localStorage.setItem("nom", res.data.nom);
           localStorage.setItem("token", res.data.token);
         }
-        if (res.message != "succes" && mat != undefined) {
+        if (res.message == "accès refusé" && mat != undefined) {
           setSms_erreur(false);
         }
       }),
@@ -83,10 +86,18 @@ const Connexion = () => {
         .then((data) => {
           console.log(data);
           if (data.token) {
+            fetch(`http://localhost:3000/auth/${data.id}`)//mis à jour to be merged MHDLamine->DEV
+            .then((res) => res.json())
+            .then((res) => {
+              console.log(res.prenom);
+            
             localStorage.setItem("token", data.token);
             localStorage.setItem("id", data.id);
-          
-            usenavigate("/dashboard");
+            localStorage.setItem("prenom", res.prenom);
+            localStorage.setItem("nom", res.nom);
+            localStorage.setItem("email", res.email);
+          });
+          usenavigate("/dashboard");
           } else {
             setErrorBack(data.message);
             setEtat(true);
@@ -144,26 +155,26 @@ const Connexion = () => {
             Veuillez saisir vos information d'authentification <br />
             ou bien vous connecter avec la carte RFID.
           </h3>
-          <br />
-  
+          {/*  <br /> */}
+
           <div id="corps" className="d-flex gap-5">
             <div id="from">
               <Form onSubmit={onSubmit} className="">
                 <div className="d-flex gap-2">
-                <div
-                  className={`alert alert-danger text-center ${
-                    !etat ? "cacher" : ""
-                  }`}
-                >
-                  {errorBack}
-                </div>
-                <div
-                  className={`alert alert-danger text-center ${
-                    sms_erreur ? "cacher" : ""
-                  }`}
-                >
-                  accés refuser
-                </div>
+                  <div
+                    className={`alert alert-danger text-center ${
+                      !etat ? "cacher" : ""
+                    }`}
+                  >
+                    {errorBack}
+                  </div>
+                  <div
+                    className={`alert alert-danger text-center ${
+                      sms_erreur ? "cacher" : ""
+                    }`}
+                  >
+                    accés refuser
+                  </div>
                 </div>
                 <Form.Group className="" controlId="formBasicEmail">
                   <Form.Label>

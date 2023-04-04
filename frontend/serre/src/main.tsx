@@ -24,7 +24,7 @@ const router = createBrowserRouter([
     element: <Dashboard />,
   },
   {
-    path: "connection/",
+    path: "*",
     element: <Connexion />,
   },
   {

@@ -17,7 +17,28 @@ function Personnaliser() {
     const [heure_arrosage3, setHeure3] = useState("");
     const [duree, setDuree] = useState("");
     
-    const handleSubmit = (e:any) => {
+
+  const params = () =>{
+  if ((heure_arrosage1 == "") || (duree == "") ){
+    console.log("required");
+    
+  }
+  else{
+    localStorage.removeItem("_DELAI");
+    localStorage.removeItem("_TIME1");
+    localStorage.removeItem("_TIME2");
+    localStorage.removeItem("_TIME3");
+
+    localStorage.setItem("_DELAI", duree);
+    localStorage.setItem("_TIME1", heure_arrosage1);
+    localStorage.setItem("_TIME2", heure_arrosage2);
+    localStorage.setItem("_TIME3", heure_arrosage3);
+    usenavigate("/Dashboard");
+  }
+  
+ }
+
+   /*  const handleSubmit = (e:any) => {
       
         e.preventDefault();
   
@@ -43,8 +64,10 @@ function Personnaliser() {
             window.location.reload();
           });
       
-    };
+    }; */
 
+
+  
   const choice = (nombre_arrosage:string) => {
     setChoix(nombre_arrosage)
     console.log(nombre_arrosage);
@@ -82,7 +105,7 @@ function Personnaliser() {
   <div id='body'>
   <Card body id='card' className='w-25'>
     <h4 className='titre'>PARAMETRES D'ARROSAGE</h4>
-    <Form className="mt-5" onSubmit={handleSubmit}>
+    <Form className="mt-5" /* onSubmit={handleSubmit} */>
     <Form.Group className="mb-3" controlId="formBasicEmail">
       <Form.Label>Nombre d'arrosage</Form.Label>
       <Form.Select onChange={(e) => choice(e.target.value)}>
@@ -98,38 +121,37 @@ function Personnaliser() {
       <div className='heure'>
       <select className={`space ${ !un ? "activer":""}`} onChange={(e) => setHeure1(e.target.value)}>
           <option></option>
-          <option>7h</option>
-          <option>8h</option>
-          <option>9h</option>
-          <option>10h</option>
+          <option>12</option>
+          <option>55</option>
+          <option>19</option>
+      
         </select>
         <select className={`space ${!deux ? "activer":""}`} onChange={(e) => setHeure2(e.target.value)}>
           <option></option>
-          <option>11h</option>
-          <option>12h</option>
-          <option>13h</option>
-          <option>14h</option>
+          <option>57</option>
+          <option>15</option>
+          <option>19</option>
+         
         </select>
         <select className={`space ${!trois ? "activer":""}`} onChange={(e) => setHeure3(e.target.value)}>
           <option></option>
-          <option>15h</option>
-          <option>16h</option>
-          <option>17h</option>
-          <option>18h</option>
-          <option>19h</option>
+          <option>12</option>
+          <option>15</option>
+          <option>19</option>
+    
         </select>
         </div>
     </Form.Group>
 
     <Form.Group className="mb-3" controlId="formBasicNumber">
-      <Form.Label>Durée de l'arrosage</Form.Label>
-      <Form.Control type="number" placeholder="par secondes" onChange={(e) => setDuree(e.target.value)} />
+      <Form.Label>Durée de l'arrosage ( minute )</Form.Label>
+      <Form.Control min="1"  max="9"   type="number" placeholder="par secondes" onChange={(e) => setDuree(e.target.value)} />
     </Form.Group>
     
-    <Button variant="primary" type="submit" className="mt-3" id='btn'>
+    <Button variant="primary" /* type="submit" */ onClick={()=>{params()}} className="mt-3" id='btn'>
       Appliquer
     </Button>
-    <a href={`/parametre`} className='lien'>Paramètres</a>
+    <a href={`/parametre`} className='lien'  >Paramètres</a>
   </Form>
   </Card>
   </div>

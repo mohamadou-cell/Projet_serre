@@ -44,12 +44,12 @@ const Connexion = () => {
       .then((res) => res.json())
       .then((res) => {
         //console.log(mat);
-        console.log(res.token);
+       // console.log(res.token);
         if (res.token) {
           fetch(`http://localhost:3000/auth/${res.id}`)//mis à jour to be merged MHDLamine->DEV
           .then((res) => res.json())
           .then((res) => {
-            console.log(res.prenom);
+            //console.log(res.prenom);
           
           localStorage.setItem("token", res.token);
           localStorage.setItem("prenom", res.prenom);
@@ -92,12 +92,12 @@ const Connexion = () => {
       })
         .then((res) => res.json())
         .then((data) => {
-          console.log(data);
+          //console.log(data);
           if (data.token) {
             fetch(`http://localhost:3000/auth/${data.id}`)//mis à jour to be merged MHDLamine->DEV
             .then((res) => res.json())
             .then((res) => {
-              console.log(res.prenom);
+              //console.log(res.prenom);
             
             localStorage.setItem("token", data.token);
             localStorage.setItem("id", data.id);

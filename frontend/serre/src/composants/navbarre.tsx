@@ -28,7 +28,7 @@ function navbarre() {
 
   const logOut = () => {
     localStorage.clear();
-    usenavigate("/connection");
+    //usenavigate("/connection");
   };
 
 

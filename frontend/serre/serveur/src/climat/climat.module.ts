@@ -22,7 +22,7 @@ import { ClimatController } from "./climat.controller";
   imports: [
     MongooseModule.forFeature([{ name: Climat.name, schema: ClimatSchema }]),
   ], //a mettre apres API decommenter
-  providers: [ ClimatGateway, ClimatService],
+   providers: [ ClimatGateway, ClimatService],
   controllers: [ClimatController],
   exports: [ClimatService],
 })

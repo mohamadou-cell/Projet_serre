@@ -14,7 +14,7 @@ import { InjectModel } from "@nestjs/mongoose";
 import { SerialPort } from "serialport";
 import { ReadlineParser } from "@serialport/parser-readline";
 const port = new SerialPort({
-  path: "/dev/ttyUSB0",
+  path: "/dev/ttyACM0",
   baudRate: 9600,
   dataBits: 8,
   parity: "none",

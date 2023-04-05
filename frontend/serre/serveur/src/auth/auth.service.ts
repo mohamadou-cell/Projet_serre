@@ -10,7 +10,6 @@ import * as bcrypt from "bcryptjs";
 import { JwtService } from "@nestjs/jwt";
 import { SignUpDto } from "./dto/signup.dto";
 import { LoginDto } from "./dto/login.dto";
-import { UpdateDto } from "./dto/update.dto";
 import { LogincarteDto } from "./dto/loginCarte.dts";
 import { UpdateEmployeeDto } from "./dto/updateUser.dto";
 import { response } from "express";
@@ -106,6 +105,8 @@ export class AuthService {
     return user;
   }
 
+ 
+
 
 
 
@@ -122,7 +123,7 @@ export class AuthService {
     );
     if (!isPasswordCorrect) {
        throw new UnauthorizedException({
-        message: "errorpwd",
+        message: "Veuillez entrer un bon actuel mot de passe",
       }); 
     }
     if (isPasswordCorrect) {

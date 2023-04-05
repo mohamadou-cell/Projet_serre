@@ -1,6 +1,5 @@
 import React from "react";
 import App from "./App";
-import Updatepassword from "./composants/update_password";
 import Parametre from "./composants/parametre";
 import Connexion from "./composants/connexion";
 import Dashboard from "./composants/dashboard";
@@ -30,10 +29,6 @@ const router = createBrowserRouter([
   {
     path: "parametre/",
     element: <Parametre />,
-  },
-  {
-    path: "modifmdp/",
-    element: <Updatepassword />,
   },
   {
     path: "personnaliser/",

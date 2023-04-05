@@ -97,15 +97,14 @@ const Connexion = () => {
             fetch(`http://localhost:3000/auth/${data.id}`)//mis à jour to be merged MHDLamine->DEV
             .then((res) => res.json())
             .then((res) => {
-              //console.log(res.prenom);
-            
+              console.log(res.prenom);  
             localStorage.setItem("token", data.token);
             localStorage.setItem("id", data.id);
             localStorage.setItem("prenom", res.prenom);
             localStorage.setItem("nom", res.nom);
             localStorage.setItem("email", res.email);
+            usenavigate("/dashboard");
           });
-          usenavigate("/dashboard");
           } else {
             setErrorBack(data.message);
             setEtat(true);

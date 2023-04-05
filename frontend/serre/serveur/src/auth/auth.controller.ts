@@ -4,7 +4,6 @@ import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
 import { SignUpDto } from './dto/signup.dto';
 import { User } from './schemas/user.schema';
-import { UpdateDto } from './dto/update.dto';
 import { LogincarteDto } from './dto/loginCarte.dts';
 import { UpdateEmployeeDto } from './dto/updateUser.dto';
 
@@ -41,9 +40,10 @@ export class AuthController {
     return this.authService.findById(id);
   }
 
+  //modification mot de passe controller
   @Put(':id')
-  update(@Param('id') id: string, @Body() signUpDto: SignUpDto) {
-    return this.authService.update(id, signUpDto);
+  update(@Param('id') id: string, @Body() updateEmployeeDto: UpdateEmployeeDto) {
+    return this.authService.update(id, updateEmployeeDto);
   }
 
   @Delete(':id')

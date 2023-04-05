@@ -14,7 +14,7 @@ import { InjectModel } from "@nestjs/mongoose";
 import { SerialPort } from "serialport";
 import { ReadlineParser } from "@serialport/parser-readline";
 import { log } from "console";
-const port = new SerialPort({
+  const port = new SerialPort({
   path: "/dev/ttyUSB0",
   baudRate: 9600,
   dataBits: 8,
@@ -25,7 +25,7 @@ const port = new SerialPort({
 const parser = port.pipe(new ReadlineParser({ delimiter: "\r\n" }));
 parser.on('data', console.log); 
 port.write('cool');
-parser.write('cool'); 
+parser.write('cool');
 /* parser.drain(() => {
   console.log('echec');
 }); */
@@ -51,7 +51,7 @@ export class ClimatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     const seconds = date.getSeconds();
 
     client.on("fanOn", (onData) => {
-      //port.write(onData);
+      port.write(onData);
       this.fanOn = onData;
       console.log(onData);
 

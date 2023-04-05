@@ -28,13 +28,16 @@ function parametre() {
       localStorage.removeItem("_TIME1");
       localStorage.removeItem("_TIME2");
       localStorage.removeItem("_TIME3");
+      localStorage.removeItem("CHOIX");
       if (choix == "Sauge") {
+        localStorage.setItem("CHOIX", "sauge");
         localStorage.setItem("_DELAI", "1");
-        localStorage.setItem("_TIME1", "36");
+        localStorage.setItem("_TIME1", "38");
         localStorage.setItem("_TIME2", "nan");
         localStorage.setItem("_TIME3", "nan");
       }
       if (choix == "Laitue") {
+        localStorage.setItem("CHOIX", "laitue");
         localStorage.setItem("_DELAI", "2");
         localStorage.setItem("_TIME1", "33");
         localStorage.setItem("_TIME2", "35");

@@ -25,7 +25,8 @@ function Personnaliser() {
       localStorage.removeItem("_TIME1");
       localStorage.removeItem("_TIME2");
       localStorage.removeItem("_TIME3");
-
+      localStorage.removeItem("CHOIX");
+      localStorage.setItem("CHOIX", "personnaliser");
       localStorage.setItem("_DELAI", duree);
       localStorage.setItem("_TIME1", heure_arrosage1);
       localStorage.setItem("_TIME2", heure_arrosage2);

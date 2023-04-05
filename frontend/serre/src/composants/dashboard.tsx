@@ -24,7 +24,6 @@ const Dashboard = () => {
   const [_45, set_45] = useState<any>(false);
   const [_90, set_90] = useState<any>(false);
   const [_180, set_180] = useState<any>(false);
-  const [miliseconde, setMiliseconde] = useState<string>();
   const [seconde, setSeconde] = useState<string>();
   const [minute, setMinute] = useState<string>();
   const [heure, setHeure] = useState<string>();
@@ -99,7 +98,6 @@ const Dashboard = () => {
               on_Arrosage();
             }, 600000);
           }
-      
        }
     }
   }, [seconde]);
@@ -124,11 +122,10 @@ const Dashboard = () => {
 
   const repeter = () => {
     let date = new Date();
-    let miliseconde = date.getMilliseconds();
     let seconde = date.getSeconds();
     let minute = date.getMinutes();
     let heure = date.getHours();
-    setMiliseconde(miliseconde.toString());
+
     setSeconde(seconde.toString());
     setMinute(minute.toString());
     setHeure(heure.toString());
@@ -366,7 +363,7 @@ const Dashboard = () => {
                         src={on_arrosage}
                         alt=""
                         />
-                        <p className={`text-success ${cacher_auto ? "cacher" : ""}`} >auto activé</p>
+                        <p className={`text-success ${cacher_auto ? "cacher" : ""}`} >auto activé  {localStorage.getItem("CHOIX")} </p>
                         <img
                         className={`${!cacher_auto ? "cacher" : ""}`}
                         onClick={() => {

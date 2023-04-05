@@ -64,28 +64,28 @@ void loop()
   //monServo.write(0);
   if(inChar == '0'){
     digitalWrite(ventilateurPIN, LOW);
-    digitalWrite(buzzerPIN, LOW);
   }
   else if(inChar == '1'){
     digitalWrite(ventilateurPIN, HIGH);
-    digitalWrite(buzzerPIN, HIGH); // turn on pump 5 seconds
   }
   else if(inChar == '2'){
-    //monServo.write(0);
     monServo.write(45); 
   }
   else if(inChar == '3'){
-    //monServo.write(0);
     monServo.write(90); 
   }
   else if(inChar == '4'){
-    //monServo.write(0);
     monServo.write(180); 
   }
   else if(inChar == '5'){
     monServo.write(0); 
   }
-  
+  else if(inChar == '6'){
+    digitalWrite(buzzerPIN, LOW); // turn on pump 5 seconds
+  }
+  else if(inChar == '7'){
+    digitalWrite(buzzerPIN, HIGH); // turn on pump 5 seconds
+  }
   // Initialisé la boucle si aucun badge n'est présent 
   if ( !rfid.PICC_IsNewCardPresent())
     return;

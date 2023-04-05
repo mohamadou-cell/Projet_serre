@@ -147,36 +147,7 @@ function navbarre() {
     }
   };
 
-  const logOut = () => {
-    localStorage.clear();
-    usenavigate("/connection");
-  };
-
-  function MyVerticallyCenteredModal(props:any) {
-    return (
-      <Modal
-        {...props}
-        size="md"
-        aria-labelledby="contained-modal-title-vcenter"
-        centered
-      >
-        <Modal.Header className='d-flex justify-content-center'>
-          <Modal.Title id="contained-modal-title-vcenter">
-            Deconnection
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body className='d-flex justify-content-center'>
-          <p className='req'>
-            Êtes-vous sûre de vouloir vous déconnecter ?
-          </p>
-        </Modal.Body>
-        <Modal.Footer className='d-flex justify-content-center gap-5'>
-        <Button variant='danger' onClick={props.onHide}>Annuler</Button>
-          <Button href={`/connection`} onClick={logOut}>Confirmer</Button>
-        </Modal.Footer>
-      </Modal>
-    );
-  }
+  
   const [modalShow, setModalShow] = React.useState(false);
 
   return (
@@ -347,6 +318,38 @@ function navbarre() {
       />
     </>
   );}
+  function MyVerticallyCenteredModal(props:any) {
+    const logOut = () => {
+      localStorage.removeItem('prenom');
+      localStorage.removeItem('nom');
+      localStorage.removeItem('email');
+      localStorage.removeItem('id');
+      localStorage.removeItem('token');
+    };
+    return (
+      <Modal
+        {...props}
+        size="md"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header className='d-flex justify-content-center'>
+          <Modal.Title id="contained-modal-title-vcenter">
+            Deconnection
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body className='d-flex justify-content-center'>
+          <p className='req'>
+            Êtes-vous sûre de vouloir vous déconnecter ?
+          </p>
+        </Modal.Body>
+        <Modal.Footer className='d-flex justify-content-center gap-5'>
+        <Button variant='danger' onClick={props.onHide}>Annuler</Button>
+          <Button href={`/connection`} onClick={logOut}>Confirmer</Button>
+        </Modal.Footer>
+      </Modal>
+    );
+  }
 
 export default navbarre
 

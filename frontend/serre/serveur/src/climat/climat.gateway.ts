@@ -13,18 +13,19 @@ import { Model } from "mongoose";
 import { InjectModel } from "@nestjs/mongoose";
 import { SerialPort } from "serialport";
 import { ReadlineParser } from "@serialport/parser-readline";
-const port = new SerialPort({
-  path: "/dev/ttyACM0",
+import { log } from "console";
+  const port = new SerialPort({
+  path: "/dev/ttyUSB0",
   baudRate: 9600,
   dataBits: 8,
   parity: "none",
   stopBits: 1,
 });
 
-const parser = port.pipe(new ReadlineParser({ delimiter: '\r\n' }));
- /* parser.on('data', console.log); 
+const parser = port.pipe(new ReadlineParser({ delimiter: "\r\n" }));
+parser.on('data', console.log); 
 port.write('cool');
-parser.write('cool'); */
+parser.write('cool');
 /* parser.drain(() => {
   console.log('echec');
 }); */
@@ -38,9 +39,7 @@ export class ClimatGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
   public socket: Socket;
 
-  constructor(
-    @InjectModel(Climat.name) private climatModel: Model<ClimatDocument>
-  ) {}
+  constructor(@InjectModel(Climat.name) private climatModel: Model<Climat>) {}
 
   handleConnection(@ConnectedSocket() client: Socket) {
     const date = new Date();
@@ -50,17 +49,12 @@ export class ClimatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     const hours = date.getHours();
     const minutes = date.getMinutes();
     const seconds = date.getSeconds();
-    const temperature = 30;
-    const humid_sol = 20;
-    const humid_serre = 50;
-    const luminosite= 300;
 
-    
-    client.on('fanOn', (onData) => {
-      //port.write(onData);
+    client.on("fanOn", (onData) => {
+      port.write(onData);
       this.fanOn = onData;
       console.log(onData);
-      
+
       /*port.drain((err) => {
         console.log(err);
       });*/
@@ -69,51 +63,50 @@ export class ClimatGateway implements OnGatewayConnection, OnGatewayDisconnect {
       this.fanOn = offData;
     });
 
-    parser.on("data", (data) => {
+   parser.on("data", (data) => {
       port.write(this.fanOn);
       console.log(this.fanOn);
-      
+
       port.drain((err) => {
         //console.log(err);
       });
       this.logger.log(this.fanOn);
       const climat = {
-        temperature: data.slice(0, 2),
-        humid_serre: data.slice(3, 5),
-        luminosite: data.slice(6, 9),
-        humid_sol: data.slice(10, 13),
-        
+        temperature: data.split("/")[0],
+        humid_serre: data.split("/")[1],
+        luminosite: data.split("/")[2],
+        humid_sol: data.split("/")[3],
       };
-      client.emit('connection', climat);
-      client.emit('rfid', data);
+      client.emit("connection", climat);
+      client.emit("rfid", data);
       const fullDate = `${day}/${month}/${year}`;
-      if (hours == 23 && minutes == 47 && seconds == 0) {
+      if (hours == 16 && minutes == 6 && seconds == 0) {
         const createdClimat = new this.climatModel({
           "8h": {
-            temperature: temperature,
-            humid_serre: humid_serre,
-            humid_sol:humid_sol,
-            luminosite:luminosite
+            temperature: data.split("/")[0],
+            humid_serre: data.split("/")[1],
+            luminosite: data.split("/")[2],
+            humid_sol: data.split("/")[3],
           },
-          '12h': {
-            temperature: '--',
-            humid_serre: '--',
-            humid_sol: '--',
-            luminosite:'--'
+          "12h": {
+            temperature: "--",
+            humid_serre: "--",
+            humid_sol: "--",
+            luminosite: "--",
           },
-          '19h': {
-            temperature: '--',
-            humid_serre: '--',
-            humid_sol:'--',
-            luminosite:'--',
+          "19h": {
+            temperature: "--",
+            humid_serre: "--",
+            humid_sol: "--",
+            luminosite: "--",
           },
-          temperature: temperature,
-          humid_serre: humid_serre,
-          humid_sol:humid_sol,
-          luminosite:luminosite,
+          temperature: data.split("/")[0],
+          humid_serre: data.split("/")[1],
+          luminosite: data.split("/")[2],
+          humid_sol: data.split("/")[3],
           date: fullDate,
           heure: `${hours}:${minutes}:${seconds}`,
-          moyenne: { temperature, humid_serre, humid_sol, luminosite },
+          //moyenne: { temperature, humid_serre, humid_sol, luminosite },
         });
         createdClimat.save();
         client.emit("connection", "climat 8h enregistré");
@@ -122,7 +115,14 @@ export class ClimatGateway implements OnGatewayConnection, OnGatewayDisconnect {
         this.climatModel
           .updateOne(
             { date: fullDate },
-            { '12h': { temperature: temperature, humid_serre: humid_serre, humid_sol:humid_sol, luminosite:luminosite } },
+            {
+              "12h": {
+                temperature: data.split("/")[0],
+                humid_serre: data.split("/")[1],
+                luminosite: data.split("/")[2],
+                humid_sol: data.split("/")[3],
+              },
+            }
           )
           .then((data) => {
             console.log(data);
@@ -133,7 +133,14 @@ export class ClimatGateway implements OnGatewayConnection, OnGatewayDisconnect {
         this.climatModel
           .updateOne(
             { date: fullDate },
-            { '19h': { temperature: temperature, humid_serre: humid_serre, humid_sol:humid_sol, luminosite:luminosite } },
+            {
+              "19h": {
+                temperature: data.split("/")[0],
+                humid_serre: data.split("/")[1],
+                luminosite: data.split("/")[2],
+                humid_sol: data.split("/")[3],
+              },
+            }
           )
           .then((data) => {
             console.log(data);

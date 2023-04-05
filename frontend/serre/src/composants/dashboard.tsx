@@ -175,7 +175,7 @@ const fermeture_180 = () => {
                 {donnees?.map((donnee: any) => (
                   <p className="real-time humid">
                     
-                    HUMIDITE : {donnee.humid_serre} %{" "}
+                    HUMIDITE : {donnee.humid_sol} %{" "}
                   </p>
                 ))}
               </div>

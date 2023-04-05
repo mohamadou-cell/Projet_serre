@@ -123,7 +123,7 @@ export class AuthService {
     );
     if (!isPasswordCorrect) {
        throw new UnauthorizedException({
-        message: "errorpwd",
+        message: "Veuillez entrer un bon actuel mot de passe",
       }); 
     }
     if (isPasswordCorrect) {

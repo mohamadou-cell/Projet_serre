@@ -25,7 +25,7 @@ const Connexion = () => {
   useEffect(() => {
     const socket = socketIOClient(ENDPOINT);
     socket.on("rfid", (data) => {
-      //console.log(data);
+      console.log(data);
       if (data.includes("@")) {
         //console.log(data.split("@")[1]);
         setMat({ matricule1: data.split("@")[1], matricule2: data.split("@")[1] });
@@ -44,16 +44,19 @@ const Connexion = () => {
       .then((res) => res.json())
       .then((res) => {
         //console.log(mat);
-        console.log(res.token);
+       // console.log(res.token);
+
         if (res.token) {
+          localStorage.setItem("id", res.id);
+          localStorage.setItem("token", res.token);
           fetch(`http://localhost:3000/auth/${res.id}`)//mis à jour to be merged MHDLamine->DEV
           .then((res) => res.json())
           .then((res) => {
-            console.log(res.prenom);
+            //console.log(res.prenom);
           
-          localStorage.setItem("token", res.token);
+          
           localStorage.setItem("prenom", res.prenom);
-          localStorage.setItem("id", res.id);
+          
         
           localStorage.setItem("nom", res.nom);
           localStorage.setItem("email", res.email);
@@ -92,7 +95,7 @@ const Connexion = () => {
       })
         .then((res) => res.json())
         .then((data) => {
-          console.log(data);
+          //console.log(data);
           if (data.token) {
             fetch(`http://localhost:3000/auth/${data.id}`)//mis à jour to be merged MHDLamine->DEV
             .then((res) => res.json())

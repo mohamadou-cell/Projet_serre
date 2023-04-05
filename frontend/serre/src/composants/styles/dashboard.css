@@ -156,4 +156,11 @@ div.card.card_{
   #radius{
     border-radius:5px;
   }
-  
+  .switch_arro{
+    width: 200px;
+    height: 50px;
+    position: absolute;
+    top:80px;
+    display: flex;
+    
+  }

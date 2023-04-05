@@ -15,19 +15,50 @@ function parametre() {
   const [duree, setDuree] = useState<any>(null);
   const [laitue, setLaitue] = useState<boolean>(false);
   const [sauge, setSauge] = useState<boolean>(false);
+  const [vide, setVide] = useState<boolean>(true);
+
+
+  const appliquer = ()=>{
+    if (nb_fois == '' || duree == null) {
+      console.log("champs requis")
+      setVide(false);
+    }//les temps en  minute for test )
+    else{
+      localStorage.removeItem("_DELAI");
+      localStorage.removeItem("_TIME1");
+      localStorage.removeItem("_TIME2");
+      localStorage.removeItem("_TIME3");
+      localStorage.removeItem("CHOIX");
+      if (choix == "Sauge") {
+        localStorage.setItem("CHOIX", "sauge");
+        localStorage.setItem("_DELAI", "1");
+        localStorage.setItem("_TIME1", "38");
+        localStorage.setItem("_TIME2", "nan");
+        localStorage.setItem("_TIME3", "nan");
+      }
+      if (choix == "Laitue") {
+        localStorage.setItem("CHOIX", "laitue");
+        localStorage.setItem("_DELAI", "2");
+        localStorage.setItem("_TIME1", "33");
+        localStorage.setItem("_TIME2", "35");
+        localStorage.setItem("_TIME3", "nan");
+      }
+      usenavigate("/Dashboard");
+    }
+  }
 
   const choice = (choix:string) => {
     setChoix(choix)
     
     if(choix == 'Laitue'){
       setNbFois(2)
-      setDuree(60)
+      setDuree(2)
       setLaitue(true)
       setSauge(false)
     }
     else if(choix == 'Sauge'){
       setNbFois(1)
-      setDuree(30)
+      setDuree(1)
       setLaitue(false)
       setSauge(true)
     }
@@ -51,7 +82,9 @@ function parametre() {
     <div id='body'>
     <Card body id='card' className='w-25'>
       <h4 className='titre'>PARAMETRES D'ARROSAGE</h4>
+
       <Form className="mt-5">
+      <p  className={`text-danger ${vide ? "cacher":""}`} >les champs sont requis</p>
       <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>Type de plantes</Form.Label>
         <Form.Select onChange={(e) => choice(e.target.value)}>
@@ -67,11 +100,11 @@ function parametre() {
       </Form.Group>
 
       <Form.Group className="mb-3" controlId="formBasicNumber">
-        <Form.Label>Durée de l'arrosage</Form.Label>
-        <Form.Control value={duree} type="text" placeholder="par secondes" />
+        <Form.Label>Durée de l'arrosage ( minute )</Form.Label>
+        <Form.Control value={duree} type="text" placeholder="par minute" />
       </Form.Group>
       
-      <Button variant="primary" type="submit" className="mt-3" id='btn'>
+      <Button variant="primary" onClick={()=>{appliquer()}}   className="mt-3" id='btn'>
         Appliquer
       </Button>
       <a href={`/personnaliser`} className='lien'>Personnaliser</a>

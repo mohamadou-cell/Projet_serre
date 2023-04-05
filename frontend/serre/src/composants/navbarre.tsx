@@ -353,4 +353,3 @@ function navbarre() {
 
 export default navbarre
 
-

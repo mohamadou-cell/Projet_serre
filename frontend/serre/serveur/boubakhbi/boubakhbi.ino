@@ -6,11 +6,13 @@
 #define DHTPIN 2
 #define ventilateurPIN 5 // broche -> pour ventilateur
 #define buzzerPIN 6 // broche -> pour buzzer
-#define luminosite A0
 #define DHTTYPE DHT11
 
 #define SS_PIN 10
 #define RST_PIN 9
+const int RELAY_PIN = A5;
+int sensorPin = A1;
+int sensorValue = 0;
     
 // Déclaration 
 MFRC522 rfid(SS_PIN, RST_PIN); 
@@ -19,7 +21,7 @@ MFRC522 rfid(SS_PIN, RST_PIN);
 byte nuidPICC[4];
 DHT dht(DHTPIN, DHTTYPE);
 Servo monServo;
-int avoid;
+int sensorValue1;
 
 void setup() 
 { 
@@ -34,31 +36,39 @@ void setup()
   // Init MFRC522 
   rfid.PCD_Init(); 
 
-  pinMode(luminosite, INPUT);
+  pinMode(A0, INPUT);
   pinMode(ventilateurPIN,OUTPUT);
   pinMode(buzzerPIN,OUTPUT);
   monServo.attach(4);
+  pinMode(RELAY_PIN, OUTPUT);
 }
  
 void loop() 
 {
-  avoid = digitalRead(luminosite);   // lecture de la valeur du signal
+  //digitalWrite(buzzerPIN, HIGH);  // turn off pump 5 second
+  sensorValue1 = analogRead(A0);
+  sensorValue = analogRead(sensorPin);
   int t = dht.readTemperature();
   int h = dht.readHumidity();
   Serial.print(t);
   Serial.print("/");
   Serial.print(h);
   Serial.print("/");
-  Serial.println(avoid);
+  Serial.print(sensorValue1);
+  Serial.print("/");
+  Serial.print(sensorValue);
+    Serial.println("/");
 
   unsigned char inChar = (unsigned char)Serial.read();
   //Serial.println(inChar);
   //monServo.write(0);
   if(inChar == '0'){
     digitalWrite(ventilateurPIN, LOW);
+    digitalWrite(buzzerPIN, LOW);
   }
   else if(inChar == '1'){
     digitalWrite(ventilateurPIN, HIGH);
+    digitalWrite(buzzerPIN, HIGH); // turn on pump 5 seconds
   }
   else if(inChar == '2'){
     //monServo.write(0);

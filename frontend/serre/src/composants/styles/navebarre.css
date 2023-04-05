@@ -62,5 +62,12 @@
     color: white;
     font-weight: bold;
 }
+.header{
+    background-color: #35B6FF;
+    color: white;
+}
+.req{
+    font-size: large;
+}
 
 

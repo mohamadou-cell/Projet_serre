@@ -22,7 +22,7 @@ function parametre() {
     if (nb_fois == '' || duree == null) {
       console.log("champs requis")
       setVide(false);
-    }
+    }//les temps en  minute for test )
     else{
       localStorage.removeItem("_DELAI");
       localStorage.removeItem("_TIME1");
@@ -30,14 +30,14 @@ function parametre() {
       localStorage.removeItem("_TIME3");
       if (choix == "Sauge") {
         localStorage.setItem("_DELAI", "1");
-        localStorage.setItem("_TIME1", "19");
+        localStorage.setItem("_TIME1", "36");
         localStorage.setItem("_TIME2", "nan");
         localStorage.setItem("_TIME3", "nan");
       }
       if (choix == "Laitue") {
         localStorage.setItem("_DELAI", "2");
-        localStorage.setItem("_TIME1", "12");
-        localStorage.setItem("_TIME2", "11");
+        localStorage.setItem("_TIME1", "33");
+        localStorage.setItem("_TIME2", "35");
         localStorage.setItem("_TIME3", "nan");
       }
       usenavigate("/Dashboard");

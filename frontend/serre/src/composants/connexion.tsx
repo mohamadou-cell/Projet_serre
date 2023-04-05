@@ -25,7 +25,7 @@ const Connexion = () => {
   useEffect(() => {
     const socket = socketIOClient(ENDPOINT);
     socket.on("rfid", (data) => {
-      //console.log(data);
+      console.log(data);
       if (data.includes("@")) {
         //console.log(data.split("@")[1]);
         setMat({ matricule1: data.split("@")[1], matricule2: data.split("@")[1] });

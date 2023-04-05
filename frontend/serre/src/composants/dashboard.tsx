@@ -24,8 +24,11 @@ const Dashboard = () => {
   const [_45, set_45] = useState<any>(false);
   const [_90, set_90] = useState<any>(false);
   const [_180, set_180] = useState<any>(false);
+  const [miliseconde, setMiliseconde] = useState<string>();
+  const [seconde, setSeconde] = useState<string>();
   const [minute, setMinute] = useState<string>();
   const [heure, setHeure] = useState<string>();
+  const [cacher_auto, setcacher_auto] = useState<boolean>(false);
 
   let etatBtn = false;
   let etatBtn_ = false;
@@ -39,26 +42,98 @@ const Dashboard = () => {
   //param arrosage automatique
   useEffect(() => {
     if (localStorage.getItem("_DELAI") != undefined) {
+     // console.log(`rfjrjbf`);
       if (
-        minute == localStorage.getItem("_TIME1") ||
-        minute == localStorage.getItem("_TIME2") ||
-        minute == localStorage.getItem("_TIME3")
-      ) {
+        (minute == localStorage.getItem("_TIME1") && seconde == "30") ||
+        (minute == localStorage.getItem("_TIME2") && seconde == "30") ||
+        (minute == localStorage.getItem("_TIME3") && seconde == "30") 
+      ) { 
         off_Arrosage();
-      }
+          if (localStorage.getItem("_DELAI") == "1") {
+            setTimeout(() => {
+              on_Arrosage();
+            }, 60000);
+          }
+          if (localStorage.getItem("_DELAI") == "2") {
+            setTimeout(() => {
+              on_Arrosage();
+            }, 120000);
+          }
+          if (localStorage.getItem("_DELAI") == "3") {
+            setTimeout(() => {
+              on_Arrosage();
+            }, 180000);
+          }
+          if (localStorage.getItem("_DELAI") == "4") {
+            setTimeout(() => {
+              on_Arrosage();
+            }, 240000);
+          }
+          if (localStorage.getItem("_DELAI") == "5") {
+            setTimeout(() => {
+              on_Arrosage();
+            }, 300000);
+          }
+          if (localStorage.getItem("_DELAI") == "6") {
+            setTimeout(() => {
+              on_Arrosage();
+            }, 360000);
+          }
+          if (localStorage.getItem("_DELAI") == "7") {
+            setTimeout(() => {
+              on_Arrosage();
+            }, 420000);
+          }
+          if (localStorage.getItem("_DELAI") == "8") {
+            setTimeout(() => {
+              on_Arrosage();
+            }, 480000);
+          }
+          if (localStorage.getItem("_DELAI") == "9") {
+            setTimeout(() => {
+              on_Arrosage();
+            }, 540000);
+          }
+          if (localStorage.getItem("_DELAI") == "10") {
+            setTimeout(() => {
+              on_Arrosage();
+            }, 600000);
+          }
+      
+       }
     }
-  }, [minute]);
+  }, [seconde]);
+
+  const perso1 = () =>{
+    setcacher_auto(true)
+    localStorage.removeItem("_TIME1")
+    localStorage.removeItem("_TIME2")
+    localStorage.removeItem("_TIME3")
+    localStorage.removeItem("_DELAI")
+  }
+  const perso2 = () =>{
+    setcacher_auto(false)
+    localStorage.setItem("_DELAI", "1");
+    localStorage.setItem("_TIME1", "33");
+    localStorage.setItem("_TIME2", "38");
+    localStorage.setItem("_TIME3", "nan");
+  }
+
 
   setInterval(() => repeter(), 1000);
 
   const repeter = () => {
     let date = new Date();
+    let miliseconde = date.getMilliseconds();
+    let seconde = date.getSeconds();
     let minute = date.getMinutes();
     let heure = date.getHours();
+    setMiliseconde(miliseconde.toString());
+    setSeconde(seconde.toString());
     setMinute(minute.toString());
     setHeure(heure.toString());
   };
-
+ 
   const on_Arrosage = () => {
     setCacher(false);
     const socket = socketIOClient(connection);
@@ -281,7 +356,28 @@ const Dashboard = () => {
                     <div className="parat">
                       <div className="toit">
                         <p>ARROSEUR</p>
-
+                       {/*  arrosage automatique */}
+                        <div className="switch_arro">
+                        <img 
+                        className={`${cacher_auto ? "cacher" : ""}`}  
+                        onClick={() => {
+                          perso1();
+                        }}
+                        src={on_arrosage}
+                        alt=""
+                        />
+                        <p className={`text-success ${cacher_auto ? "cacher" : ""}`} >auto activé</p>
+                        <img
+                        className={`${!cacher_auto ? "cacher" : ""}`}
+                        onClick={() => {
+                          perso2();
+                        }}
+                        src={off_arrosage}
+                        alt=""
+                        />
+                        <p className={`text-danger ${!cacher_auto ? "cacher" : ""}`}>auto désactivé</p>
+                        
+                        </div>
                         <img
                           id="voir"
                           className={`imga_ ${cacher ? "cacher" : ""}`}

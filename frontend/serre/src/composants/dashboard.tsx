@@ -27,7 +27,7 @@ const Dashboard = () => {
   const [seconde, setSeconde] = useState<string>();
   const [minute, setMinute] = useState<string>();
   const [heure, setHeure] = useState<string>();
-  const [cacher_auto, setcacher_auto] = useState<boolean>(false);
+  const [cacher_auto, setcacher_auto] = useState<boolean>(true);
 
   let etatBtn = false;
   let etatBtn_ = false;

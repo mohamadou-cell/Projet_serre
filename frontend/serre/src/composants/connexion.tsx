@@ -45,15 +45,18 @@ const Connexion = () => {
       .then((res) => {
         //console.log(mat);
        // console.log(res.token);
+
         if (res.token) {
+          localStorage.setItem("id", res.id);
+          localStorage.setItem("token", res.token);
           fetch(`http://localhost:3000/auth/${res.id}`)//mis à jour to be merged MHDLamine->DEV
           .then((res) => res.json())
           .then((res) => {
             //console.log(res.prenom);
           
-          localStorage.setItem("token", res.token);
+          
           localStorage.setItem("prenom", res.prenom);
-          localStorage.setItem("id", res.id);
+          
         
           localStorage.setItem("nom", res.nom);
           localStorage.setItem("email", res.email);

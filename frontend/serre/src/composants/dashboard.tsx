@@ -87,22 +87,22 @@ const Dashboard = () => {
   //param arrosage automatique
   useEffect(() => {
     
-    if ( parseInt(temperature) > 29) {
+   /*  if ( parseInt(temperature) > 29 ) {
       off_Ventilateur()
       setTimeout(() => {
         on_Ventilateur();
       }, 20000); 
     }
-    if (  parseInt(humid_sol) < 35) {
+     if (  parseInt(humid_sol) < 35) {
       off_Arrosage()
       setTimeout(() => {
         on_Arrosage();
       }, 20000); 
     
-    }
+    }  */
   
     if (localStorage.getItem("_DELAI") != undefined) {
-      // console.log(`rfjrjbf`);
+  
       if (
         (minute == localStorage.getItem("_TIME1") && seconde == "0") ||
         (minute == localStorage.getItem("_TIME2") && seconde == "0") ||
@@ -169,12 +169,14 @@ const Dashboard = () => {
     localStorage.removeItem("_TIME2");
     localStorage.removeItem("_TIME3");
     localStorage.removeItem("_DELAI");
+    localStorage.removeItem("CHOIX");
   };
   const perso2 = () => {
     setcacher_auto(false);
     localStorage.setItem("_DELAI", "1");
-    localStorage.setItem("_TIME1", "33");
-    localStorage.setItem("_TIME2", "38");
+    localStorage.setItem("CHOIX", "Laitue");
+    localStorage.setItem("_TIME1", "0");
+    localStorage.setItem("_TIME2", "30");
     localStorage.setItem("_TIME3", "nan");
   };
 

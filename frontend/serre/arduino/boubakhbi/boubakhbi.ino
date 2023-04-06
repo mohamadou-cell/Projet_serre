@@ -58,7 +58,7 @@ void loop()
   Serial.print("/");
   Serial.print(sensorValue);
     Serial.println("/");
- 
+
 
   unsigned char inChar = (unsigned char)Serial.read();
   //Serial.println(inChar);

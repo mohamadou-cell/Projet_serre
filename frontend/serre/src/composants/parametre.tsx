@@ -32,15 +32,15 @@ function parametre() {
       if (choix == "Sauge") {
         localStorage.setItem("CHOIX", "sauge");
         localStorage.setItem("_DELAI", "1");
-        localStorage.setItem("_TIME1", "8");
+        localStorage.setItem("_TIME1", "0");
         localStorage.setItem("_TIME2", "nan");
         localStorage.setItem("_TIME3", "nan");
       }
       if (choix == "Laitue") {
         localStorage.setItem("CHOIX", "laitue");
         localStorage.setItem("_DELAI", "1");
-        localStorage.setItem("_TIME1", "48");
-        localStorage.setItem("_TIME2", "55");
+        localStorage.setItem("_TIME1", "0");
+        localStorage.setItem("_TIME2", "30");
         localStorage.setItem("_TIME3", "nan");
       }
       usenavigate("/Dashboard");
@@ -112,11 +112,11 @@ function parametre() {
     </Card>
     <div className={`${!sauge ? "activer":"align"}`}>
       <img className='w-25' src={Sauge} alt="" />
-      <p>à 7h 00</p>
+      <p>à 7h 00 (pour test : à 00mn )</p>
     </div>
     <div className={`${!laitue ? "activer":"align"}`}>
       <img className='w-25' src={Laitue} alt="" />
-      <p>à 7h 00 et à 17h 00</p>
+      <p>à 7h 00 et à 17h 00 (pour test : à 00mn et 30mn)</p>
     </div>
     </div>
 

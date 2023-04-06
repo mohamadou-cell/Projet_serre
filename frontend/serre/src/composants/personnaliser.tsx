@@ -113,7 +113,7 @@ function Personnaliser() {
                 className={`mb-3 ${!un ? "activer" : ""}`}
                 controlId="formBasicNumber"
               >
-                <Form.Label>Heures d'arrosage ( minute for test )</Form.Label>
+                <Form.Label>Heures d'arrosage ( minute pour tester )</Form.Label>
                 <div className="heure">
                 <input
                   min="1"

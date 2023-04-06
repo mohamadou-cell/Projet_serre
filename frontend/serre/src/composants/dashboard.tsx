@@ -31,8 +31,8 @@ const Dashboard = () => {
   const [annee, setAnnee] = useState<string>();
   const [jour, setJour] = useState<string>();
   const [cacher_auto, setcacher_auto] = useState<boolean>();
-  const [temperature, setTemperature] = useState<string>();
-  const [humid_sol, setHumid_sol] = useState<string>();
+  const [temperature, setTemperature] = useState<string>("27");
+  const [humid_sol, setHumid_sol] = useState<string>("40");
   const [humid_serre, setHumid_serre] = useState<string>();
   const [luminosite, setLuminosite] = useState<string>();
   const [periode, setPeriode] = useState<string>();
@@ -86,12 +86,27 @@ const Dashboard = () => {
   }, []);
   //param arrosage automatique
   useEffect(() => {
+    
+    if ( parseInt(temperature) > 29) {
+      off_Ventilateur()
+      setTimeout(() => {
+        on_Ventilateur();
+      }, 20000); 
+    }
+    if (  parseInt(humid_sol) < 35) {
+      off_Arrosage()
+      setTimeout(() => {
+        on_Arrosage();
+      }, 20000); 
+    
+    }
+  
     if (localStorage.getItem("_DELAI") != undefined) {
       // console.log(`rfjrjbf`);
       if (
-        (minute == localStorage.getItem("_TIME1") && seconde == "30") ||
-        (minute == localStorage.getItem("_TIME2") && seconde == "30") ||
-        (minute == localStorage.getItem("_TIME3") && seconde == "30")
+        (minute == localStorage.getItem("_TIME1") && seconde == "0") ||
+        (minute == localStorage.getItem("_TIME2") && seconde == "0") ||
+        (minute == localStorage.getItem("_TIME3") && seconde == "0")
       ) {
         off_Arrosage();
         if (localStorage.getItem("_DELAI") == "1") {

@@ -70,6 +70,7 @@ function Personnaliser() {
       setUn(true);
       setDeux(false);
       setTrois(false);
+      
     } else if (nombre_arrosage == "2") {
       setUn(true);
       setDeux(true);
@@ -104,6 +105,7 @@ function Personnaliser() {
                   <option>1</option>
                   <option>2</option>
                   <option>3</option>
+                
                 </Form.Select>
               </Form.Group>
 
@@ -113,7 +115,32 @@ function Personnaliser() {
               >
                 <Form.Label>Heures d'arrosage ( minute for test )</Form.Label>
                 <div className="heure">
-                  <select
+                <input
+                  min="1"
+                  max="60"
+                  type="number"
+                  placeholder="par secondes"
+                  className={`space ${!un ? "activer" : ""}`}
+                  onChange={(e) => setHeure1(e.target.value)}
+                />
+                 <input
+                  min="1"
+                  max="60"
+                  type="number"
+                  placeholder="par secondes"
+                  className={`space ${!deux ? "activer" : ""}`}
+                  onChange={(e) => setHeure2(e.target.value)}
+                />
+                 <input
+                  min="1"
+                  max="60"
+                  type="number"
+                  placeholder="par secondes"
+                  className={`space ${!trois ? "activer" : ""}`}
+                  onChange={(e) => setHeure3(e.target.value)}
+                />
+                  {/* <select
+
                     className={`space ${!un ? "activer" : ""}`}
                     onChange={(e) => setHeure1(e.target.value)}
                   >
@@ -139,7 +166,7 @@ function Personnaliser() {
                     <option>31</option>
                     <option>25</option>
                     <option>30</option>
-                  </select>
+                  </select> */}
                 </div>
               </Form.Group>
 

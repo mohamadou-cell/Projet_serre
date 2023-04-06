@@ -38,9 +38,9 @@ function parametre() {
       }
       if (choix == "Laitue") {
         localStorage.setItem("CHOIX", "laitue");
-        localStorage.setItem("_DELAI", "2");
-        localStorage.setItem("_TIME1", "33");
-        localStorage.setItem("_TIME2", "35");
+        localStorage.setItem("_DELAI", "1");
+        localStorage.setItem("_TIME1", "48");
+        localStorage.setItem("_TIME2", "55");
         localStorage.setItem("_TIME3", "nan");
       }
       usenavigate("/Dashboard");
@@ -52,7 +52,7 @@ function parametre() {
     
     if(choix == 'Laitue'){
       setNbFois(2)
-      setDuree(2)
+      setDuree(1)
       setLaitue(true)
       setSauge(false)
     }

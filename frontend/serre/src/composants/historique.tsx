@@ -18,7 +18,11 @@ const Historique = () => {
   const max = `${annee}-0${mois}-0${jour}`;
 
   useEffect(() => {
-    fetch("http://localhost:5173/donnee.json", { method: "GET" })
+    fetch("http://localhost:3000/parametre/", { method: "GET",headers: {
+      "Content-Type": "application/json",
+       Accept: "application/json",
+      "Access-Control-Allow-Origin": "*",
+    }, })
       .then((res) => res.json())
       .then((res) => {
         console.log(res);

@@ -118,7 +118,7 @@ function Personnaliser() {
                     onChange={(e) => setHeure1(e.target.value)}
                   >
                     <option></option>
-                    <option>28</option>
+                    <option>05</option>
                     <option>26</option>
                     <option>55</option>
                   </select>

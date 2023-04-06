@@ -32,7 +32,7 @@ function parametre() {
       if (choix == "Sauge") {
         localStorage.setItem("CHOIX", "sauge");
         localStorage.setItem("_DELAI", "1");
-        localStorage.setItem("_TIME1", "38");
+        localStorage.setItem("_TIME1", "8");
         localStorage.setItem("_TIME2", "nan");
         localStorage.setItem("_TIME3", "nan");
       }

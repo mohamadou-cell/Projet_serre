@@ -6,7 +6,7 @@ import eyeon from "../assets/eyes-on.png";
 import eyesoff from "../assets/eyes-off.png";
 import { useForm } from "react-hook-form";
 import socketIOClient from "socket.io-client";
-const ENDPOINT = "http://localhost:8000";
+const ENDPOINT = "http://localhost:3000";
 
 // import { React } from "react";
 import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
@@ -24,14 +24,17 @@ const Connexion = () => {
 
   useEffect(() => {
     const socket = socketIOClient(ENDPOINT);
-    socket.on("data", (data) => {
+    socket.on("rfid", (data) => {
       console.log(data);
-      setMat({ matricule1: data, matricule2: data });
+      if (data.includes("@")) {
+        //console.log(data.split("@")[1]);
+        setMat({ matricule1: data.split("@")[1], matricule2: data.split("@")[1] });
+     }
     });
   }, [mat]);
 
   useEffect(() => {
-    fetch("http://localhost:8000/envoyer", {
+    fetch("http://localhost:3000/auth/logincarte", { //mis à jour to be merged MHDLamine->DEV
       method: "POST",
       body: JSON.stringify(mat),
       headers: {
@@ -41,16 +44,27 @@ const Connexion = () => {
       .then((res) => res.json())
       .then((res) => {
         //console.log(mat);
-        console.log(res.message);
-        if (res.message == "succes") {
-          setSms_erreur(true);
-          usenavigate("/dashboard");
-          localStorage.setItem("email", res.data.email);
-          localStorage.setItem("prenom", res.data.prenom);
-          localStorage.setItem("nom", res.data.nom);
-          localStorage.setItem("token", res.data.token);
+       // console.log(res.token);
+
+        if (res.token) {
+          localStorage.setItem("id", res.id);
+          localStorage.setItem("token", res.token);
+          fetch(`http://localhost:3000/auth/${res.id}`)//mis à jour to be merged MHDLamine->DEV
+          .then((res) => res.json())
+          .then((res) => {
+            //console.log(res.prenom);
+          
+          
+          localStorage.setItem("prenom", res.prenom);
+          
+        
+          localStorage.setItem("nom", res.nom);
+          localStorage.setItem("email", res.email);
+          usenavigate("/dashboard"); 
+        });
+         
         }
-        if (res.message != "succes" && mat != undefined) {
+        if (res.message == "accès refusé" && mat != undefined) {
           setSms_erreur(false);
         }
       }),
@@ -81,12 +95,19 @@ const Connexion = () => {
       })
         .then((res) => res.json())
         .then((data) => {
-          console.log(data);
+          //console.log(data);
           if (data.token) {
+            fetch(`http://localhost:3000/auth/${data.id}`)//mis à jour to be merged MHDLamine->DEV
+            .then((res) => res.json())
+            .then((res) => {
+              console.log(res.prenom);  
             localStorage.setItem("token", data.token);
             localStorage.setItem("id", data.id);
-          
+            localStorage.setItem("prenom", res.prenom);
+            localStorage.setItem("nom", res.nom);
+            localStorage.setItem("email", res.email);
             usenavigate("/dashboard");
+          });
           } else {
             setErrorBack(data.message);
             setEtat(true);
@@ -144,26 +165,26 @@ const Connexion = () => {
             Veuillez saisir vos information d'authentification <br />
             ou bien vous connecter avec la carte RFID.
           </h3>
-          <br />
-  
+          {/*  <br /> */}
+
           <div id="corps" className="d-flex gap-5">
             <div id="from">
               <Form onSubmit={onSubmit} className="">
                 <div className="d-flex gap-2">
-                <div
-                  className={`alert alert-danger text-center ${
-                    !etat ? "cacher" : ""
-                  }`}
-                >
-                  {errorBack}
-                </div>
-                <div
-                  className={`alert alert-danger text-center ${
-                    sms_erreur ? "cacher" : ""
-                  }`}
-                >
-                  accés refuser
-                </div>
+                  <div
+                    className={`alert alert-danger text-center ${
+                      !etat ? "cacher" : ""
+                    }`}
+                  >
+                    {errorBack}
+                  </div>
+                  <div
+                    className={`alert alert-danger text-center ${
+                      sms_erreur ? "cacher" : ""
+                    }`}
+                  >
+                    accés refuser
+                  </div>
                 </div>
                 <Form.Group className="" controlId="formBasicEmail">
                   <Form.Label>

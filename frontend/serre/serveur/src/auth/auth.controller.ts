@@ -1,9 +1,11 @@
 import { JwtAuthGuard } from './auth.guard';
-import { Body, Controller, Get, Post, Delete, Param, Put, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, Delete, Param, Put, UseGuards, Patch } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
 import { SignUpDto } from './dto/signup.dto';
 import { User } from './schemas/user.schema';
+import { LogincarteDto } from './dto/loginCarte.dts';
+import { UpdateEmployeeDto } from './dto/updateUser.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -18,23 +20,34 @@ export class AuthController {
   login(@Body() loginDto: LoginDto): Promise<{ token: string, id: string }> {
     return this.authService.login(loginDto);
   }
+//mis à jour to be merged MHDLamine->DEV
+  @Post('/logincarte')
+  logincarte(@Body() logincarteDto: LogincarteDto): Promise<{ token: string, id: string }> {
+    return this.authService.logincarte(logincarteDto);
+  }
 
   //@UseGuards(JwtAuthGuard)
   @Get('/getAll')
-  async getAllBooks(): Promise<User[]> {
+  async getAllUsers(): Promise<User[]> {
     return this.authService.findAll();
   }
 
   @Get(':id')
-  async getBook(
+  async getUser(
     @Param('id')
     id: string,
   ): Promise<User> {
     return this.authService.findById(id);
   }
 
+  //modification mot de passe controller
+  @Put(':id')
+  update(@Param('id') id: string, @Body() updateEmployeeDto: UpdateEmployeeDto) {
+    return this.authService.update(id, updateEmployeeDto);
+  }
+
   @Delete(':id')
-  async deleteBook(
+  async deleteUser(
     @Param('id')
     id: string,
   ): Promise<User> {

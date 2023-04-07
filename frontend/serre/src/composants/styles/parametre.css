@@ -56,4 +56,5 @@
     width: 100%;
     border-radius: 5px;
     background-color: white;
+    border: 0.5px solid rgb(145 133 133 / 41%);
 }

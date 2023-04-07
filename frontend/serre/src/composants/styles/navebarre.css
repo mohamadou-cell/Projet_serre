@@ -56,11 +56,24 @@
     text-decoration: none;
     color: black;
     font-weight: bold;
+    cursor: pointer;
 }
 .a:hover{
     text-decoration: none;
     color: white;
     font-weight: bold;
 }
-
+.cacher{
+    display: none;
+}
+.header{
+    background-color: #35B6FF;
+    color: white;
+}
+.req{
+    font-size: large;
+}
+.sous{
+    z-index: 1000;
+}
 

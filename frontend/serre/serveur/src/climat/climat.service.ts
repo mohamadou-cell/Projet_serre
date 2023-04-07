@@ -1,4 +1,4 @@
-/* import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
 import { CreateClimatDto } from './dto/create-climat.dto';
@@ -46,7 +46,7 @@ export class ClimatService {
   }
 
 }
- */
+ /* 
 import { ConsoleLogger, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Climat, ClimatDocument } from './entities/climat.entity';
@@ -84,7 +84,7 @@ export class ClimatService {
       const difference = this.diffInDays(fullDate, historDate);
       this.logger.log(`${difference} days`);
       return difference /* > 0 && difference <= 7 */;
-    });
+/*     });
   }
   diffInDays(date1, date2) {
     // Convert strings to dates
@@ -97,4 +97,4 @@ export class ClimatService {
     // Convert to days
     return diff / (1000 * 60 * 60 * 24);
   }
-}
+}  */

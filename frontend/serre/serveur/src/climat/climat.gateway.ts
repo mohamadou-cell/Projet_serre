@@ -100,13 +100,6 @@ export class ClimatGateway implements OnGatewayConnection, OnGatewayDisconnect {
             humid_sol: "--",
             luminosite: "--",
           },
-          temperature: data.split("/")[0],
-          humid_serre: data.split("/")[1],
-          luminosite: data.split("/")[2],
-          humid_sol: data.split("/")[3],
-          date: fullDate,
-          heure: `${hours}:${minutes}:${seconds}`,
-          //moyenne: { temperature, humid_serre, humid_sol, luminosite },
         });
         createdClimat.save();
         client.emit("connection", "climat 8h enregistré");

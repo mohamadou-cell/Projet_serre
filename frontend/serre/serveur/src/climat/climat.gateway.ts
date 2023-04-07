@@ -65,7 +65,7 @@ export class ClimatGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
    parser.on("data", (data) => {
       port.write(this.fanOn);
-      console.log(this.fanOn);
+      //console.log(this.fanOn);
 
       port.drain((err) => {
         //console.log(err);
@@ -75,7 +75,7 @@ export class ClimatGateway implements OnGatewayConnection, OnGatewayDisconnect {
         temperature: data.split("/")[0],
         humid_serre: data.split("/")[1],
         luminosite: data.split("/")[2],
-        humid_sol: data.split("/")[3],
+        humid_sol:data.split("/")[3],
       };
       client.emit("connection", climat);
       client.emit("rfid", data);

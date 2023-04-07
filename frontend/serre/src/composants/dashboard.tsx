@@ -27,110 +27,194 @@ const Dashboard = () => {
   const [seconde, setSeconde] = useState<string>();
   const [minute, setMinute] = useState<string>();
   const [heure, setHeure] = useState<string>();
-  const [cacher_auto, setcacher_auto] = useState<boolean>(true);
-
+  const [mois, setMois] = useState<string>();
+  const [annee, setAnnee] = useState<string>();
+  const [jour, setJour] = useState<string>();
+  const [cacher_auto, setcacher_auto] = useState<boolean>();
+  const [temperature, setTemperature] = useState<string>("27");
+  const [humid_sol, setHumid_sol] = useState<string>("40");
+  const [humid_serre, setHumid_serre] = useState<string>();
+  const [luminosite, setLuminosite] = useState<string>();
+  const [periode, setPeriode] = useState<string>();
+  const [temps, setTemps] = useState<string>();
   let etatBtn = false;
   let etatBtn_ = false;
+
+  useEffect(() => {
+  //  if (heure == "15" && minute == "00" && seconde == "00") {
+      fetch("http://localhost:3000/parametre", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          "Access-Control-Allow-Origin": "*",
+        },
+        body: JSON.stringify({
+          temperature: temperature,
+          humid_sol:  humid_sol,
+          humid_serre: humid_serre,
+          luminosite: luminosite,
+          date: periode,
+        }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(jour);
+          //console.log(annee.length)
+          //window.location.reload();
+        });
+  //  }
+  }, [jour]);
 
   useEffect(() => {
     const socket = socketIOClient(connection);
     socket.on("connection", (data) => {
       setDonnee(Array(data));
+      //console.log(data);
+      setHumid_serre(data.humid_serre);
+      setHumid_sol(data.humid_sol);
+      setLuminosite(data.luminosite)
+      setTemperature(data.temperature)
+      
     });
+    if (localStorage.getItem("_DELAI") == undefined) {
+      setcacher_auto(true)
+    }
+    if (localStorage.getItem("_DELAI") != undefined) {
+      setcacher_auto(false)
+    }
   }, []);
   //param arrosage automatique
   useEffect(() => {
+    
+   /*  if ( parseInt(temperature) > 29 ) {
+      off_Ventilateur()
+      setTimeout(() => {
+        on_Ventilateur();
+      }, 20000); 
+    }
+     if (  parseInt(humid_sol) < 35) {
+      off_Arrosage()
+      setTimeout(() => {
+        on_Arrosage();
+      }, 20000); 
+    
+    }  */
+  
     if (localStorage.getItem("_DELAI") != undefined) {
-     // console.log(`rfjrjbf`);
+  
       if (
-        (minute == localStorage.getItem("_TIME1") && seconde == "30") ||
-        (minute == localStorage.getItem("_TIME2") && seconde == "30") ||
-        (minute == localStorage.getItem("_TIME3") && seconde == "30") 
-      ) { 
+        (minute == localStorage.getItem("_TIME1") && seconde == "0") ||
+        (minute == localStorage.getItem("_TIME2") && seconde == "0") ||
+        (minute == localStorage.getItem("_TIME3") && seconde == "0")
+      ) {
         off_Arrosage();
-          if (localStorage.getItem("_DELAI") == "1") {
-            setTimeout(() => {
-              on_Arrosage();
-            }, 60000);
-          }
-          if (localStorage.getItem("_DELAI") == "2") {
-            setTimeout(() => {
-              on_Arrosage();
-            }, 120000);
-          }
-          if (localStorage.getItem("_DELAI") == "3") {
-            setTimeout(() => {
-              on_Arrosage();
-            }, 180000);
-          }
-          if (localStorage.getItem("_DELAI") == "4") {
-            setTimeout(() => {
-              on_Arrosage();
-            }, 240000);
-          }
-          if (localStorage.getItem("_DELAI") == "5") {
-            setTimeout(() => {
-              on_Arrosage();
-            }, 300000);
-          }
-          if (localStorage.getItem("_DELAI") == "6") {
-            setTimeout(() => {
-              on_Arrosage();
-            }, 360000);
-          }
-          if (localStorage.getItem("_DELAI") == "7") {
-            setTimeout(() => {
-              on_Arrosage();
-            }, 420000);
-          }
-          if (localStorage.getItem("_DELAI") == "8") {
-            setTimeout(() => {
-              on_Arrosage();
-            }, 480000);
-          }
-          if (localStorage.getItem("_DELAI") == "9") {
-            setTimeout(() => {
-              on_Arrosage();
-            }, 540000);
-          }
-          if (localStorage.getItem("_DELAI") == "10") {
-            setTimeout(() => {
-              on_Arrosage();
-            }, 600000);
-          }
-       }
+        if (localStorage.getItem("_DELAI") == "1") {
+          setTimeout(() => {
+            on_Arrosage();
+          }, 60000);
+        }
+        if (localStorage.getItem("_DELAI") == "2") {
+          setTimeout(() => {
+            on_Arrosage();
+          }, 120000);
+        }
+        if (localStorage.getItem("_DELAI") == "3") {
+          setTimeout(() => {
+            on_Arrosage();
+          }, 180000);
+        }
+        if (localStorage.getItem("_DELAI") == "4") {
+          setTimeout(() => {
+            on_Arrosage();
+          }, 240000);
+        }
+        if (localStorage.getItem("_DELAI") == "5") {
+          setTimeout(() => {
+            on_Arrosage();
+          }, 300000);
+        }
+        if (localStorage.getItem("_DELAI") == "6") {
+          setTimeout(() => {
+            on_Arrosage();
+          }, 360000);
+        }
+        if (localStorage.getItem("_DELAI") == "7") {
+          setTimeout(() => {
+            on_Arrosage();
+          }, 420000);
+        }
+        if (localStorage.getItem("_DELAI") == "8") {
+          setTimeout(() => {
+            on_Arrosage();
+          }, 480000);
+        }
+        if (localStorage.getItem("_DELAI") == "9") {
+          setTimeout(() => {
+            on_Arrosage();
+          }, 540000);
+        }
+        if (localStorage.getItem("_DELAI") == "10") {
+          setTimeout(() => {
+            on_Arrosage();
+          }, 600000);
+        }
+      }
     }
   }, [seconde]);
 
-  const perso1 = () =>{
-    setcacher_auto(true)
-    localStorage.removeItem("_TIME1")
-    localStorage.removeItem("_TIME2")
-    localStorage.removeItem("_TIME3")
-    localStorage.removeItem("_DELAI")
-  }
-  const perso2 = () =>{
-    setcacher_auto(false)
+  const perso1 = () => {
+    setcacher_auto(true);
+    localStorage.removeItem("_TIME1");
+    localStorage.removeItem("_TIME2");
+    localStorage.removeItem("_TIME3");
+    localStorage.removeItem("_DELAI");
+    localStorage.removeItem("CHOIX");
+  };
+  const perso2 = () => {
+    setcacher_auto(false);
     localStorage.setItem("_DELAI", "1");
-    localStorage.setItem("_TIME1", "33");
-    localStorage.setItem("_TIME2", "38");
+    localStorage.setItem("CHOIX", "Laitue");
+    localStorage.setItem("_TIME1", "0");
+    localStorage.setItem("_TIME2", "30");
     localStorage.setItem("_TIME3", "nan");
-  }
-
+  };
 
   setInterval(() => repeter(), 1000);
 
   const repeter = () => {
+
+  let currentDate = new Date().getFullYear()+ '-' +"0"+(parseInt(String(new Date().getMonth())) +1) + '-'+"0"+new Date().getDate() 
+    
+      
+
     let date = new Date();
     let seconde = date.getSeconds();
     let minute = date.getMinutes();
     let heure = date.getHours();
-
+    let mois = date.getMonth() + 1;
+    let annee = date.getFullYear();
+    let jour = date.getDay();
+    let moisStr = mois.toString()
+    let jourStr = jour.toString()
+    
+    if (mois < 10) {
+      moisStr = "0"+mois;
+    }
+    if (jour < 10) {
+      jourStr = "0"+jour;
+    }
+    
     setSeconde(seconde.toString());
     setMinute(minute.toString());
     setHeure(heure.toString());
+    setMois(moisStr);
+    setAnnee(annee.toString());
+    setJour(jourStr);
+   
+    setPeriode(currentDate)
   };
- 
+
   const on_Arrosage = () => {
     setCacher(false);
     const socket = socketIOClient(connection);
@@ -259,7 +343,7 @@ const Dashboard = () => {
                 <div className=" ">
                   {donnees?.map((donnee: any) => (
                     <p className="real-time humid">
-                      HUMIDITE : {donnee.humid_serre} %{" "}
+                      HUMIDITE : {donnee.humid_sol} %{" "}
                     </p>
                   ))}
                 </div>
@@ -353,27 +437,38 @@ const Dashboard = () => {
                     <div className="parat">
                       <div className="toit">
                         <p>ARROSEUR</p>
-                       {/*  arrosage automatique */}
+                        {/*  arrosage automatique */}
                         <div className="switch_arro">
-                        <img 
-                        className={`${cacher_auto ? "cacher" : ""}`}  
-                        onClick={() => {
-                          perso1();
-                        }}
-                        src={on_arrosage}
-                        alt=""
-                        />
-                        <p className={`text-success ${cacher_auto ? "cacher" : ""}`} >auto activé  {localStorage.getItem("CHOIX")} </p>
-                        <img
-                        className={`${!cacher_auto ? "cacher" : ""}`}
-                        onClick={() => {
-                          perso2();
-                        }}
-                        src={off_arrosage}
-                        alt=""
-                        />
-                        <p className={`text-danger ${!cacher_auto ? "cacher" : ""}`}>auto désactivé</p>
-                        
+                          <img
+                            className={`${cacher_auto ? "cacher" : ""}`}
+                            onClick={() => {
+                              perso1();
+                            }}
+                            src={on_arrosage}
+                            alt=""
+                          />
+                          <p
+                            className={`text-success ${
+                              cacher_auto ? "cacher" : ""
+                            }`}
+                          >
+                            auto activé {localStorage.getItem("CHOIX")}{" "}
+                          </p>
+                          <img
+                            className={`${!cacher_auto ? "cacher" : ""}`}
+                            onClick={() => {
+                              perso2();
+                            }}
+                            src={off_arrosage}
+                            alt=""
+                          />
+                          <p
+                            className={`text-danger ${
+                              !cacher_auto ? "cacher" : ""
+                            }`}
+                          >
+                            auto désactivé
+                          </p>
                         </div>
                         <img
                           id="voir"

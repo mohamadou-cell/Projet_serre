@@ -30,19 +30,51 @@ const Dashboard = () => {
   const [mois, setMois] = useState<string>();
   const [annee, setAnnee] = useState<string>();
   const [jour, setJour] = useState<string>();
-  const [cacher_auto, setcacher_auto] = useState<boolean>();
-  const [temperature, setTemperature] = useState<string>("27");
-  const [humid_sol, setHumid_sol] = useState<string>("40");
-  const [humid_serre, setHumid_serre] = useState<string>();
-  const [luminosite, setLuminosite] = useState<string>();
+  const [cacher_auto, setcacher_auto] = useState<boolean>(true);
+  const [temperature, setTemperature] = useState<string>("--");
+  const [humid_sol, setHumid_sol] = useState<string>("--");
+  const [humid_serre, setHumid_serre] = useState<string>("--");
+  const [luminosite, setLuminosite] = useState<string>("--");
   const [periode, setPeriode] = useState<string>();
   const [temps, setTemps] = useState<string>();
   let etatBtn = false;
   let etatBtn_ = false;
+  //parametre
+  const [heure1, setHeure1] = useState<string>("");
+  const [heure2, setHeure2] = useState<string>("");
+  const [heure3, setHeure3] = useState<string>("");
+  const [minute1, setMinute1] = useState<string>("");
+  const [minute2, setMinute2] = useState<string>("");
+  const [minute3, setMinute3] = useState<string>("");
+  const [duree, setDuree] = useState<string>("");
 
+  //recuperation données parametres
   useEffect(() => {
-  //  if (heure == "15" && minute == "00" && seconde == "00") {
-      fetch("http://localhost:3000/parametre", {
+    fetch("http://localhost:3000/parametre", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        setDuree(res[0].duree);
+        setHeure1(res[0].heure_arrosage1);
+        setHeure2(res[0].heure_arrosage2);
+        setHeure3(res[0].heure_arrosage3);
+        setMinute1(res[0].minute_arrosage1);
+        setMinute2(res[0].minute_arrosage2);
+        setMinute3(res[0].minute_arrosage3);
+        //console.log(duree);
+      });
+  }, [seconde]);
+
+  useEffect(
+    () => {
+      //  if (heure == "15" && minute == "0" && seconde == "0") {
+      fetch("http://localhost:3000/historique", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -51,7 +83,7 @@ const Dashboard = () => {
         },
         body: JSON.stringify({
           temperature: temperature,
-          humid_sol:  humid_sol,
+          humid_sol: humid_sol,
           humid_serre: humid_serre,
           luminosite: luminosite,
           date: periode,
@@ -59,12 +91,16 @@ const Dashboard = () => {
       })
         .then((res) => res.json())
         .then((data) => {
-          console.log(jour);
+          // console.log(jour);
           //console.log(annee.length)
           //window.location.reload();
         });
-  //  }
-  }, [jour]);
+      //  }
+    },
+    [
+      /* heure */
+    ]
+  );
 
   useEffect(() => {
     const socket = socketIOClient(connection);
@@ -73,120 +109,160 @@ const Dashboard = () => {
       //console.log(data);
       setHumid_serre(data.humid_serre);
       setHumid_sol(data.humid_sol);
-      setLuminosite(data.luminosite)
-      setTemperature(data.temperature)
-      
+      setLuminosite(data.luminosite);
+      setTemperature(data.temperature);
     });
-    if (localStorage.getItem("_DELAI") == undefined) {
-      setcacher_auto(true)
+    if (localStorage.getItem("etat_arrosage") == "false") {
+      on_Arrosage();
     }
-    if (localStorage.getItem("_DELAI") != undefined) {
-      setcacher_auto(false)
+    if (localStorage.getItem("etat_arrosage") == "true") {
+      off_Arrosage();
     }
+    if (localStorage.getItem("etat_ventilateur") == "false") {
+      on_Ventilateur();
+    }
+    if (localStorage.getItem("etat_ventilateur") == "true") {
+      off_Ventilateur();
+    }
+    //toit
+    if (localStorage.getItem("etat_toit1") == "true") {
+      ouverture_45();
+    }
+    if (localStorage.getItem("etat_toit2") == "true") {
+      ouverture_90();
+    }
+    if (localStorage.getItem("etat_toit3") == "true") {
+      ouverture_180();
+    }
+    if (localStorage.getItem("etat_toit1") == "false") {
+      fermeture_45();
+    }
+    if (localStorage.getItem("etat_toit2") == "false") {
+      fermeture_90();
+    }
+    if (localStorage.getItem("etat_toit3") == "false") {
+      fermeture_180();
+    }
+
   }, []);
   //param arrosage automatique
   useEffect(() => {
-    
-   /*  if ( parseInt(temperature) > 29 ) {
+    /*   if ( parseInt(temperature) > 29 ) {
       off_Ventilateur()
       setTimeout(() => {
         on_Ventilateur();
-      }, 20000); 
+      }, 30000); 
     }
-     if (  parseInt(humid_sol) < 35) {
+       if (  parseInt(humid_sol) < 35) {
       off_Arrosage()
       setTimeout(() => {
         on_Arrosage();
-      }, 20000); 
+      }, 30000); 
     
-    }  */
-  
-    if (localStorage.getItem("_DELAI") != undefined) {
-  
+    }    
+    if (  parseInt(luminosite) > 200) {
+      ouverture_45();
+      setTimeout(() => {
+        fermeture_45();
+      }, 30000); 
+    
+    }   */
+
+     if (localStorage.getItem("auto") == "true") { 
       if (
-        (minute == localStorage.getItem("_TIME1") && seconde == "0") ||
-        (minute == localStorage.getItem("_TIME2") && seconde == "0") ||
-        (minute == localStorage.getItem("_TIME3") && seconde == "0")
+        (heure == heure1 && minute == minute1 && seconde == "0") ||
+        (heure == heure1 && minute == minute1 && seconde == "0") ||
+        (heure == heure1 && minute == minute1 && seconde == "0")
       ) {
         off_Arrosage();
-        if (localStorage.getItem("_DELAI") == "1") {
+        console.log('l heure');
+        
+        if (duree == "1") {
           setTimeout(() => {
             on_Arrosage();
           }, 60000);
         }
-        if (localStorage.getItem("_DELAI") == "2") {
+        if (duree == "2") {
           setTimeout(() => {
             on_Arrosage();
           }, 120000);
         }
-        if (localStorage.getItem("_DELAI") == "3") {
+        if (duree == "3") {
           setTimeout(() => {
             on_Arrosage();
           }, 180000);
         }
-        if (localStorage.getItem("_DELAI") == "4") {
+        if (duree== "4") {
           setTimeout(() => {
             on_Arrosage();
           }, 240000);
         }
-        if (localStorage.getItem("_DELAI") == "5") {
+        if (duree == "5") {
           setTimeout(() => {
             on_Arrosage();
           }, 300000);
         }
-        if (localStorage.getItem("_DELAI") == "6") {
+        if (duree == "6") {
           setTimeout(() => {
             on_Arrosage();
           }, 360000);
         }
-        if (localStorage.getItem("_DELAI") == "7") {
+        if (duree == "7") {
           setTimeout(() => {
             on_Arrosage();
           }, 420000);
         }
-        if (localStorage.getItem("_DELAI") == "8") {
+        if (duree == "8") {
           setTimeout(() => {
             on_Arrosage();
           }, 480000);
         }
-        if (localStorage.getItem("_DELAI") == "9") {
+        if (duree == "9") {
           setTimeout(() => {
             on_Arrosage();
           }, 540000);
         }
-        if (localStorage.getItem("_DELAI") == "10") {
+        if (duree == "10") {
           setTimeout(() => {
             on_Arrosage();
           }, 600000);
         }
       }
     }
-  }, [seconde]);
+   } , [seconde]);
 
   const perso1 = () => {
     setcacher_auto(true);
-    localStorage.removeItem("_TIME1");
+    localStorage.removeItem("auto");
+    localStorage.setItem("auto", "true");
+  /*   localStorage.removeItem("_TIME1");
     localStorage.removeItem("_TIME2");
     localStorage.removeItem("_TIME3");
     localStorage.removeItem("_DELAI");
-    localStorage.removeItem("CHOIX");
+    localStorage.removeItem("CHOIX"); */
   };
   const perso2 = () => {
     setcacher_auto(false);
-    localStorage.setItem("_DELAI", "1");
+    localStorage.removeItem("auto");
+    localStorage.setItem("auto", "false");
+  /*   localStorage.setItem("_DELAI", "1");
     localStorage.setItem("CHOIX", "Laitue");
     localStorage.setItem("_TIME1", "0");
     localStorage.setItem("_TIME2", "30");
-    localStorage.setItem("_TIME3", "nan");
+    localStorage.setItem("_TIME3", "nan"); */
   };
 
   setInterval(() => repeter(), 1000);
 
   const repeter = () => {
-
-  let currentDate = new Date().getFullYear()+ '-' +"0"+(parseInt(String(new Date().getMonth())) +1) + '-'+"0"+new Date().getDate() 
-    
-      
+    let currentDate =
+      new Date().getFullYear() +
+      "-" +
+      "0" +
+      (parseInt(String(new Date().getMonth())) + 1) +
+      "-" +
+      "0" +
+      new Date().getDate();
 
     let date = new Date();
     let seconde = date.getSeconds();
@@ -195,46 +271,50 @@ const Dashboard = () => {
     let mois = date.getMonth() + 1;
     let annee = date.getFullYear();
     let jour = date.getDay();
-    let moisStr = mois.toString()
-    let jourStr = jour.toString()
-    
+    let moisStr = mois.toString();
+    let jourStr = jour.toString();
+
     if (mois < 10) {
-      moisStr = "0"+mois;
+      moisStr = "0" + mois;
     }
     if (jour < 10) {
-      jourStr = "0"+jour;
+      jourStr = "0" + jour;
     }
-    
+
     setSeconde(seconde.toString());
     setMinute(minute.toString());
     setHeure(heure.toString());
     setMois(moisStr);
     setAnnee(annee.toString());
     setJour(jourStr);
-   
-    setPeriode(currentDate)
+
+    setPeriode(currentDate);
   };
 
   const on_Arrosage = () => {
     setCacher(false);
     const socket = socketIOClient(connection);
     socket.emit("fanOn", "6");
+    localStorage.setItem("etat_arrosage", "false");
   };
   const off_Arrosage = () => {
     setCacher(true);
     const socket = socketIOClient(connection);
     socket.emit("fanOn", "7");
+    localStorage.setItem("etat_arrosage", "true");
   };
 
   const on_Ventilateur = () => {
     setCacher_(false);
     const socket = socketIOClient(connection);
     socket.emit("fanOn", "0");
+    localStorage.setItem("etat_ventilateur", "false");
   };
   const off_Ventilateur = () => {
     setCacher_(true);
     const socket = socketIOClient(connection);
     socket.emit("fanOn", "1");
+    localStorage.setItem("etat_ventilateur", "true");
   };
   //Les fonctions du toit l'ouverture consiste à mettre une condition
   // true sur le bonton clicker et grisser les autre en meme temps
@@ -244,6 +324,9 @@ const Dashboard = () => {
     set_180(false);
     const socket = socketIOClient(connection);
     socket.emit("fanOn", "2");
+    localStorage.setItem("etat_toit1", "true");
+    localStorage.setItem("etat_toit2", "false");
+    localStorage.setItem("etat_toit3", "false");
   };
 
   const ouverture_90 = () => {
@@ -252,6 +335,9 @@ const Dashboard = () => {
     set_180(false);
     const socket = socketIOClient(connection);
     socket.emit("fanOn", "3");
+    localStorage.setItem("etat_toit2", "true");
+    localStorage.setItem("etat_toit1", "false");
+    localStorage.setItem("etat_toit3", "false");
   };
   const ouverture_180 = () => {
     set_45(false);
@@ -259,22 +345,28 @@ const Dashboard = () => {
     set_180(true);
     const socket = socketIOClient(connection);
     socket.emit("fanOn", "4");
+    localStorage.setItem("etat_toit3", "true");
+    localStorage.setItem("etat_toit1", "false");
+    localStorage.setItem("etat_toit2", "false");
   };
   //fermeture
   const fermeture_45 = () => {
     set_45(false);
     const socket = socketIOClient(connection);
     socket.emit("fanOn", "5");
+    localStorage.setItem("etat_toit1", "false");
   };
   const fermeture_90 = () => {
     set_90(false);
     const socket = socketIOClient(connection);
     socket.emit("fanOn", "5");
+    localStorage.setItem("etat_toit2", "false");
   };
   const fermeture_180 = () => {
     set_180(false);
     const socket = socketIOClient(connection);
     socket.emit("fanOn", "5");
+    localStorage.setItem("etat_toit3", "false");
   };
 
   const usenavigate = useNavigate();
@@ -295,9 +387,7 @@ const Dashboard = () => {
                   <img className="imga" src={temp} alt="" />
                 </div>
                 <div className="cont-temp">
-                  {donnees?.map((donnee: any) => (
-                    <p className="real-time">{donnee.temperature} °C</p>
-                  ))}
+                  <p className="real-time">{temperature} °C</p>
                 </div>
               </div>
             </div>
@@ -310,9 +400,7 @@ const Dashboard = () => {
                   <img className="imga" src={sun} alt="" />
                 </div>
                 <div className="cont-temp">
-                  {donnees?.map((donnee: any) => (
-                    <p className="real-time">{donnee.luminosite} LUX</p>
-                  ))}
+                  <p className="real-time">{luminosite} LUX</p>
                 </div>
               </div>
             </div>
@@ -325,9 +413,7 @@ const Dashboard = () => {
                   <img className="imga" src={humid} alt="" />
                 </div>
                 <div className="cont-temp">
-                  {donnees?.map((donnee: any) => (
-                    <p className="real-time">{donnee.humid_serre} %</p>
-                  ))}
+                  <p className="real-time">{humid_serre} % </p>
                 </div>
               </div>
             </div>
@@ -341,11 +427,7 @@ const Dashboard = () => {
                 </div>
                 <div className="cont-temp"></div>
                 <div className=" ">
-                  {donnees?.map((donnee: any) => (
-                    <p className="real-time humid">
-                      HUMIDITE : {donnee.humid_sol} %{" "}
-                    </p>
-                  ))}
+                  <p className="real-time humid">HUMIDITE : {humid_sol}</p>
                 </div>
               </div>
             </div>

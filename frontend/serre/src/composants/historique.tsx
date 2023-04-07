@@ -18,7 +18,7 @@ const Historique = () => {
   const max = `${annee}-0${mois}-0${jour}`;
 
   useEffect(() => {
-    fetch("http://localhost:3000/parametre/", { method: "GET",headers: {
+    fetch("http://localhost:3000/historique/", { method: "GET",headers: {
       "Content-Type": "application/json",
        Accept: "application/json",
       "Access-Control-Allow-Origin": "*",
@@ -59,7 +59,7 @@ const Historique = () => {
       setActive2(true);
       setStart(7);
       setEnd(14);
-    }
+    };
     if (active2 == true) {
       setActive1(true);
       setActive2(false);
@@ -91,6 +91,7 @@ const Historique = () => {
   const usenavigate = useNavigate();
   if (localStorage.getItem("token") == undefined) {
     usenavigate("/");
+
   }
   else{
   return (
@@ -163,7 +164,7 @@ const Historique = () => {
                       href="#"
                       onClick={() => {
                         setStart(7);
-                        setEnd(14);
+                        setEnd(11);
                         setActive1(false);
                         setActive2(true);
                       }}

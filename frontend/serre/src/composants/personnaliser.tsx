@@ -15,8 +15,11 @@ function Personnaliser() {
   const [heure_arrosage1, setHeure1] = useState("");
   const [heure_arrosage2, setHeure2] = useState("");
   const [heure_arrosage3, setHeure3] = useState("");
+  const [minute_arrosage1, setMinute1] = useState("");
+  const [minute_arrosage2, setMinute2] = useState("");
+  const [minute_arrosage3, setMinute3] = useState("");
   const [duree, setDuree] = useState("");
-
+/* 
   const params = () => {
     if (heure_arrosage1 == "" || duree == "") {
       console.log("required");
@@ -31,37 +34,41 @@ function Personnaliser() {
       localStorage.setItem("_TIME1", heure_arrosage1);
       localStorage.setItem("_TIME2", heure_arrosage2);
       localStorage.setItem("_TIME3", heure_arrosage3);
-      usenavigate("/Dashboard");
+      //usenavigate("/Dashboard");
     }
-  };
+  }; */
 
-  /*  const handleSubmit = (e:any) => {
+    const handleSubmit = (e:any) => {
       
         e.preventDefault();
   
         console.log(nombre_arrosage, heure_arrosage1, heure_arrosage2, heure_arrosage3, duree);
-        fetch("http://localhost:3000/parametre", {
-          method: "POST",
+        fetch("http://localhost:3000/parametre/64307b36637f4fdee4912ce7", {
+          method: "PATCH",
           headers: {
             "Content-Type": "application/json",
             Accept: "application/json",
             "Access-Control-Allow-Origin": "*",
           },
           body: JSON.stringify({
-            nombre_arrosage, 
-            heure_arrosage1, 
-            heure_arrosage2, 
-            heure_arrosage3, 
-            duree
+            nombre_arrosage : nombre_arrosage,
+            duree : duree, 
+            heure_arrosage1 : heure_arrosage1,
+            minute_arrosage1 : minute_arrosage1,
+            heure_arrosage2 : heure_arrosage2,
+            minute_arrosage2 : minute_arrosage2, 
+            heure_arrosage3 : heure_arrosage3,
+            minute_arrosage3 : minute_arrosage3 
+            
           }),
         })
           .then((res) => res.json())
           .then((data) => {
             console.log(data);
-            window.location.reload();
+            usenavigate("/Dashboard");
           });
       
-    }; */
+    }; 
 
   const choice = (nombre_arrosage: string) => {
     setChoix(nombre_arrosage);
@@ -97,7 +104,7 @@ function Personnaliser() {
         <div id="body">
           <Card body id="card" className="w-25">
             <h4 className="titre">PARAMETRES D'ARROSAGE</h4>
-            <Form className="mt-5" /* onSubmit={handleSubmit} */>
+            <Form className="mt-5"  onSubmit={handleSubmit} >
               <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label>Nombre d'arrosage</Form.Label>
                 <Form.Select onChange={(e) => choice(e.target.value)}>
@@ -119,7 +126,7 @@ function Personnaliser() {
                   min="1"
                   max="60"
                   type="number"
-                  placeholder="par secondes"
+                  placeholder="heure"
                   className={`space ${!un ? "activer" : ""}`}
                   onChange={(e) => setHeure1(e.target.value)}
                 />
@@ -127,7 +134,15 @@ function Personnaliser() {
                   min="1"
                   max="60"
                   type="number"
-                  placeholder="par secondes"
+                  placeholder="minute"
+                  className={`space ${!un ? "activer" : ""}`}
+                  onChange={(e) => setMinute1(e.target.value)}
+                />
+                 <input
+                  min="1"
+                  max="60"
+                  type="number"
+                  placeholder="heure"
                   className={`space ${!deux ? "activer" : ""}`}
                   onChange={(e) => setHeure2(e.target.value)}
                 />
@@ -135,9 +150,25 @@ function Personnaliser() {
                   min="1"
                   max="60"
                   type="number"
-                  placeholder="par secondes"
+                  placeholder="minute"
+                  className={`space ${!deux ? "activer" : ""}`}
+                  onChange={(e) => setMinute2(e.target.value)}
+                />
+                 <input
+                  min="1"
+                  max="60"
+                  type="number"
+                  placeholder="heure"
                   className={`space ${!trois ? "activer" : ""}`}
                   onChange={(e) => setHeure3(e.target.value)}
+                />
+                  <input
+                  min="1"
+                  max="60"
+                  type="number"
+                  placeholder="minute"
+                  className={`space ${!trois ? "activer" : ""}`}
+                  onChange={(e) => setMinute3(e.target.value)}
                 />
                   {/* <select
 
@@ -183,9 +214,9 @@ function Personnaliser() {
 
               <Button
                 variant="primary"
-                /* type="submit" */ onClick={() => {
+                 type="submit"  /* onClick={() => {
                   params();
-                }}
+                }} */
                 className="mt-3"
                 id="btn"
               >

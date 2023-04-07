@@ -258,7 +258,7 @@ const Connexion = () => {
                 </svg>
                 <div id="mdp">
                   <a href="" className="mdp2">
-                    Mot de passe oublié?
+                    Connection avec RFID
                   </a>
                 </div>
               </div>

@@ -53,7 +53,7 @@ export class ClimatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     client.on("fanOn", (onData) => {
       port.write(onData);
       this.fanOn = onData;
-      console.log(onData);
+      //console.log(onData);
 
       /*port.drain((err) => {
         console.log(err);
@@ -80,9 +80,9 @@ export class ClimatGateway implements OnGatewayConnection, OnGatewayDisconnect {
       client.emit("connection", climat);
       client.emit("rfid", data);
       const fullDate = `${day}/${month}/${year}`;
-      if (hours == 16 && minutes == 6 && seconds == 0) {
+      if (hours == 21 && minutes == 21 && seconds == 0) {
         const createdClimat = new this.climatModel({
-          "8h": {
+          /* "8h": {
             temperature: data.split("/")[0],
             humid_serre: data.split("/")[1],
             luminosite: data.split("/")[2],
@@ -99,7 +99,7 @@ export class ClimatGateway implements OnGatewayConnection, OnGatewayDisconnect {
             humid_serre: "--",
             humid_sol: "--",
             luminosite: "--",
-          },
+          }, */
           temperature: data.split("/")[0],
           humid_serre: data.split("/")[1],
           luminosite: data.split("/")[2],
@@ -109,9 +109,9 @@ export class ClimatGateway implements OnGatewayConnection, OnGatewayDisconnect {
           //moyenne: { temperature, humid_serre, humid_sol, luminosite },
         });
         createdClimat.save();
-        client.emit("connection", "climat 8h enregistré");
+        /* client.emit("connection", "climat 8h enregistré"); */
       }
-      if (hours == 12 && minutes == 0 && seconds == 0) {
+    /*   if (hours == 12 && minutes == 0 && seconds == 0) {
         this.climatModel
           .updateOne(
             { date: fullDate },
@@ -146,7 +146,7 @@ export class ClimatGateway implements OnGatewayConnection, OnGatewayDisconnect {
             console.log(data);
           });
         client.emit("connection", "climat 19h enregistré");
-      }
+      } */
     });
   }
 

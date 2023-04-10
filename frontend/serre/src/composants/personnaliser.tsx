@@ -15,8 +15,12 @@ function Personnaliser() {
   const [heure_arrosage1, setHeure1] = useState("");
   const [heure_arrosage2, setHeure2] = useState("");
   const [heure_arrosage3, setHeure3] = useState("");
+  const [minute_arrosage1, setMinute1] = useState("");
+  const [minute_arrosage2, setMinute2] = useState("");
+  const [minute_arrosage3, setMinute3] = useState("");
   const [duree, setDuree] = useState("");
-
+  /*   const [vide, setVide] = useState<boolean>(true); */
+  /* 
   const params = () => {
     if (heure_arrosage1 == "" || duree == "") {
       console.log("required");
@@ -31,46 +35,185 @@ function Personnaliser() {
       localStorage.setItem("_TIME1", heure_arrosage1);
       localStorage.setItem("_TIME2", heure_arrosage2);
       localStorage.setItem("_TIME3", heure_arrosage3);
-      usenavigate("/Dashboard");
+      //usenavigate("/Dashboard");
     }
+  }; */
+
+  const handleSubmit = (e: any) => {
+    if (parseInt(minute_arrosage1) < 1) {
+      setMinute1("0");
+      console.log(`i${minute_arrosage1}i`);
+    }
+    if (parseInt(minute_arrosage2) < 1) {
+      setMinute2("0");
+    }
+    if (parseInt(minute_arrosage3) < 1) {
+      setMinute3("0");
+    }
+    e.preventDefault();
+
+    console.log(
+      nombre_arrosage,
+      heure_arrosage1,
+      heure_arrosage2,
+      heure_arrosage3,
+      duree
+    );
+    fetch("http://localhost:3000/parametre/64307b36637f4fdee4912ce7", {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+      body: JSON.stringify({
+        nombre_arrosage: nombre_arrosage,
+        duree: duree,
+        heure_arrosage1: heure_arrosage1,
+        minute_arrosage1: minute_arrosage1,
+        heure_arrosage2: heure_arrosage2,
+        minute_arrosage2: minute_arrosage2,
+        heure_arrosage3: heure_arrosage3,
+        minute_arrosage3: minute_arrosage3,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        usenavigate("/Dashboard");
+      });
   };
 
-  /*  const handleSubmit = (e:any) => {
-      
-        e.preventDefault();
-  
-        console.log(nombre_arrosage, heure_arrosage1, heure_arrosage2, heure_arrosage3, duree);
-        fetch("http://localhost:3000/parametre", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-            "Access-Control-Allow-Origin": "*",
-          },
-          body: JSON.stringify({
-            nombre_arrosage, 
-            heure_arrosage1, 
-            heure_arrosage2, 
-            heure_arrosage3, 
-            duree
-          }),
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            console.log(data);
-            window.location.reload();
-          });
-      
-    }; */
+  const f_setHeure1 = (e: any) => {
+    if (e == "01") {
+      setHeure1("1");
+    }
+    if  (e == "02") {
+      setHeure1("2");
+    }
+    if (e == "03") {
+      setHeure1("3");
+    }
+    if (e == "04") {
+      setHeure1("4");
+    }
+    if (e == "05") {
+      setHeure1("5");
+    }
+    if (e == "06") {
+      setHeure1("6");
+    }
+    if (e == "07") {
+      setHeure1("7");
+    }
+    if (e == "08") {
+      setHeure1("8");
+    }
+    if (e == "09") {
+      setHeure1("9");
+    }
+    else{
+      setHeure1(e)
+    }
+  }
 
+  const f_setHeure2 = (e: any) => {
+    if (e == "01") {
+      setHeure2("1");
+    }
+    if (e == "02") {
+      setHeure2("2");
+    }
+    if (e == "03") {
+      setHeure2("3");
+    }
+    if (e == "04") {
+      setHeure2("4");
+    }
+    if (e == "05") {
+      setHeure2("5");
+    }
+    if (e == "06") {
+      setHeure2("6");
+    }
+    if (e == "07") {
+      setHeure2("7");
+    }
+    if (e == "08") {
+      setHeure2("8");
+    }
+    if (e == "09") {
+      setHeure2("9");
+    }
+    else{
+      setHeure2(e)
+    }
+  }
+
+  function f_setHeure3(e: any) {
+    if (e == "01") {
+      setHeure3("1");
+    }
+    if (e == "02") {
+      setHeure3("2");
+    }
+    if (e == "03") {
+      setHeure3("3");
+    }
+    if (e == "04") {
+      setHeure3("4");
+    2
+    if (e == "05") {
+      setHeure3("5");
+    }
+    if (e == "06") {
+      setHeure3("6");
+    }
+    if (e == "07") {
+      setHeure3("7");
+    }
+    if (e == "08") {
+      setHeure3("8");
+    }
+    if (e == "09") {
+      setHeure3("9");
+    }
+    else{
+      setHeure3(e)
+    }
+  }
+  }
+  const f_setMinute1 = (e: any) => {
+    if (parseInt(e) < 1) {
+      setMinute1("0");
+    }
+    if (parseInt(e) >= 1) {
+      setMinute1(e);
+    }
+  };
+  const f_setMinute2 = (e: any) => {
+    if (parseInt(e) < 1) {
+      setMinute2("0");
+    }
+    if (parseInt(e) >= 1) {
+      setMinute2(e);
+    }
+  };
+  const f_setMinute3 = (e: any) => {
+    if (parseInt(e) < 1) {
+      setMinute3("0");
+    }
+    if (parseInt(e) >= 1) {
+      setMinute3(e);
+    }
+  }
   const choice = (nombre_arrosage: string) => {
     setChoix(nombre_arrosage);
-    console.log(nombre_arrosage);
+    //console.log(nombre_arrosage);
     if (nombre_arrosage == "1") {
       setUn(true);
       setDeux(false);
       setTrois(false);
-      
     } else if (nombre_arrosage == "2") {
       setUn(true);
       setDeux(true);
@@ -97,7 +240,8 @@ function Personnaliser() {
         <div id="body">
           <Card body id="card" className="w-25">
             <h4 className="titre">PARAMETRES D'ARROSAGE</h4>
-            <Form className="mt-5" /* onSubmit={handleSubmit} */>
+            {/*   <p  className={`text-danger ${vide ? "cacher":""}`} >les champs sont requis</p> */}
+            <Form className="mt-5" onSubmit={handleSubmit}>
               <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label>Nombre d'arrosage</Form.Label>
                 <Form.Select onChange={(e) => choice(e.target.value)}>
@@ -105,7 +249,6 @@ function Personnaliser() {
                   <option>1</option>
                   <option>2</option>
                   <option>3</option>
-                
                 </Form.Select>
               </Form.Group>
 
@@ -113,32 +256,60 @@ function Personnaliser() {
                 className={`mb-3 ${!un ? "activer" : ""}`}
                 controlId="formBasicNumber"
               >
-                <Form.Label>Heures d'arrosage ( minute pour tester )</Form.Label>
+                <Form.Label>Heures d'arrosage</Form.Label>
                 <div className="heure">
-                <input
-                  min="1"
-                  max="60"
-                  type="number"
-                  placeholder="par secondes"
-                  className={`space ${!un ? "activer" : ""}`}
-                  onChange={(e) => setHeure1(e.target.value)}
-                />
-                 <input
-                  min="1"
-                  max="60"
-                  type="number"
-                  placeholder="par secondes"
-                  className={`space ${!deux ? "activer" : ""}`}
-                  onChange={(e) => setHeure2(e.target.value)}
-                />
-                 <input
-                  min="1"
-                  max="60"
-                  type="number"
-                  placeholder="par secondes"
-                  className={`space ${!trois ? "activer" : ""}`}
-                  onChange={(e) => setHeure3(e.target.value)}
-                />
+                  <input
+                    min="0"
+                    max="23"
+                    type="number"
+                    placeholder="heure"
+                    className={`space ${!un ? "activer" : ""}`}
+                    onChange={(e) => f_setHeure1(e.target.value)}
+                  />
+                  <input
+                    min="0"
+                    max="59"
+                    type="number"
+                    placeholder="minute"
+                    className={`space ${!un ? "activer" : ""}`}
+                    onChange={(e) => f_setMinute1(e.target.value)}
+                  /> 
+                  </div>
+                  <div className="heure">
+                  <input
+                    min="0"
+                    max="23"
+                    type="number"
+                    placeholder="heure"
+                    className={`space ${!deux ? "activer" : ""}`}
+                    onChange={(e) => f_setHeure2(e.target.value)}
+                  />
+                  <input
+                    min="0"
+                    max="59"
+                    type="number"
+                    placeholder="minute"
+                    className={`space ${!deux ? "activer" : ""}`}
+                    onChange={(e) => f_setMinute2(e.target.value)}
+                  />
+                  </div>
+                  <div className="heure">
+                  <input
+                    min="0"
+                    max="23"
+                    type="number"
+                    placeholder="heure"
+                    className={`space ${!trois ? "activer" : ""}`}
+                    onChange={(e) => f_setHeure3(e.target.value)}
+                  />
+                  <input
+                    min="0"
+                    max="59"
+                    type="number"
+                    placeholder="minute"
+                    className={`space ${!trois ? "activer" : ""}`}
+                    onChange={(e) => f_setMinute3(e.target.value)}
+                  />
                   {/* <select
 
                     className={`space ${!un ? "activer" : ""}`}
@@ -171,7 +342,7 @@ function Personnaliser() {
               </Form.Group>
 
               <Form.Group className="mb-3" controlId="formBasicNumber">
-                <Form.Label>Durée de l'arrosage ( minute )</Form.Label>
+                <Form.Label>Durée de l'arrosage ( en seconde )</Form.Label>
                 <Form.Control
                   min="1"
                   max="9"
@@ -183,9 +354,9 @@ function Personnaliser() {
 
               <Button
                 variant="primary"
-                /* type="submit" */ onClick={() => {
+                type="submit" /* onClick={() => {
                   params();
-                }}
+                }} */
                 className="mt-3"
                 id="btn"
               >

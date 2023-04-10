@@ -6,6 +6,7 @@ import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { ClimatModule } from './climat/climat.module';
 import { ParametreModule } from './parametre/parametre.module';
+import { HistoriqueModule } from './historique/historique.module';
 
 
 @Module({
@@ -18,6 +19,7 @@ import { ParametreModule } from './parametre/parametre.module';
     AuthModule,
     ClimatModule,
     ParametreModule,
+    HistoriqueModule,
   ],
   controllers: [AppController],
   providers: [AppService],

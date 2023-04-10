@@ -3,18 +3,28 @@ import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 @Schema()
 export class Parametre {
    @Prop()
-   temperature: string;
+   nombre_arrosage: string;
+   
+   @Prop()
+   duree: string ;
  
    @Prop()
-   humid_serre: string;
- 
-   @Prop()
-   humid_sol: string;
- 
-   @Prop()
-   luminosite: string;
+   heure_arrosage1: string;
 
    @Prop()
-   date: string;
+   minute_arrosage1: string;
+ 
+   @Prop()
+   heure_arrosage2: string;
+
+   @Prop()
+   minute_arrosage2: string;
+ 
+   @Prop()
+   heure_arrosage3: string;
+
+   @Prop()
+   minute_arrosage3: string;
+   
 }
 export const ParametreSchema = SchemaFactory.createForClass(Parametre);

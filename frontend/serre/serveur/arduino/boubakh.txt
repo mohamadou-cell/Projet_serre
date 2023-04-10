@@ -48,7 +48,6 @@ void setup()
  
 void loop() 
 {
-  
   //digitalWrite(buzzerPIN, HIGH);  // turn off pump 5 second
   sensorValue1 = analogRead(A0);
   sensorValue = analogRead(sensorPin);
@@ -63,25 +62,17 @@ void loop()
   Serial.print("/");
   Serial.print(pourcentage);
     Serial.println("/");
-<<<<<<< HEAD:frontend/serre/serveur/arduino/boubakhbi/boubakhbi.ino
 
-=======
-  //delay(60);
->>>>>>> c7539597f067f9e070d395636e754dd3b1d60188:frontend/serre/arduino/boubakhbi/boubakh/boubakh.ino
   unsigned char inChar = (unsigned char)Serial.read();
   //Serial.println(inChar);
   //monServo.write(0);
-  if( (inChar == '0') || ( h == 69 ) || ( h == 68 )  || ( h == 70 ) ){
+  if(inChar == '0'){
     digitalWrite(ventilateurPIN, LOW);
   }
-<<<<<<< HEAD:frontend/serre/serveur/arduino/boubakhbi/boubakhbi.ino
   else if((inChar == '1') || ( t > 29)){
-=======
-  else if(( inChar == '1') || ( h > 70 )) {
->>>>>>> c7539597f067f9e070d395636e754dd3b1d60188:frontend/serre/arduino/boubakhbi/boubakh/boubakh.ino
     digitalWrite(ventilateurPIN, HIGH);
   }
-  else if((inChar == '2') || (sensorValue1 > 200)){
+  else if((inChar == '2') || (sensorValue1 > 100)){
     monServo.write(45); 
   }
   else if(inChar == '3'){

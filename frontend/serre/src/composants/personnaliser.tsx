@@ -6,6 +6,7 @@ import Card from "react-bootstrap/Card";
 import Navbarre from "./navbarre";
 import "./styles/parametre.css";
 import { useNavigate } from "react-router-dom";
+import Param from "./param";
 
 function Personnaliser() {
   const [nombre_arrosage, setChoix] = useState<string>("");
@@ -80,7 +81,7 @@ function Personnaliser() {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
-        usenavigate("/Dashboard");
+        //usenavigate("/Dashboard");
       });
   };
 
@@ -162,7 +163,7 @@ function Personnaliser() {
     }
     if (e == "04") {
       setHeure3("4");
-    2
+    }
     if (e == "05") {
       setHeure3("5");
     }
@@ -182,7 +183,6 @@ function Personnaliser() {
       setHeure3(e)
     }
   }
-  }
   const f_setMinute1 = (e: any) => {
     if (parseInt(e) < 1) {
       setMinute1("0");
@@ -192,6 +192,7 @@ function Personnaliser() {
     }
   };
   const f_setMinute2 = (e: any) => {
+    
     if (parseInt(e) < 1) {
       setMinute2("0");
     }
@@ -235,6 +236,7 @@ function Personnaliser() {
     return (
       <div>
         <div>
+          <Param></Param>
           <Navbarre></Navbarre>
         </div>
         <div id="body">
@@ -342,12 +344,12 @@ function Personnaliser() {
               </Form.Group>
 
               <Form.Group className="mb-3" controlId="formBasicNumber">
-                <Form.Label>Durée de l'arrosage ( en seconde )</Form.Label>
+                <Form.Label>Durée de l'arrosage ( en minute )</Form.Label>
                 <Form.Control
                   min="1"
                   max="9"
                   type="number"
-                  placeholder="par secondes"
+                  placeholder="minute"
                   onChange={(e) => setDuree(e.target.value)}
                 />
               </Form.Group>

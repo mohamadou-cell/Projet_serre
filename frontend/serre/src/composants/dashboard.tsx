@@ -74,36 +74,124 @@ const Dashboard = () => {
       });
   }, [seconde]);
 
-  useEffect(
-    () => {
-      //  if (heure == "15" && minute == "0" && seconde == "0") {
-      fetch("http://localhost:3000/historique", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-          "Access-Control-Allow-Origin": "*",
-        },
-        body: JSON.stringify({
-          temperature: temperature,
-          humid_sol: humid_sol,
-          humid_serre: humid_serre,
-          luminosite: luminosite,
-          date: periode,
-        }),
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          // console.log(jour);
-          //console.log(annee.length)
-          //window.location.reload();
-        });
-      //  }
-    },
-    [
-       /* heure */
-    ]
-  );
+  useEffect(() => {
+      if (heure == "15" && minute == "0" && seconde == "0") {
+    fetch("http://localhost:3000/historique", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+      body: JSON.stringify({
+        temperature: temperature,
+        humid_sol: humid_sol,
+        humid_serre: humid_serre,
+        luminosite: luminosite,
+        date: periode,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        // console.log(jour);
+        //console.log(annee.length)
+        //window.location.reload();
+      });
+      }
+      if (localStorage.getItem("auto") == "true") {
+        //calcule pour demarrage
+        let test;
+        let test2;
+        let test3;
+        test = parseInt(minute1) - parseInt(minute);
+        test2 = parseInt(minute2) - parseInt(minute);
+        test3 = parseInt(minute3) - parseInt(minute);
+        /*  console.log(test)
+        console.log(test2)
+        console.log(test3) */
+        if (test > 0 && test < 3) {
+          //console.log(`prochain arrosage dans ${test}`)
+          setRestant(`arrosage dans ${test} mn`);
+          setRestant2("");
+          setRestant3("");
+        } else {
+          setRestant("");
+        }
+        if (test2 > 0 && test2 < 3) {
+          setRestant2(`arrosage dans ${test2} mn`);
+          setRestant("");
+          setRestant3("");
+        } else {
+          setRestant2("");
+        }
+        if (test3 > 0 && test3 < 3) {
+          setRestant3(`arrosage dans ${test3} mn`);
+          setRestant2("");
+          setRestant("");
+        } else {
+          setRestant3("");
+        }
+  
+        if (
+          (heure == heure1 && minute == minute1 && seconde == "0") ||
+          (heure == heure2 && minute == minute2 && seconde == "0") ||
+          (heure == heure3 && minute == minute3 && seconde == "0")
+        ) {
+          off_Arrosage();
+  
+          if (duree == "1") {
+            setTimeout(() => {
+              on_Arrosage();
+            }, 60000);
+          }
+          if (duree == "2") {
+            setTimeout(() => {
+              on_Arrosage();
+            }, 120000);
+          }
+          if (duree == "3") {
+            setTimeout(() => {
+              on_Arrosage();
+            }, 180000);
+          }
+          if (duree == "4") {
+            setTimeout(() => {
+              on_Arrosage();
+            }, 240000);
+          }
+          if (duree == "5") {
+            setTimeout(() => {
+              on_Arrosage();
+            }, 300000);
+          }
+          if (duree == "6") {
+            setTimeout(() => {
+              on_Arrosage();
+            }, 360000);
+          }
+          if (duree == "7") {
+            setTimeout(() => {
+              on_Arrosage();
+            }, 420000);
+          }
+          if (duree == "8") {
+            setTimeout(() => {
+              on_Arrosage();
+            }, 480000);
+          }
+          if (duree == "9") {
+            setTimeout(() => {
+              on_Arrosage();
+            }, 540000);
+          }
+          if (duree == "10") {
+            setTimeout(() => {
+              on_Arrosage();
+            }, 600000);
+          }
+        }
+      }
+  }, [seconde]);
 
   useEffect(() => {
     const socket = socketIOClient(connection);
@@ -147,28 +235,27 @@ const Dashboard = () => {
     if (localStorage.getItem("etat_toit3") == "true") {
       set_45(false);
       set_90(false);
-       set_180(true);
+      set_180(true);
     }
     if (localStorage.getItem("etat_toit1") == "false") {
       set_45(false);
     }
     if (localStorage.getItem("etat_toit2") == "false") {
-     set_90(false)
+      set_90(false);
     }
     if (localStorage.getItem("etat_toit3") == "false") {
-     set_180(false)
+      set_180(false);
     }
- 
   }, []);
-  useEffect(()=>{
-    if ( parseInt(humid_serre) > 70 ) {
+  useEffect(() => {
+    if (parseInt(humid_serre) > 70) {
       setCacher_(true);
       localStorage.setItem("etat_ventilateur", "true");
     }
-    if ((parseInt(humid_serre) == 69) || (parseInt(humid_serre) == 70)){
+    if (parseInt(humid_serre) > 64 && parseInt(humid_serre) <= 70) {
       setCacher_(false);
       localStorage.setItem("etat_ventilateur", "false");
-    }  /* 
+    } /* 
        if (  parseInt(humid_sol) < 5) {
       setCacher(true);
       localStorage.setItem("etat_arrosage", "true");
@@ -188,116 +275,18 @@ const Dashboard = () => {
     localStorage.setItem("etat_toit3", "false");
     
     }   */
-  },[humid_sol, humid_serre, luminosite])
-
+  }, [humid_sol, humid_serre, luminosite]);
 
   //param arrosage automatique
-  useEffect(() => {
-
-
-     if (localStorage.getItem("auto") == "true") { 
-      //calcule pour demarrage
-      let test;
-      let test2;
-      let test3;
-      test = parseInt(minute1)  - parseInt(minute) 
-      test2 = parseInt(minute2)  - parseInt(minute)
-      test3 = parseInt(minute3)  - parseInt(minute) 
-     /*  console.log(test)
-      console.log(test2)
-      console.log(test3) */
-      if ( (test > 0) && (test < 3) ) {
-        //console.log(`prochain arrosage dans ${test}`)
-        setRestant(`arrosage dans ${test} mn`);
-        setRestant2("");
-        setRestant3("");
-      }
-      else{
-        setRestant("");
-      }
-      if ((test2 > 0) && (test2 < 3)){
-        setRestant2(`arrosage dans ${test2} mn`);
-        setRestant("");
-        setRestant3("");
-      }
-      else{
-        setRestant2("");
-      }
-      if ( (test3 > 0) && (test3 < 3)){
-        setRestant3(`arrosage dans ${test3} mn`);
-        setRestant2("");
-        setRestant("");
-      }
-      else{
-        setRestant3("");
-      }
-      
-      if (
-        (heure == heure1 && minute == minute1 && seconde == "0") ||
-        (heure == heure2 && minute == minute2 && seconde == "0") ||
-        (heure == heure3 && minute == minute3 && seconde == "0")
-      ) {
-        off_Arrosage();
-        
-        if (duree == "1") {
-          setTimeout(() => {
-            on_Arrosage();
-          }, 60000);
-        }
-        if (duree == "2") {
-          setTimeout(() => {
-            on_Arrosage();
-          }, 120000);
-        }
-        if (duree == "3") {
-          setTimeout(() => {
-            on_Arrosage();
-          }, 180000);
-        }
-        if (duree== "4") {
-          setTimeout(() => {
-            on_Arrosage();
-          }, 240000);
-        }
-        if (duree == "5") {
-          setTimeout(() => {
-            on_Arrosage();
-          }, 300000);
-        }
-        if (duree == "6") {
-          setTimeout(() => {
-            on_Arrosage();
-          }, 360000);
-        }
-        if (duree == "7") {
-          setTimeout(() => {
-            on_Arrosage();
-          }, 420000);
-        }
-        if (duree == "8") {
-          setTimeout(() => {
-            on_Arrosage();
-          }, 480000);
-        }
-        if (duree == "9") {
-          setTimeout(() => {
-            on_Arrosage();
-          }, 540000);
-        }
-        if (duree == "10") {
-          setTimeout(() => {
-            on_Arrosage();
-          }, 600000);
-        }
-      }
-    }
-   } , [seconde]);
+/*   useEffect(() => {
+  
+  }, [seconde]); */
 
   const perso1 = () => {
     setcacher_auto(true);
     localStorage.removeItem("auto");
     localStorage.setItem("auto", "false");
-  /*   localStorage.removeItem("_TIME1");
+    /*   localStorage.removeItem("_TIME1");
     localStorage.removeItem("_TIME2");
     localStorage.removeItem("_TIME3");
     localStorage.removeItem("_DELAI");
@@ -307,7 +296,7 @@ const Dashboard = () => {
     setcacher_auto(false);
     localStorage.removeItem("auto");
     localStorage.setItem("auto", "true");
-  /*   localStorage.setItem("_DELAI", "1");
+    /*   localStorage.setItem("_DELAI", "1");
     localStorage.setItem("CHOIX", "Laitue");
     localStorage.setItem("_TIME1", "0");
     localStorage.setItem("_TIME2", "30");
@@ -323,7 +312,6 @@ const Dashboard = () => {
       "0" +
       (parseInt(String(new Date().getMonth())) + 1) +
       "-" +
-      "0" +
       new Date().getDate();
 
     let date = new Date();
@@ -360,7 +348,6 @@ const Dashboard = () => {
     localStorage.setItem("etat_arrosage", "false");
   };
   const off_Arrosage = () => {
-    
     setCacher(true);
     const socket = socketIOClient(connection);
     socket.emit("fanOn", "7");
@@ -597,7 +584,9 @@ const Dashboard = () => {
                               cacher_auto ? "cacher" : ""
                             }`}
                           >
-                            auto activé <br /> {restant}{restant2}{restant3}{" "}
+                            auto activé <br /> {restant}
+                            {restant2}
+                            {restant3}{" "}
                           </p>
                           <img
                             className={`${!cacher_auto ? "cacher" : ""}`}

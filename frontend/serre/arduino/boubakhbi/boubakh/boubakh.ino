@@ -67,7 +67,7 @@ void loop()
   unsigned char inChar = (unsigned char)Serial.read();
   //Serial.println(inChar);
   //monServo.write(0);
-  if( (inChar == '0') || ( h == 69 ) || ( h == 68 )  || ( h == 70 ) ){
+  if( (inChar == '0') || (( h > 64 ) && ( h <= 70 ))){
     digitalWrite(ventilateurPIN, LOW);
   }
   else if(( inChar == '1') || ( h > 70 )) {

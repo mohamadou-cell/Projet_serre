@@ -19,8 +19,10 @@ export class HistoriqueService {
 
   }
  
-  findAll() {
-    return `This action returns all historique`;
+  async findAll() {
+   // return `This action returns all historique`;
+   const historique = await this.historiqueModel.find();
+  return historique;
   }
 
   findOne(id: number) {

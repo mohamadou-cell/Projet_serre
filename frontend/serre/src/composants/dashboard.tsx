@@ -25,18 +25,21 @@ const Dashboard = () => {
   const [_90, set_90] = useState<any>(false);
   const [_180, set_180] = useState<any>(false);
   const [seconde, setSeconde] = useState<string>();
-  const [minute, setMinute] = useState<string>();
+  const [minute, setMinute] = useState<string>("");
   const [heure, setHeure] = useState<string>();
   const [mois, setMois] = useState<string>();
   const [annee, setAnnee] = useState<string>();
   const [jour, setJour] = useState<string>();
-  const [cacher_auto, setcacher_auto] = useState<boolean>(true);
+  const [cacher_auto, setcacher_auto] = useState<boolean>(false);
   const [temperature, setTemperature] = useState<string>("--");
   const [humid_sol, setHumid_sol] = useState<string>("--");
   const [humid_serre, setHumid_serre] = useState<string>("--");
   const [luminosite, setLuminosite] = useState<string>("--");
   const [periode, setPeriode] = useState<string>();
   const [temps, setTemps] = useState<string>();
+  const [restant, setRestant] = useState<string>("");
+  const [restant2, setRestant2] = useState<string>("");
+  const [restant3, setRestant3] = useState<string>("");
   let etatBtn = false;
   let etatBtn_ = false;
   //parametre
@@ -98,7 +101,7 @@ const Dashboard = () => {
       //  }
     },
     [
-      /* heure */
+       /* heure */
     ]
   );
 
@@ -112,70 +115,129 @@ const Dashboard = () => {
       setLuminosite(data.luminosite);
       setTemperature(data.temperature);
     });
+    if (localStorage.getItem("auto") == "false") {
+      setcacher_auto(true);
+    }
+    if (localStorage.getItem("auto") == "true") {
+      setcacher_auto(false);
+    }
     if (localStorage.getItem("etat_arrosage") == "false") {
-      on_Arrosage();
+      setCacher(false);
     }
     if (localStorage.getItem("etat_arrosage") == "true") {
-      off_Arrosage();
+      setCacher(true);
     }
     if (localStorage.getItem("etat_ventilateur") == "false") {
-      on_Ventilateur();
+      setCacher_(false);
     }
     if (localStorage.getItem("etat_ventilateur") == "true") {
-      off_Ventilateur();
+      setCacher_(true);
     }
     //toit
     if (localStorage.getItem("etat_toit1") == "true") {
-      ouverture_45();
+      set_45(true);
+      set_90(false);
+      set_180(false);
     }
     if (localStorage.getItem("etat_toit2") == "true") {
-      ouverture_90();
+      set_45(false);
+      set_90(true);
+      set_180(false);
     }
     if (localStorage.getItem("etat_toit3") == "true") {
-      ouverture_180();
+      set_45(false);
+      set_90(false);
+       set_180(true);
     }
     if (localStorage.getItem("etat_toit1") == "false") {
-      fermeture_45();
+      set_45(false);
     }
     if (localStorage.getItem("etat_toit2") == "false") {
-      fermeture_90();
+     set_90(false)
     }
     if (localStorage.getItem("etat_toit3") == "false") {
-      fermeture_180();
+     set_180(false)
     }
-
+ 
   }, []);
-  //param arrosage automatique
-  useEffect(() => {
-    /*   if ( parseInt(temperature) > 29 ) {
-      off_Ventilateur()
-      setTimeout(() => {
-        on_Ventilateur();
-      }, 30000); 
+  useEffect(()=>{
+    if ( parseInt(humid_serre) > 70 ) {
+      setCacher_(true);
+      localStorage.setItem("etat_ventilateur", "true");
     }
-       if (  parseInt(humid_sol) < 35) {
-      off_Arrosage()
-      setTimeout(() => {
-        on_Arrosage();
-      }, 30000); 
+    if ((parseInt(humid_serre) == 69) || (parseInt(humid_serre) == 70)){
+      setCacher_(false);
+      localStorage.setItem("etat_ventilateur", "false");
+    }  /* 
+       if (  parseInt(humid_sol) < 5) {
+      setCacher(true);
+      localStorage.setItem("etat_arrosage", "true");
     
-    }    
+    } 
+      if ((parseInt(humid_sol) > 5) && (parseInt(humid_sol) < 8) ) {
+      setCacher(false);
+      localStorage.setItem("etat_arrosage", "false");
+    
+    }       
     if (  parseInt(luminosite) > 200) {
-      ouverture_45();
-      setTimeout(() => {
-        fermeture_45();
-      }, 30000); 
+        set_45(true);
+    set_90(false);
+    set_180(false);
+    localStorage.setItem("etat_toit1", "true");
+    localStorage.setItem("etat_toit2", "false");
+    localStorage.setItem("etat_toit3", "false");
     
     }   */
+  },[humid_sol, humid_serre, luminosite])
+
+
+  //param arrosage automatique
+  useEffect(() => {
+
 
      if (localStorage.getItem("auto") == "true") { 
+      //calcule pour demarrage
+      let test;
+      let test2;
+      let test3;
+      test = parseInt(minute1)  - parseInt(minute) 
+      test2 = parseInt(minute2)  - parseInt(minute)
+      test3 = parseInt(minute3)  - parseInt(minute) 
+     /*  console.log(test)
+      console.log(test2)
+      console.log(test3) */
+      if ( (test > 0) && (test < 3) ) {
+        //console.log(`prochain arrosage dans ${test}`)
+        setRestant(`arrosage dans ${test} mn`);
+        setRestant2("");
+        setRestant3("");
+      }
+      else{
+        setRestant("");
+      }
+      if ((test2 > 0) && (test2 < 3)){
+        setRestant2(`arrosage dans ${test2} mn`);
+        setRestant("");
+        setRestant3("");
+      }
+      else{
+        setRestant2("");
+      }
+      if ( (test3 > 0) && (test3 < 3)){
+        setRestant3(`arrosage dans ${test3} mn`);
+        setRestant2("");
+        setRestant("");
+      }
+      else{
+        setRestant3("");
+      }
+      
       if (
         (heure == heure1 && minute == minute1 && seconde == "0") ||
-        (heure == heure1 && minute == minute1 && seconde == "0") ||
-        (heure == heure1 && minute == minute1 && seconde == "0")
+        (heure == heure2 && minute == minute2 && seconde == "0") ||
+        (heure == heure3 && minute == minute3 && seconde == "0")
       ) {
         off_Arrosage();
-        console.log('l heure');
         
         if (duree == "1") {
           setTimeout(() => {
@@ -234,7 +296,7 @@ const Dashboard = () => {
   const perso1 = () => {
     setcacher_auto(true);
     localStorage.removeItem("auto");
-    localStorage.setItem("auto", "true");
+    localStorage.setItem("auto", "false");
   /*   localStorage.removeItem("_TIME1");
     localStorage.removeItem("_TIME2");
     localStorage.removeItem("_TIME3");
@@ -244,7 +306,7 @@ const Dashboard = () => {
   const perso2 = () => {
     setcacher_auto(false);
     localStorage.removeItem("auto");
-    localStorage.setItem("auto", "false");
+    localStorage.setItem("auto", "true");
   /*   localStorage.setItem("_DELAI", "1");
     localStorage.setItem("CHOIX", "Laitue");
     localStorage.setItem("_TIME1", "0");
@@ -298,6 +360,7 @@ const Dashboard = () => {
     localStorage.setItem("etat_arrosage", "false");
   };
   const off_Arrosage = () => {
+    
     setCacher(true);
     const socket = socketIOClient(connection);
     socket.emit("fanOn", "7");
@@ -534,7 +597,7 @@ const Dashboard = () => {
                               cacher_auto ? "cacher" : ""
                             }`}
                           >
-                            auto activé {localStorage.getItem("CHOIX")}{" "}
+                            auto activé <br /> {restant}{restant2}{restant3}{" "}
                           </p>
                           <img
                             className={`${!cacher_auto ? "cacher" : ""}`}

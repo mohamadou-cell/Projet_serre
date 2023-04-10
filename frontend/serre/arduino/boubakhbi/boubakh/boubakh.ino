@@ -48,6 +48,7 @@ void setup()
  
 void loop() 
 {
+  
   //digitalWrite(buzzerPIN, HIGH);  // turn off pump 5 second
   sensorValue1 = analogRead(A0);
   sensorValue = analogRead(sensorPin);
@@ -62,14 +63,14 @@ void loop()
   Serial.print("/");
   Serial.print(pourcentage);
     Serial.println("/");
-
+  //delay(60);
   unsigned char inChar = (unsigned char)Serial.read();
   //Serial.println(inChar);
   //monServo.write(0);
-  if(inChar == '0'){
+  if( (inChar == '0') || ( h == 69 ) || ( h == 68 )  || ( h == 70 ) ){
     digitalWrite(ventilateurPIN, LOW);
   }
-  else if((inChar == '1') || ( t > 29)){
+  else if(( inChar == '1') || ( h > 70 )) {
     digitalWrite(ventilateurPIN, HIGH);
   }
   else if((inChar == '2') || (sensorValue1 > 200)){
@@ -87,7 +88,7 @@ void loop()
   else if(inChar == '6'){
     digitalWrite(buzzerPIN, LOW); // turn on pump 5 seconds
   }
-  else if((inChar == '7') || (pourcentage < 35)){
+  else if(inChar == '7'){
     digitalWrite(buzzerPIN, HIGH); // turn on pump 5 seconds
   }
   // Initialisé la boucle si aucun badge n'est présent 

@@ -40,13 +40,15 @@ function Param() {
           justifyContent: "center",
           flexDirection: "column",
           position: "absolute",
-          width: "15%",
+          width: "13%",
           height: "auto",
           background: "white",
           marginTop: "100px",
           paddingTop: "20px",
           paddingLeft: "20px",
-          boxShadow:"2px 2px 2px black"
+          boxShadow:"2px 2px 20px grey",
+          fontSize: "20px"
+          
         }}
       >
         <p>paramétre active</p>

@@ -248,11 +248,11 @@ const Dashboard = () => {
     }
   }, []);
   useEffect(() => {
-    if (parseInt(humid_serre) > 70) {
+    if (parseInt(humid_serre) > 80) {
       setCacher_(true);
       localStorage.setItem("etat_ventilateur", "true");
     }
-    if (parseInt(humid_serre) > 64 && parseInt(humid_serre) <= 70) {
+    if (parseInt(humid_serre) > 77 && parseInt(humid_serre) <= 80) {
       setCacher_(false);
       localStorage.setItem("etat_ventilateur", "false");
     } /* 
@@ -265,16 +265,16 @@ const Dashboard = () => {
       setCacher(false);
       localStorage.setItem("etat_arrosage", "false");
     
-    }       
-    if (  parseInt(luminosite) > 200) {
-        set_45(true);
+    } */
+    if (  parseInt(luminosite) < 5) {
+    set_45(true);
     set_90(false);
     set_180(false);
     localStorage.setItem("etat_toit1", "true");
     localStorage.setItem("etat_toit2", "false");
     localStorage.setItem("etat_toit3", "false");
     
-    }   */
+    }   
   }, [humid_sol, humid_serre, luminosite]);
 
   //param arrosage automatique

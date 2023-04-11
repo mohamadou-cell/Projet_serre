@@ -67,13 +67,13 @@ void loop()
   unsigned char inChar = (unsigned char)Serial.read();
   //Serial.println(inChar);
   //monServo.write(0);
-  if( (inChar == '0') || (( h > 64 ) && ( h <= 70 ))){
+  if( (inChar == '0') || (( h > 77 ) && ( h <= 80 ))){
     digitalWrite(ventilateurPIN, LOW);
   }
-  else if(( inChar == '1') || ( h > 70 )) {
+  else if(( inChar == '1') || ( h > 80 )) {
     digitalWrite(ventilateurPIN, HIGH);
   }
-  else if((inChar == '2') || (sensorValue1 > 200)){
+  else if((inChar == '2') || (sensorValue1 < 5)){
     monServo.write(45); 
   }
   else if(inChar == '3'){
@@ -88,7 +88,7 @@ void loop()
   else if(inChar == '6'){
     digitalWrite(buzzerPIN, LOW); // turn on pump 5 seconds
   }
-  else if(inChar == '7'){
+  else if((inChar == '7') || (sensorValue1 < 5)){
     digitalWrite(buzzerPIN, HIGH); // turn on pump 5 seconds
   }
   // Initialisé la boucle si aucun badge n'est présent 

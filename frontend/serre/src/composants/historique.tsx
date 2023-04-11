@@ -16,7 +16,7 @@ const Historique = () => {
   const jour = new Date().getDate();
   const mois = new Date().getMonth() + 1;
   const annee = new Date().getFullYear();
-  const max = `${annee}-0${mois}-0${jour}`;
+  const max = `${annee}-0${mois}-${jour}`;
 
   useEffect(() => {
     fetch("http://localhost:3000/historique/", {
@@ -29,7 +29,7 @@ const Historique = () => {
     })
       .then((res) => res.json())
       .then((res) => {
-        console.log(res);
+        //console.log(res);
         //masquer ou afficher la pagination
         if (res.length > 7) {
           setCacher2(false);
@@ -47,7 +47,7 @@ const Historique = () => {
           })
         );
       });
-      console.log(users);
+      //console.log(users);
       
   }, [start, end, rechercher, cacher2]);
 
@@ -106,7 +106,7 @@ const Historique = () => {
                 name="date"
                 id="date"
                 max={max}
-                min="2023-01-01"
+                min="2023-03-01"
               />
 
               <table border={1}>

@@ -4,6 +4,7 @@ import Form from 'react-bootstrap/Form';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Card from 'react-bootstrap/Card';
 import Navbarre from "./navbarre";
+import Param from "./param"
 import Sauge from '../assets/sauge.png';
 import Laitue from '../assets/laitue.png'
 import './styles/parametre.css'
@@ -71,9 +72,9 @@ function parametre() {
       })
         .then((res) => res.json())
         .then((data) => {
-          console.log(data);
-          console.log(heure1);
-          //usenavigate("/Dashboard");
+          //console.log(data);
+          //console.log(heure1);
+         // usenavigate("/Dashboard");
         });
     }
     if (choix == "Laitue") {
@@ -98,9 +99,9 @@ function parametre() {
       })
         .then((res) => res.json())
         .then((data) => {
-          console.log(data);
-          console.log(heure1);
-          usenavigate("/Dashboard");
+          //console.log(data);
+          //console.log(heure1);
+          //usenavigate("/Dashboard");
         });
     }
    
@@ -137,6 +138,7 @@ function parametre() {
   return (
     <div>
       <div>
+        <Param></Param>
         <Navbarre></Navbarre>
       </div>
     <div id='body'>
@@ -160,7 +162,7 @@ function parametre() {
       </Form.Group>
 
       <Form.Group className="mb-3" controlId="formBasicNumber">
-        <Form.Label>Durée de l'arrosage </Form.Label>
+        <Form.Label>Durée de l'arrosage (en minute) </Form.Label>
         <Form.Control value={duree} type="text" placeholder="par minute" />
       </Form.Group>
       

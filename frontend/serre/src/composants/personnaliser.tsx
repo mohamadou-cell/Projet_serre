@@ -59,7 +59,7 @@ function Personnaliser() {
       heure_arrosage3,
       duree
     );
-    fetch("http://localhost:3000/parametre/64307b36637f4fdee4912ce7", {
+    fetch("http://localhost:3000/parametre/64347d20deda796f44b3e62f", {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -150,7 +150,7 @@ function Personnaliser() {
     }
   }
 
-  function f_setHeure3(e: any) {
+  const f_setHeure3 = (e: any) =>  {
     if (e == "01") {
       setHeure3("1");
     }

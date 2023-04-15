@@ -50,7 +50,7 @@ function parametre() {
       usenavigate("/Dashboard");
     } */
     if (choix == "Sauge") {
-      fetch("http://localhost:3000/parametre/64307b36637f4fdee4912ce7", {
+      fetch("http://localhost:3000/parametre/64347d20deda796f44b3e62f", {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -77,7 +77,7 @@ function parametre() {
         });
     }
     if (choix == "Laitue") {
-      fetch("http://localhost:3000/parametre/64307b36637f4fdee4912ce7", {
+      fetch("http://localhost:3000/parametre/64347d20deda796f44b3e62f", {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",

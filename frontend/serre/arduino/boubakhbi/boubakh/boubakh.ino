@@ -63,25 +63,23 @@ void loop()
   Serial.print("/");
   Serial.print(pourcentage);
     Serial.println("/");
-<<<<<<< HEAD:frontend/serre/serveur/arduino/boubakhbi/boubakhbi.ino
-
-=======
   //delay(60);
->>>>>>> c7539597f067f9e070d395636e754dd3b1d60188:frontend/serre/arduino/boubakhbi/boubakh/boubakh.ino
   unsigned char inChar = (unsigned char)Serial.read();
   //Serial.println(inChar);
   //monServo.write(0);
-  if( (inChar == '0') || ( h == 69 ) || ( h == 68 )  || ( h == 70 ) ){
+  if( (inChar == '0') || (( h > 77 ) && ( h <= 80 ))){
     digitalWrite(ventilateurPIN, LOW);
   }
-<<<<<<< HEAD:frontend/serre/serveur/arduino/boubakhbi/boubakhbi.ino
-  else if((inChar == '1') || ( t > 29)){
-=======
-  else if(( inChar == '1') || ( h > 70 )) {
->>>>>>> c7539597f067f9e070d395636e754dd3b1d60188:frontend/serre/arduino/boubakhbi/boubakh/boubakh.ino
+
+ // else if((inChar == '1') || ( t > 29)){
+
+  //else if(( inChar == '1') || ( h > 70 )) {
+
+  else if(( inChar == '1') || ( h > 80 )) {
+
     digitalWrite(ventilateurPIN, HIGH);
   }
-  else if((inChar == '2') || (sensorValue1 > 200)){
+  else if((inChar == '2') || (sensorValue1 < 5)){
     monServo.write(45); 
   }
   else if(inChar == '3'){
@@ -96,7 +94,11 @@ void loop()
   else if(inChar == '6'){
     digitalWrite(buzzerPIN, LOW); // turn on pump 5 seconds
   }
+<<<<<<< HEAD
   else if((inChar == '7') || (pourcentage < 35)){
+=======
+  else if((inChar == '7') || (sensorValue1 < 5)){
+>>>>>>> e0a1211bf6dc6486849cd3ddf7934103b2803813
     digitalWrite(buzzerPIN, HIGH); // turn on pump 5 seconds
   }
   // Initialisé la boucle si aucun badge n'est présent 

@@ -100,6 +100,7 @@ export class ClimatGateway implements OnGatewayConnection, OnGatewayDisconnect {
             humid_serre: "--",
             humid_sol: "--",
             luminosite: "--",
+
           }, */
       /*  temperature: data.split("/")[0],
           humid_serre: data.split("/")[1],
@@ -113,6 +114,7 @@ export class ClimatGateway implements OnGatewayConnection, OnGatewayDisconnect {
       /* client.emit("connection", "climat 8h enregistré"); */
       /*   } */
       /*   if (hours == 12 && minutes == 0 && seconds == 0) {
+
         this.climatModel
           .updateOne(
             { date: fullDate },

@@ -22,6 +22,9 @@ byte nuidPICC[4];
 DHT dht(DHTPIN, DHTTYPE);
 Servo monServo;
 int sensorValue1;
+int mini = 0; 
+int maxi = 1023; 
+int pourcentage;
 
 void setup() 
 { 
@@ -48,6 +51,7 @@ void loop()
   //digitalWrite(buzzerPIN, HIGH);  // turn off pump 5 second
   sensorValue1 = analogRead(A0);
   sensorValue = analogRead(sensorPin);
+  pourcentage = map(sensorValue, mini, maxi, 0, 100);
   int t = dht.readTemperature();
   int h = dht.readHumidity();
   Serial.print(t);
@@ -56,7 +60,7 @@ void loop()
   Serial.print("/");
   Serial.print(sensorValue1);
   Serial.print("/");
-  Serial.print(sensorValue);
+  Serial.print(pourcentage);
     Serial.println("/");
 
   unsigned char inChar = (unsigned char)Serial.read();
@@ -64,28 +68,28 @@ void loop()
   //monServo.write(0);
   if(inChar == '0'){
     digitalWrite(ventilateurPIN, LOW);
-    digitalWrite(buzzerPIN, LOW);
   }
-  else if(inChar == '1'){
+  else if((inChar == '1') || ( t > 29)){
     digitalWrite(ventilateurPIN, HIGH);
-    digitalWrite(buzzerPIN, HIGH); // turn on pump 5 seconds
   }
   else if(inChar == '2'){
-    //monServo.write(0);
     monServo.write(45); 
   }
   else if(inChar == '3'){
-    //monServo.write(0);
     monServo.write(90); 
   }
   else if(inChar == '4'){
-    //monServo.write(0);
     monServo.write(180); 
   }
   else if(inChar == '5'){
     monServo.write(0); 
   }
-  
+  else if(inChar == '6'){
+    digitalWrite(buzzerPIN, LOW); // turn on pump 5 seconds
+  }
+  else if((inChar == '7') || (pourcentage < 35)){
+    digitalWrite(buzzerPIN, HIGH); // turn on pump 5 seconds
+  }
   // Initialisé la boucle si aucun badge n'est présent 
   if ( !rfid.PICC_IsNewCardPresent())
     return;

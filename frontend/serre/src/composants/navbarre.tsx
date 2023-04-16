@@ -325,6 +325,11 @@ function navbarre() {
       localStorage.removeItem('email');
       localStorage.removeItem('id');
       localStorage.removeItem('token');
+      localStorage.removeItem('etat_toit1');
+      localStorage.removeItem('etat_toit2');
+      localStorage.removeItem('etat_toit3');
+      localStorage.removeItem('etat_ventilateur');
+      localStorage.removeItem('etat_arrosage');
     };
     return (
       <Modal
